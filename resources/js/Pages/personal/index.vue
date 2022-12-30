@@ -1,0 +1,150 @@
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import {FilterMatchMode,FilterOperator} from 'primevue/api';
+import InputText from 'primevue/inputtext';
+import Dialog from 'primevue/dialog';
+import Button from 'primevue/button';
+import { Link, useForm } from '@inertiajs/inertia-vue3';
+import ConfirmPopup from "primevue/confirmpopup";
+import { useConfirm } from "primevue/useconfirm";
+import Chip from 'primevue/chip';
+
+const props = defineProps({
+  users: Array(),
+})
+const form = useForm({
+  _method: "DELETE",
+  contratista: "",
+});
+
+var counts = props.users.reduce((p, c) => {
+  var name = c.CARGO;
+  if (!p.hasOwnProperty(name)) {
+    p[name] = 0;
+  }
+  p[name]++;
+  return p;
+}, {})
+
+var countsExtended = Object.keys(counts).map(k => {
+  return {name: k, count: counts[k]}; });
+
+
+var filters = {
+    'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
+    'name': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
+    'country.name': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
+    'representative': {value: null, matchMode: FilterMatchMode.IN},
+    'status': {value: null, matchMode: FilterMatchMode.EQUALS},
+    'verified': {value: null, matchMode: FilterMatchMode.EQUALS}
+};
+
+const confirm = useConfirm();
+
+const closeModal = () => {
+        displayModal = false;
+    }
+
+const deleted = (event, id) => {
+  confirm.require({
+    target: event.currentTarget,
+    message: "¿Quitar de tu lista?",
+    icon: "pi pi-info-circle",
+    acceptClass: "p-button-danger",
+    accept: () => {
+      form.delete(route("personal.destroy", id), {
+        onSuccess: () => {
+        //   toast.add({
+        //     severity: "info",
+        //     summary: "Contratistas",
+        //     detail: "Contratista Eliminado Exitosamente",
+        //     life: 3000,
+        //   });
+        },
+      });
+    },
+  });
+};
+</script>
+
+<template>
+ <AppLayout title="Personal">
+
+    <div class="py-4">
+            <div class="max-w-full mx-2 sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
+                <div class="flex align-items-center flex-column sm:flex-row mx-4">
+                  <Chip :label="(cargo.name + ': ' + cargo.count)" class="mr-2 mb-2 custom-chip" v-for="cargo in countsExtended" :key="cargo.name"/>
+                </div>
+                <DataTable :value="props.users" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
+                :globalFilterFields="['APELLIDOS_NOMBRES','NUM_SAP']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
+                    <template #header>
+                    <div class="flex justify-between mx-2">
+                      <div class="text-center flex">
+                        <Link type="button" :href="route('personal.create')" class="btn mx-4">
+                            <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-user-plus"  />
+                        </Link> 
+                        <span class="mt-2 text-2xl"> Personal</span>
+                      </div>
+                      <div>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search" />
+                            <InputText v-model="filters.global.value" placeholder="Keyword Search" />
+                        </span>
+                      </div>
+                    </div>
+                </template>
+                    <Column field="NUM_SAP" header="# SAP"  ></Column>
+                    <Column field="IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
+                    <Column field="APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
+                    <Column field="EMAIL_CORP" header="Email" :sortable="true"></Column>
+                    <Column field="CARGO" header="Cargo" :sortable="true"></Column>
+                   
+                    <Column
+                    field="ID"
+                    header="Acciones"
+                    headerStyle="width: 4rem; text-align: center"
+                    bodyStyle="text-align: center; overflow: visible"
+                    >
+                <template #body="{ data }" style="min-width: 8rem">
+                  <div
+                    class="
+                      flex flex-column
+                      md:flex-row md:justiify-content-between
+                    "
+                  >
+                    
+                      <Button
+                      
+                        icon="pi pi-user-edit"
+                        class="p-button-rounded p-button-info p-button-text text-4xl"
+                      />
+                    
+                    <ConfirmPopup></ConfirmPopup>
+                    <Button
+                      style="font-size: 4rem"
+                      @click="deleted($event, data.ID)"
+                      icon="pi pi-user-minus"
+                      class="p-button-rounded p-button-danger p-button-text"
+                    ></Button>
+                  </div>
+                </template>
+              </Column>
+                </DataTable>
+                    
+                </div>
+            </div>
+        </div>
+        
+ </AppLayout>
+
+</template>
+
+<style lang="scss" scoped>
+.p-chip.custom-chip {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+}
+</style>
