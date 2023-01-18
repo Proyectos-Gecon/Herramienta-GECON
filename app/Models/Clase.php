@@ -21,4 +21,30 @@ class Clase extends Model
             set: fn ($value) => strtolower($value),
         );
     }
+    protected function manga(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => number_format($value,2,",","."),
+            set: fn ($value) => strtolower($value),
+        );
+    }
+
+    protected function puntal(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => number_format($value,2,",","."),
+            set: fn ($value) => strtolower($value),
+        );
+    }
+    protected function alcance(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => number_format($value,0,",","."),
+            set: fn ($value) => strtolower($value),
+        );
+    }
+
+    public function proyectos(){
+        return $this->hasMany(Proyecto::class, 'clase_id');
+    }
 }

@@ -21,7 +21,7 @@ const selectAll = () => {
 }
 
 const eliminar = async (id, rol) => {
-  const response = await Inertia.post(route('quitarRol', [id, rol]), {
+  const response = Inertia.post(route('quitarRol', [id, rol]), {
     onSuccess: () => {
       alert('QUITADO')
     }

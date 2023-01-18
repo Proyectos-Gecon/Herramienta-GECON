@@ -13,203 +13,221 @@ import sliderbar from '@/Components/customs/sliderbar.vue';
 import SplitButton from 'primevue/splitbutton';
 import Breadcrumb from 'primevue/breadcrumb';
 import Menubar from 'primevue/menubar';
+import { permisos } from '@/composable/Permisions.js'
 
-defineProps({
-    title: String,
-});
-
-const showingNavigationDropdown = ref(false);
-
-const can = (array) => {
-	var salida = false
-	array.forEach(function(permiso){
-		if(Inertia.page.props.user.permisos.includes(permiso) ){
-			salida = true
-			return salida
-		}
-	})
-	return salida
-}
-
-const switchToTeam = (team) => {
-    Inertia.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
-    });
-};
-
-const logout = () => {
-    Inertia.post(route('logout'));
-};
-
-const items =  [
-                {
-                    label: 'Inicio',
-                    icon: 'pi pi-home',
-                    url: route('login')
-                },
-				{
-					label:'Divisiones',
-					icon:'pi pi-fw pi-sitemap',
-					visible: can(['read division']),
-					command:	()=> {
-						Inertia.get(route('divisiones.index'))
-					}
-					
-                },
-				{
-					label:'Proyectos',
-					icon: 'pi pi-book',
-					items: [
-						{
-							label: 'Lista de proyectos',
-							icon: 'pi pi-book'
-						},
-						{
-							label: 'Contratos',
-							icon: 'pi pi-dollar'
-						},
-						{
-							label: 'Clases',
-							icon: 'pi pi-sitemap',
-							command:	()=> {
-								Inertia.get(route('clases.index'))
-							}
-						},
-						{
-							label: 'Clientes',
-							icon: 'pi pi-id-card'
-						},
-					]
-				},
-                {
-					label:'Personal',
-					icon:'pi pi-fw pi-user',
-					visible: Inertia.page.props.user.permisos.includes('read personal'),
-					items:[
-						{
-							label:'Mi personal',
-							icon:'pi pi-fw pi-users',
-                            command: () => {
-								Inertia.get(route('personal.index'))
-							}
-						},
-						{
-							label:'Planilla',
-							icon:'pi pi-fw pi-user-minus',
-
-						},
-						{
-							label:'Search',
-							icon:'pi pi-fw pi-users',
-							items:[
-								{
-									label:'Filter',
-									icon:'pi pi-fw pi-filter',
-									items:[
-										{
-											label:'Print',
-											icon:'pi pi-fw pi-print'
-										}
-									]
-								},
-								{
-									icon:'pi pi-fw pi-bars',
-									label:'List'
-								}
-							]
-						}
-					]
-                },
-                {
-					label:'Almacen',
-					icon:'pi pi-fw pi-briefcase',
-					visible: can(['read almacen', 'read equipos', 'read prestamos']),
-					items:[
-						{
-							label:'Almacenes',
-							icon:'pi pi-fw pi-building',
-							visible: Inertia.page.props.user.permisos.includes('read almacen'),
-							command:	()=> {
-								Inertia.get(route('almacens.index'))
-							}
-						},
-						{
-							label:'Categorias',
-							icon:'pi pi-fw pi-sitemap',
-							visible: can(['read categoria']),
-							command:	()=> {
-								Inertia.get(route('categorias.index'))
-							}
-						},
-						{
-							label:'Equipos',
-							icon:'pi pi-fw pi-box',
-							visible: can(['read equipo']),
-							items:[
-								{
-									label:'Herramientas',
-									icon:'pi pi-fw pi-briefcase',
-									command:	()=> {
-									Inertia.get(route('equipos.index'))
-								}
-								},
-								{
-									label:'Equipos Criticos',
-									icon:'pi pi-fw pi-exclamation-triangle'
-								}
-							]
-						},
-						{
-							label:'Asignaciones',
-							icon:'pi pi-fw pi-user-plus',
-							visible: can(['read prestamos']),
-						},
-					]
-                },
-				{
-					label:'Seguridad',
-					icon:'pi pi-fw pi-key',
-					visible: Inertia.page.props.user.roles.includes('ADMIN'),
-					items:[
-						{
-							label:'Roles',
-							icon:'pi pi-fw pi-id-card',
-                            command: () => {
-								Inertia.get(route('roles.index'))
-							}
-						},
-						{
-							label:'Permisos',
-							icon:'pi pi-fw pi-lock',
-							command: () => {
-								Inertia.get(route('permisos.index'))
-							}
-						},
-						{
-							label:'Usuarios',
-							icon:'pi pi-fw pi-users',
-							command: () => {
-								Inertia.get(route('users.index'))
-							}
-						}
-					]
-                },
-			]
-
-const userOptions = [
-	{
-		label: 'Perfil',
-		icon: 'pi pi-home',
-		command: () => Inertia.get(route('teams.show', Inertia.page.props.user.current_team))
-	},
-	{
-		label:'Salir',
-		icon:'pi pi-fw pi-power-off',
-		command: () => logout()
+	const can = (array) => {
+		
+		var {val} = permisos(array)
+		return val
 	}
-]
+
+	defineProps({
+		title: String,
+	});
+
+	const showingNavigationDropdown = ref(false);
+
+	const switchToTeam = (team) => {
+		Inertia.put(route('current-team.update'), {
+			team_id: team.id,
+		}, {
+			preserveState: false,
+		});
+	};
+
+	const logout = () => {
+		Inertia.post(route('logout'));
+	};
+
+	const items =  [
+			{
+				label: 'Inicio',
+				icon: 'pi pi-home',
+				url: route('login')
+			},
+			{
+				label:'Divisiones',
+				icon:'pi pi-fw pi-sitemap',
+				visible: can(['read division']),
+				command:	()=> {
+					Inertia.get(route('divisiones.index'))
+				}
+				
+			},
+			{
+				label:'Proyectos',
+				icon: 'pi pi-book',
+				visible: can(['read proyectos']),
+				items: [
+					{
+						label: 'Lista de proyectos',
+						icon: 'pi pi-book',
+						visible: can(['read proyectos']),
+						command:	()=> {
+							Inertia.get(route('proyectos.index'))
+						}
+					},
+					{
+						label: 'Contratos',
+						icon: 'pi pi-file-edit',
+						visible: can(['read contratos']),
+						command:	()=> {
+							Inertia.get(route('contratos.index'))
+						}
+					},
+					{
+						label: 'Clases',
+						icon: 'pi pi-sitemap',
+						visible: can(['read clases']),
+						command:	()=> {
+							Inertia.get(route('clases.index'))
+						}
+					},
+					{
+						label: 'Clientes',
+						icon: 'pi pi-id-card',
+						command:	()=> {
+							Inertia.get(route('clientes.index'))
+						}
+					},
+				]
+			},
+			{
+				label:'Presupuetos',
+				icon:'pi pi-dollar',
+				visible: can(['read division']),
+				command:	()=> {
+					Inertia.get(route('divisiones.index'))
+				}
+				
+			},
+			{
+				label:'Personal',
+				icon:'pi pi-fw pi-user',
+				visible: Inertia.page.props.user.permisos.includes('read personal'),
+				items:[
+					{
+						label:'Mi personal',
+						icon:'pi pi-fw pi-users',
+						command: () => {
+							Inertia.get(route('personal.index'))
+						}
+					},
+					{
+						label:'Planilla',
+						icon:'pi pi-fw pi-user-minus',
+
+					},
+					{
+						label:'Search',
+						icon:'pi pi-fw pi-users',
+						items:[
+							{
+								label:'Filter',
+								icon:'pi pi-fw pi-filter',
+								items:[
+									{
+										label:'Print',
+										icon:'pi pi-fw pi-print'
+									}
+								]
+							},
+							{
+								icon:'pi pi-fw pi-bars',
+								label:'List'
+							}
+						]
+					}
+				]
+			},
+			{
+				label:'Almacen',
+				icon:'pi pi-fw pi-briefcase',
+				visible: can(['read almacen','read categoria' ,'read equipos', 'read prestamos']),
+				items:[
+					{
+						label:'Almacenes',
+						icon:'pi pi-fw pi-building',
+						visible: Inertia.page.props.user.permisos.includes('read almacen'),
+						command:	()=> {
+							Inertia.get(route('almacens.index'))
+						}
+					},
+					{
+						label:'Categorias',
+						icon:'pi pi-fw pi-sitemap',
+						visible: can(['read categoria']),
+						command:	()=> {
+							Inertia.get(route('categorias.index'))
+						}
+					},
+					{
+						label:'Equipos',
+						icon:'pi pi-fw pi-box',
+						visible: can(['read equipos']),
+						items:[
+							{
+								label:'Herramientas',
+								icon:'pi pi-fw pi-briefcase',
+								command:	()=> {
+								Inertia.get(route('equipos.index'))
+							}
+							},
+							{
+								label:'Equipos Criticos',
+								icon:'pi pi-fw pi-exclamation-triangle'
+							}
+						]
+					},
+					{
+						label:'Asignaciones',
+						icon:'pi pi-fw pi-user-plus',
+						visible: can(['read prestamos']),
+					},
+				]
+			},
+			{
+				label:'Seguridad',
+				icon:'pi pi-fw pi-key',
+				visible: Inertia.page.props.user.roles.includes('ADMIN'),
+				items:[
+					{
+						label:'Roles',
+						icon:'pi pi-fw pi-id-card',
+						command: () => {
+							Inertia.get(route('roles.index'))
+						}
+					},
+					{
+						label:'Permisos',
+						icon:'pi pi-fw pi-lock',
+						command: () => {
+							Inertia.get(route('permisos.index'))
+						}
+					},
+					{
+						label:'Usuarios',
+						icon:'pi pi-fw pi-users',
+						command: () => {
+							Inertia.get(route('users.index'))
+						}
+					}
+				]
+			},
+	]
+
+	const userOptions = [
+		{
+			label: 'Perfil',
+			icon: 'pi pi-home',
+			command: () => Inertia.get(route('teams.show', Inertia.page.props.user.current_team))
+		},
+		{
+			label:'Salir',
+			icon:'pi pi-fw pi-power-off',
+			command: () => logout()
+		}
+	]
 
 </script>
 

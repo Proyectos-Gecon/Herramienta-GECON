@@ -38,7 +38,14 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'user.roles' => $request->user() ? $request->user()->roles->pluck('name'): [],
-            'user.permisos' => $request->user() ? $request->user()->getPermissionsViaRoles()->pluck('name'): []
+            'user.permisos' => $request->user() ? $request->user()->getPermissionsViaRoles()->pluck('name'): [],
+            'urlPrev'	=> function() {
+                if (url()->previous() !== route('login') && url()->previous() !== '' && url()->previous() !== url()->current()) {
+		    		return url()->previous();
+		    	}else {
+		    		return 'empty'; // used in javascript to disable back button behavior
+		    	}
+		    },
         ]);
     }
 }

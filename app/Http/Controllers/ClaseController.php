@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\Proyectos\ClasesImport;
 use App\Models\CategoriaSAP;
 use App\Models\Clase;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class ClaseController extends Controller
      */
     public function index()
     {
-        $clases = Clase::get();
+        $clases = Clase::with('proyectos')->orderBy('name')->get();
+      
        return inertia('proyectos/clases/index', [
             'clases' => $clases
        ]);
@@ -38,7 +40,7 @@ class ClaseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         $validateData = $request->validate([
             'name' => 'required|unique:clases,name',
             'type' => 'required',
@@ -85,7 +87,7 @@ class ClaseController extends Controller
      */
     public function edit(Clase $clase)
     {
-        //
+        return inertia('proyectos/clases/form', ['clase' => $clase]);
     }
 
     /**
@@ -97,7 +99,7 @@ class ClaseController extends Controller
      */
     public function update(Request $request, Clase $clase)
     {
-        //
+        return "Actualizar";
     }
 
     /**
@@ -109,5 +111,9 @@ class ClaseController extends Controller
     public function destroy(Clase $clase)
     {
         return back();
+    }
+
+    public function upload(Request $request){
+           (new ClasesImport)->import($request->file); 
     }
 }

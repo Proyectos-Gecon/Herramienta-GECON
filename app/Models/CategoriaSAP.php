@@ -8,22 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoriaSAP extends Model
 {
-    protected $table = 'clases';
+    protected $table = 'equipos';
     protected $connection = 'sqlsrv_sap_herramientas';
     protected $guard = 'personal_sap';
 
 
     use HasFactory;
     
-    protected $hidden = ['imagen', 'clasificacion', 'construido', 'created_at', 'updated_at'];
-
-    
-    protected function eslora(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => number_format($value,2,",","."),
-            set: fn ($value) => strtolower($value),
-        );
-    }
+   
     
 }

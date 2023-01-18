@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoriaSAP;
 use App\Models\Cliente;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -14,7 +16,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //
+        
+        $clientes = Cliente::orderBy('nombre_cliente')->get();
+        return inertia('proyectos/clientes/index', ['clientes' => $clientes]);
     }
 
     /**

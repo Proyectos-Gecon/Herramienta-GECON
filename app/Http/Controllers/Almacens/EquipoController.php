@@ -104,17 +104,15 @@ class EquipoController extends Controller
         ]);
         if(!$request->has('prevalidate')){
             $validateData['codigo_interno'] = $this->crearCodigo($validateData);
-            $validateData['name'] =Categoria::where('id', $validateData['categoria_id'])->first()->name;
+            $validateData['name'] = Categoria::where('id', $validateData['categoria_id'])->first()->name;
             $validateData['responsable'] = auth()->user()->id;
             $validateData['es_pequeño'] = 0;
             $validateData['criticidad'] = 0;
-            return $validateData;
             Equipo::create($validateData);
         }
        
         return redirect()->back();
         
-        return back();
     }
 
     /**

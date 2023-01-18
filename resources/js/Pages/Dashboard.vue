@@ -13,7 +13,6 @@ const items =  [
                 {label: 'Item'}
             ]
 </script>
-
 <template>
     <AppLayout title="Dashboard">
         <div class="py-12">

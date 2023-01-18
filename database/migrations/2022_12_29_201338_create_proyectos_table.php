@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('nombre_buque')->nullable();
             $table->string('supervisor')->nullable();
             $table->string('gerente')->index()->nullable();
+            $table->string('descripcion')->nullable();
             $table->string('imagen')->nullable();
             $table->timestamps();
         });

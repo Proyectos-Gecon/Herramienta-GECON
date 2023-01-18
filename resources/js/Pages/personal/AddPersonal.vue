@@ -41,7 +41,7 @@
                         <div class="grid grid-cols-2 my-4 gap-6 px-6">
                             <div class="p-fluid border-0 p-input-filled">
                                 <label for="">Seleccionar Personal</label>
-                                <MultiSelect v-model="form.users" :filterFields="['name', 'cargo']" :filter="true" class="multiselect-custom" :options="props.users" optionLabel="APELLIDOS_NOMBRES" placeholder="Seleccionar Personas" display="chip">
+                                <MultiSelect v-model="form.users" :filterFields="['APELLIDOS_NOMBRES', 'CARGO', 'IDENTIFICACION']" :filter="true" class="multiselect-custom" :options="props.users" optionLabel="APELLIDOS_NOMBRES" placeholder="Seleccionar Personas" display="chip">
                                     <template #option="slotProps">
                                         <div class="p-multiselect-car-option">
                                             <span>{{slotProps.option.APELLIDOS_NOMBRES}} - {{slotProps.option.CARGO}}</span>

@@ -76,7 +76,7 @@ const { exporting } = exportExcel(props.clases, "Clases");
             <div class="max-w-full mx-2 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
                 <DataTable ref="dt" :value="props.clases" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['nombre_clase','tipo_buque']"  showGridlines  :paginator="true" :rows="25" :rowsPerPageOptions="[25,50,100]">
+                :globalFilterFields="['name','type', 'material_casco']"  showGridlines  :paginator="true" :rows="25" :rowsPerPageOptions="[25,50,100]">
                     <template #header>
                     <div class="flex justify-between">
                         <span class="p-input-icon-left">
@@ -95,10 +95,15 @@ const { exporting } = exportExcel(props.clases, "Clases");
                     </div>
                 </template>
                     <Column field="name" header="Nombre"  sortable></Column>
+                    <Column  header="Proyectos" dataType="numeric" sortable>
+                      <template #body="{data}">
+                        <span>{{ data.proyectos.length }}</span>
+                      </template>
+                    </Column>
                     <Column field="type" header="Tipo Buque"  sortable></Column>
                     <Column field="material_casco" header="Material del Casto" sortable></Column>
-                    <Column field="eslora" header="Eslora" sortable dataType="numeric" >
-                    </Column>
+                    <Column field="eslora" header="Eslora" sortable dataType="numeric" ></Column>
+                    <Column field="manga" header="Manga" sortable dataType="numeric" ></Column>
                    
                     <Column
                     field="id"
@@ -113,15 +118,15 @@ const { exporting } = exportExcel(props.clases, "Clases");
                         md:flex-row md:justiify-content-between
                         "
                     >
-                    
+                    <Link :href="route('clases.edit', data.id)"> 
                       <Button
                         icon="pi pi-pencil"
                         class="p-button-rounded p-button-info p-button-text"
                       />
-                    
+                    </Link>
                     <ConfirmPopup></ConfirmPopup>
                     <Button
-                      @click="deleted($event, data.id_clase, data.nombre_clase)"
+                      @click="deleted($event, data.id, data.name)"
                       icon="pi pi-trash"
                       class="p-button-rounded p-button-danger p-button-text"
                     ></Button>

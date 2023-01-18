@@ -107,9 +107,8 @@ class PermisosController extends Controller
         //
     }
 
-    public function quitarRol($permiso , Role $rol){
-       
-       
-       
+    public function quitarRol(Permission $permiso , Role $rol){
+        $rol->revokePermissionTo($permiso->name);
+        return back();
     }
 }

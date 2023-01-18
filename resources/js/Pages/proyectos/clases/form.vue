@@ -14,35 +14,35 @@
     import NumberInput from '@/Components/customs/NumberInput.vue';
     import Dialog from 'primevue/dialog';
     import FileUpload from 'primevue/fileupload';
-
+    import BackButton from "@/Components/customs/BackButton.vue";
 
     var form = useForm({
-        name: null,
-        type: null,
-        empresa_diseñadora: null,
-        material_casco: null,
-        eslora: null,
-        manga: null,
-        calado_diseño: null,
-        puntal: null,
-        full_load: null,
-        light_ship: null,
-        potencia_total_kw: null,
-        tipo_propulsion: null,
-        autonomias: null,
-        alcance: null,
-        tripulacion_maxima: null,
-        velocidad: null,
-        GT: null,
-        CGT: null,
-        render: null,
-        bollard_pull: null,
-        clasificacion: null,
-        construido: null,
-        imagen: null,
+        name:  props.clase != null ? props.clase.name :null,
+        type:  props.clase != null ? props.clase.type :null,
+        empresa_diseñadora:  props.clase != null ? props.clase.empresa_diseñadora :null,
+        material_casco:  props.clase != null ? props.clase.material_casco :null,
+        eslora: props.clase != null ?  parseFloat(props.clase.eslora) : null,
+        manga: props.clase != null ? parseFloat(props.clase.manga) : null,
+        calado_diseño: props.clase != null ?  parseFloat(props.clase.calado_diseño) : null,
+        puntal:  props.clase != null ?  parseFloat(props.clase.puntal) :null,
+        full_load:  props.clase != null ? props.clase.full_load :null,
+        light_ship:  props.clase != null ? props.clase.light_ship :null,
+        potencia_total_kw:  props.clase != null ? props.clase.potencia_total_kw :null,
+        tipo_propulsion: props.clase != null ? props.clase.tipo_propulsion : null,
+        autonomias: props.clase != null ? props.clase.autonomias : null,
+        alcance:  props.clase != null ? props.clase.alcance :null,
+        tripulacion_maxima: props.clase != null ? props.clase.tripulacion_maxima : null,
+        velocidad:  props.clase != null ? props.clase.velocidad :null,
+        GT:  props.clase != null ? props.clase.GT :null,
+        CGT: props.clase != null ? props.clase.CGT : null,
+        render:  props.clase != null ? props.clase.render :null,
+        bollard_pull:  props.clase != null ? props.clase.bollard_pull :null,
+        clasificacion:  props.clase != null ? props.clase.clasificacion :null,
+        construido:  props.clase != null ? props.clase.construido :null,
+        imagen: props.clase != null ? props.clase.imagen : null,
     });
 
-    const displayModal =  ref(false);
+    var displayModal =  ref(false);
     
     // const { validate } = usePreValidate(form, {
     //     method: "post",
@@ -51,18 +51,34 @@
 
 
     const props = defineProps({
-        
+        clase: Object,
     });
     
 
     const submit = () => {
-        form.post(route('clases.store'),{
+        if(props.clase == null){
+            form.post(route('clases.store'),{
             onSuccess: () => {
                 alert('Holaa')
                // Inertia.get(route('equipos.index'))
             }
+            })
+            return 
+        }
+        form.put(route('clases.update', props.clase.id), 
+        {
+            onSuccess: () => {
+                alert('actualizado')
+            }
         })
+
     }
+
+    const { validate } = usePreValidate(form, {
+        method: "post",
+        url: route("clases.store"),
+    });
+
     /* End functions */ 
 </script>
 
@@ -73,9 +89,7 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
                     <div class="flex justify-between mx-auto p-4 space-x-2">
                         <div>
-                        <Link type="button" :href="route('clases.index')">
-                            <Button icon="pi pi-chevron-left" class=" p-button-info p-button-sm" />
-                        </Link>
+                        <BackButton></BackButton>
                         <span class="text-2xl text-blue-400 mt-1 font-bold ">Crear Clase</span>
                         </div>
                         <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar"/>
@@ -83,9 +97,9 @@
                     </div> 
                     <form @focusout="validate" @submit.prevent="submit" class="pb-4">
                         <div class="grid md:grid-cols-3 grid-cols-1 my-2 gap-6 px-6">
-                            <TextInput label="Nombre" v-model="form.name" sugerencia="Escriba el nombre de la clase"></TextInput>
+                            <TextInput label="Nombre" v-model="form.name" :error="form.errors.name"  sugerencia="Escriba el nombre de la clase"></TextInput>
 
-                            <TextInput label="Tipo de buque" v-model="form.type" sugerencia="Escriba el tipo de buque"></TextInput>
+                            <TextInput label="Tipo de buque" v-model="form.type" :error="form.errors.type"  sugerencia="Escriba el tipo de buque"></TextInput>
 
                             <TextInput label="Empresa Diseñadora" v-model="form.empresa_diseñadora" sugerencia="Escriba el nombre de la empresa diseñadora"></TextInput>    
 
@@ -143,9 +157,9 @@
             </div>
          
         </div>
-        <Dialog header="Carga Masiva" position="topright" v-model:visible="displayModal" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+        <Dialog header="Carga Masiva" position="topright" v-model:visible="displayModal" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
             <form @submit.prevent="submit">
-                <FileUpload name="files[]" :url="route('clases.upload')" @upload="onAdvancedUpload($event)" :multiple="true" accept=".xml,.xlsx,.csv" :maxFileSize="1000000">
+                <FileUpload name="file" :url="route('clases.upload')" @upload="onAdvancedUpload($event)" :multiple="false" accept=".xml,.xlsx,.csv" :maxFileSize="1000000">
                 <template #content>
                     <ul v-if="uploadedFiles && uploadedFiles[0]">
                         <li v-for="file of uploadedFiles[0]" :key="file">{{ file.name }} - {{ file.size }} bytes</li>

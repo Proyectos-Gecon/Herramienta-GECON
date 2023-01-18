@@ -27,12 +27,14 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'userLogin' => auth()->user()->id ?? null,
     ]);
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
 
     Route::get('/dashboard', function () {    return Inertia::render('Dashboard'); })->name('dashboard');
+
     Route::resource('personal', PersonalController::class);
     Route::resource('divisiones', DivisionController::class);
     Route::resource('roles', RolesController::class);
@@ -41,5 +43,5 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     
     Route::post('removeRolUser/{rol}/{user}', [UserController::class, 'removeRol'])->name('removeRolUser');
-    Route::post('quitarRol/{id}/{rol}', [PermisosController::class, 'quitarRol'])->name('quitarRol');
+    Route::post('quitarRol/{permiso}/{rol}', [PermisosController::class, 'quitarRol'])->name('quitarRol');
 });
