@@ -11,6 +11,9 @@ import ConfirmationService from 'primevue/confirmationservice';
 import ToggleButton from 'vue-js-toggle-button';
 import { Head, Link } from '@inertiajs/inertia-vue3'
 import ToastService from 'primevue/toastservice';
+import 'primevue/resources/themes/mdc-light-indigo/theme.css'
+import 'primevue/resources/primevue.min.css'
+import 'primeicons/primeicons.css'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -32,6 +35,6 @@ createInertiaApp({
 
 // InertiaProgress.init({ includeCSS: true, delay: 250,color: '#3DB4E8' });
 
-Inertia.on('start', () => NProgress.start())
+Inertia.on('start',  () => NProgress.start())
 
 Inertia.on('finish', () => NProgress.done())

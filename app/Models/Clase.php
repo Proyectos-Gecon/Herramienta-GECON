@@ -14,6 +14,8 @@ class Clase extends Model
 
     protected $hidden = ['imagen', 'clasificacion', 'construido', 'created_at', 'updated_at'];
 
+    protected  $appends = [ 'proyectos_count' ];
+
     protected function eslora(): Attribute
     {
         return Attribute::make(
@@ -46,5 +48,11 @@ class Clase extends Model
 
     public function proyectos(){
         return $this->hasMany(Proyecto::class, 'clase_id');
+    }
+
+    
+    public function getProyectosCountAttribute()
+    {
+        return count($this->proyectos);
     }
 }

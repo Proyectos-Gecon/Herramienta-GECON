@@ -19,11 +19,18 @@ class Contrato extends Model
     {
         return Attribute::make(
             get: fn ($value) => number_format($value/1000000,0,",","."),
-            set: fn ($value) => strtolower($value),
+            set: fn ($value) => $value,
         );
     }
    
-
+    protected function moneda(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value == 'US DOLLAR' ? 'USD':'COP',
+            set: fn ($value) => strtoupper($value),
+        );
+    }
+   
     public function cliente(){
         return $this->BelongsTo(Cliente::class, 'cliente_id');
     }

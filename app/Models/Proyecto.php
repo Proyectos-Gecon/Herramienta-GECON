@@ -18,6 +18,8 @@ class Proyecto extends Model
             $contrato->contrato_id = '-';
         });
     }
+
+
     public function clase()
     {
         return $this->belongsTo(Clase::class, 'clase_id')->withDefault(function ($clase, $proyecto) {
@@ -33,6 +35,10 @@ class Proyecto extends Model
         );
     }
 
+    public function scopeConstruccion($query)
+    {
+        return $query->where('estado_proyecto', 'CONSTRUCCIÓN');
+    }
  
     
 }

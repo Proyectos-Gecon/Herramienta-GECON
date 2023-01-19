@@ -4,7 +4,7 @@
     import MultiSelect from 'primevue/multiselect';
     import { Link, useForm } from "@inertiajs/inertia-vue3";
     import Calendar from 'primevue/calendar';
-
+    import BackButton from "@/Components/customs/BackButton.vue";
     const props = defineProps({
         users: {
             type: Object,
@@ -32,9 +32,7 @@
             <div class="max-w-full mx-auto sm:px-6 lg:px-8 ">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
                     <div class="flex justify-start mx-auto p-4 space-x-2">
-                        <Link type="button" :href="route('personal.index')">
-                            <Button icon="pi pi-chevron-left" class=" p-button-info  p-button-sm" />
-                        </Link>
+                        <BackButton />
                         <span class="text-2xl text-blue-400 mt-1 font-bold ">Agregar personas a mi Equipo</span>
                     </div> 
                     <form @focusout="validate" @submit.prevent="submit" class="my-8">

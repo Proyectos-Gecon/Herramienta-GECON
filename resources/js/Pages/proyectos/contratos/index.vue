@@ -96,6 +96,7 @@ const { exporting } = exportExcel(props.contratos, "Contratos");
                     <Column field="cliente.nombre_cliente" header="Cliente" sortable></Column>
                     <Column field="supervisor" header="Supervisor" sortable ></Column>
                     <Column field="gerente" header="Gerente" sortable></Column>
+                    <Column field="moneda" header="Moneda" sortable></Column>
                 
                     <Column field="tipo_venta" header="Tipo de Venta" sortable></Column>
                     <Column field="precio_venta" header="Precio de Venta (Millones)" sortable></Column>
