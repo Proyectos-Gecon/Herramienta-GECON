@@ -108,14 +108,19 @@ import { permisos } from '@/composable/Permisions.js'
 				items:[
 					{
 						label:'Mi personal',
-					
 						command: () => {
 							Inertia.get(route('personal.index'))
 						}
 					},
 					{
 						label:'Parte',
-					
+						command: () => {
+							Inertia.get(route('parte.create'))
+						}
+
+					},
+					{
+						label:'Tablero',
 						command: () => {
 							Inertia.get(route('parte.index'))
 						}

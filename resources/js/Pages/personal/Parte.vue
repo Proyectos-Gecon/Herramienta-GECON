@@ -32,9 +32,9 @@ onMounted(() => {
     props.proyectos.push('Otro/Admin')
     for(let user of props.users){
         form.users.push({
-            id: user.NUM_SAP,
-            name: user.APELLIDOS_NOMBRES,
-            cargo: user.CARGO,
+            id: user.ID,
+            name: user.user.APELLIDOS_NOMBRES,
+            cargo: user.user.CARGO,
             proyecto: '',
             estado: '',
             turno: false,

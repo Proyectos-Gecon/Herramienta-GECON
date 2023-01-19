@@ -6,7 +6,9 @@ use App\Models\Parte;
 use App\Models\Estado;
 use App\Models\PersonalCorporativo;
 use App\Models\Proyecto;
+use Carbon\Carbon;
 use GuzzleHttp\Handler\Proxy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ParteController extends Controller
@@ -18,11 +20,11 @@ class ParteController extends Controller
      */
     public function index()
     {
-        $users = PersonalCorporativo::whereIn('ID' , auth()->user()->users->pluck('user_id')->toArray())->get();
-        $proyectos = Proyecto::construccion()->pluck('name');
-        $estados = new Estado();
-        
-        return inertia('personal/Parte', ['users' => $users, 'proyectos' => $proyectos, 'estados' => $estados->getEstados()]);
+       $personalSinParte = PersonalCorporativo::where('GERENCIA', 'CONS')->count() - Parte::where('fecha', Carbon::now())->count();
+       $parte = Parte::with('user')->get();
+
+       //$parte = PersonalCorporativo::where('GERENCIA', 'CONS')->whereNotIn('id', Parte::pluck('user_id')->toArray())->get();
+       return inertia('personal/index', ['parte' => $parte, 'personalSinParte' => $personalSinParte]);
     }
 
     /**
@@ -32,7 +34,15 @@ class ParteController extends Controller
      */
     public function create()
     {
-        //
+        $users = Parte::with('user', 'personal')->whereHas('personal' , function (Builder $query) {
+            $query->where('content', 'like', 'code%');
+            }
+        )->get();
+        return $users;
+        $proyectos = Proyecto::construccion()->pluck('name');
+        $estados = new Estado();
+        
+        return inertia('personal/Parte', ['users' => $users, 'proyectos' => $proyectos, 'estados' => $estados->getEstados()]);
     }
 
     /**
@@ -52,7 +62,18 @@ class ParteController extends Controller
             'users.*.proyecto.required' => 'El Campo Proyecto es Obligatorio',
             'users.*.estado.required' => 'El Campo Estado es Obligatorio'
         ]);
-        return $request;
+        foreach ($validateData['users'] as $key => $user) {
+            
+            $parte = Parte::firstOrNew([
+                'user_id' => $user['id'],
+                'fecha' => Carbon::now(),
+                'truno' => 'Diurno'
+            ]);
+            $parte->planillador_id = auth()->user()->id;
+            $parte->proyecto = $user['proyecto'];
+            $parte->estado = $user['estado']['estado'];
+            $parte->save();
+       }
     }
 
     /**

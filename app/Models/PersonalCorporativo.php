@@ -17,4 +17,10 @@ class PersonalCorporativo extends Model
         return $this->belongsTo(Personal::class, 'id','user_id');
     }
 
+    public function parte(){
+        return $this->hasMany(Parte::class , 'user_id', 'ID');
+    }
+
+    
+
 }

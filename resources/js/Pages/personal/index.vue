@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import AppLayout from '@/Layouts/AppLayout.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -10,97 +11,87 @@ import { Link, useForm } from '@inertiajs/inertia-vue3';
 import ConfirmPopup from "primevue/confirmpopup";
 import { useConfirm } from "primevue/useconfirm";
 import Chip from 'primevue/chip';
+import { exportExcel } from "@/composable/ExportData";
+
+
+const { exporting } = exportExcel(props.parte, "Parte de Personal");
 
 const props = defineProps({
-  users: Array(),
+  parte: Array(),
+  personalSinParte: Number
 })
-const form = useForm({
-  _method: "DELETE",
-  contratista: "",
+
+var filters = ref({
+    'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
 });
 
-var counts = props.users.reduce((p, c) => {
-  var name = c.CARGO;
-  if (!p.hasOwnProperty(name)) {
-    p[name] = 0;
-  }
-  p[name]++;
-  return p;
-}, {})
-
-var countsExtended = Object.keys(counts).map(k => {
-  return {name: k, count: counts[k]}; });
-
-
-var filters = {
-    'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
-    'name': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
-    'country.name': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
-    'representative': {value: null, matchMode: FilterMatchMode.IN},
-    'status': {value: null, matchMode: FilterMatchMode.EQUALS},
-    'verified': {value: null, matchMode: FilterMatchMode.EQUALS}
-};
-
-const confirm = useConfirm();
-
-const closeModal = () => {
-        displayModal = false;
-    }
-
-const deleted = (event, id) => {
-  confirm.require({
-    target: event.currentTarget,
-    message: "¿Quitar de tu lista?",
-    icon: "pi pi-info-circle",
-    acceptClass: "p-button-danger",
-    accept: () => {
-      form.delete(route("personal.destroy", id), {
-        onSuccess: () => {
-        //   toast.add({
-        //     severity: "info",
-        //     summary: "Contratistas",
-        //     detail: "Contratista Eliminado Exitosamente",
-        //     life: 3000,
-        //   });
-        },
-      });
-    },
-  });
-};
 </script>
 
 <template>
  <AppLayout title="Personal">
 
     <div class="py-4">
-            <div class="max-w-full mx-2 sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
-                <div class="flex align-items-center flex-column sm:flex-row mx-4">
-                  <Chip :label="(cargo.name + ': ' + cargo.count)" class="mr-2 mb-2 custom-chip" v-for="cargo in countsExtended" :key="cargo.name"/>
+        <div class="max-w-full mx-2 sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
+                <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
+            <ul
+              class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
+            >
+              <li>
+                <a class="text-500 no-underline line-height-3 cursor-pointer"
+                  >Personal</a
+                >
+              </li>
+              <li class="px-2">
+                <i class="pi pi-angle-right text-500 line-height-3"></i>
+              </li>
+              <li>
+                <span class="text-900 line-height-3">Parte de Personal</span>
+              </li>
+            </ul>
+            <div class="flex align-items-start justify-between">
+              <div>
+                <div class="font-medium text-3xl text-900">Parte Actual</div>
+                <div class="flex align-items-center text-700 flex-wrap">
+                  <div class="mr-5 flex align-items-center mt-3">
+                    <i class="fa fa-users mr-2"></i>
+                    <span>{{ props.parte.length }} Personas Registradas</span>
+                  </div>
+                  <!-- <div class="mr-5 flex align-items-center mt-3">
+                                      <i class="pi pi-globe mr-2"></i>
+                                      <span>9402 Sessions</span>
+                                  </div> -->
+                  <div class="flex align-items-center mt-3 space-x-1">
+                    
+                    <i class="fa-solid fa-user-slash"></i>
+                     <span>
+                     {{ props.personalSinParte }} Personas No registradas</span
+                    >
+                  </div>
                 </div>
-                <DataTable :value="props.users" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['APELLIDOS_NOMBRES','NUM_SAP']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
+              </div>
+              <div class="mt-3 lg:mt-0 space-x-2">
+                <div>
+                    <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-file-excel" @click="exporting" /> 
+                </div>
+              </div>
+            </div>
+          </div>
+                <DataTable :value="props.parte" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
+                :globalFilterFields="['user.APELLIDOS_NOMBRES','user.IDENTIFICACION']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
                     <template #header>
-                    <div class="flex justify-between mx-2">
-                      <div class="text-center flex">
-                        <Link type="button" :href="route('personal.create')" class="btn mx-4">
-                            <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-user-plus"  />
-                        </Link> 
-                        <span class="mt-2 text-2xl"> Personal</span>
-                      </div>
-                      <div>
+                    <div class="flex justify-end mx-2">
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
                             <InputText v-model="filters.global.value" placeholder="Keyword Search" />
                         </span>
-                      </div>
                     </div>
                 </template>
-                    <Column field="NUM_SAP" header="# SAP"  ></Column>
-                    <Column field="IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
-                    <Column field="APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
-                    <Column field="EMAIL_CORP" header="Email" :sortable="true"></Column>
-                    <Column field="CARGO" header="Cargo" :sortable="true"></Column>
+                    <Column field="user.APELLIDOS_NOMBRES" header="Personal"  ></Column>
+                    <Column field="user.CARGO" header="Cargo" :sortable="true"></Column>
+                    <Column field="estado" header="Estado"  :sortable="true"></Column>
+                    <Column field="proyecto" header="Proyecto"  :sortable="true"></Column>
+                    <Column field="truno" header="Turno" :sortable="true"></Column>
                    
                     <Column
                     field="ID"
@@ -134,12 +125,10 @@ const deleted = (event, id) => {
               </Column>
                 </DataTable>
                     
-                </div>
             </div>
         </div>
-        
- </AppLayout>
-
+    </div>
+</AppLayout>
 </template>
 
 <style lang="scss" scoped>

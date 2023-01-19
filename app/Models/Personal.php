@@ -16,7 +16,7 @@ class Personal extends Model
     }
 
     public function user(){
-        return $this->belongsTo(PersonalCorporativo::class, 'user_id');
+        return $this->belongsTo(PersonalCorporativo::class, 'user_id', 'ID');
     }
 
 }
