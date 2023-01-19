@@ -13,7 +13,7 @@ class PersonalCorporativo extends Model
     protected $connection = 'sqlsrv_sap';
     protected $guard = 'personal_sap';
 
-    public function supervisor(){
+    public function personal(){
         return $this->belongsTo(Personal::class, 'id','user_id');
     }
 

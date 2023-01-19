@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Parte;
 use App\Models\Estado;
+use App\Models\Personal;
 use App\Models\PersonalCorporativo;
 use App\Models\Proyecto;
 use Carbon\Carbon;
@@ -21,7 +22,7 @@ class ParteController extends Controller
     public function index()
     {
        $personalSinParte = PersonalCorporativo::where('GERENCIA', 'CONS')->count() - Parte::where('fecha', Carbon::now())->count();
-       $parte = Parte::with('user')->get();
+       $parte = Parte::where('fecha', Carbon::now())->with('user')->get();
 
        //$parte = PersonalCorporativo::where('GERENCIA', 'CONS')->whereNotIn('id', Parte::pluck('user_id')->toArray())->get();
        return inertia('personal/index', ['parte' => $parte, 'personalSinParte' => $personalSinParte]);
@@ -34,11 +35,10 @@ class ParteController extends Controller
      */
     public function create()
     {
-        $users = Parte::with('user', 'personal')->whereHas('personal' , function (Builder $query) {
-            $query->where('content', 'like', 'code%');
-            }
+        $users = Personal::with('user')->withWhereHas('parte')->where(
+            'supervisor_id', auth()->user()->id
         )->get();
-        return $users;
+        
         $proyectos = Proyecto::construccion()->pluck('name');
         $estados = new Estado();
         
@@ -67,11 +67,11 @@ class ParteController extends Controller
             $parte = Parte::firstOrNew([
                 'user_id' => $user['id'],
                 'fecha' => Carbon::now(),
-                'truno' => 'Diurno'
+                'truno' => 'Diurno',
+                'proyecto' => $user['proyecto']
             ]);
             $parte->planillador_id = auth()->user()->id;
-            $parte->proyecto = $user['proyecto'];
-            $parte->estado = $user['estado']['estado'];
+            $parte->estado = $user['estado'];
             $parte->save();
        }
     }

@@ -31,12 +31,13 @@ const form = useForm({
 onMounted(() => {
     props.proyectos.push('Otro/Admin')
     for(let user of props.users){
+        console.log(user)
         form.users.push({
-            id: user.ID,
+            id: user.user.ID,
             name: user.user.APELLIDOS_NOMBRES,
             cargo: user.user.CARGO,
-            proyecto: '',
-            estado: '',
+            proyecto: user.parte.proyecto,
+            estado: user.parte.estado,
             turno: false,
         })
     }
@@ -123,7 +124,7 @@ const submit = () => {
                                     }}</small>
                                 </div>
                                 <div class="p-fluid w-full">
-                                <Dropdown v-model="user.estado" :filterFields="['estado']" :filter="true" class="multiselect-custom"        :options="props.estados" optionLabel="estado" placeholder="Seleccionar Estados" display="chip" :class="form.errors[`users.${index}.estado`] != null ? 'p-invalid':''">
+                                <Dropdown v-model="user.estado" :filterFields="['estado']" :filter="true" class="multiselect-custom"        :options="props.estados" optionLabel="estado" optionValue="estado" placeholder="Seleccionar Estados" display="chip" :class="form.errors[`users.${index}.estado`] != null ? 'p-invalid':''">
                                 </Dropdown> 
                                 <small id="username2-help" class="p-error">{{
                                         form.errors[`users.${index}.estado`]

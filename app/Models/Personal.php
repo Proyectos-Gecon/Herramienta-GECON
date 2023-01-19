@@ -19,4 +19,8 @@ class Personal extends Model
         return $this->belongsTo(PersonalCorporativo::class, 'user_id', 'ID');
     }
 
+    public function parte(){
+        return $this->hasOne(Parte::class , 'user_id', 'user_id')->latestOfMany();
+        //return $this->hasMany(Parte::class , 'user_id', 'user_id');
+    }
 }
