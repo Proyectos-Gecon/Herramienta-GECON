@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\NovedadesController;
 use App\Http\Controllers\ParteController;
 use App\Http\Controllers\security\RolesController;
 use App\Http\Controllers\PersonalController;
@@ -35,6 +36,8 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
 
     Route::get('/dashboard', function () {    return Inertia::render('Dashboard'); })->name('dashboard');
+
+    Route::get('personal/novedades', [NovedadesController::class, 'index'])->name('novedades.index');
 
     Route::resource('personal', PersonalController::class);
     Route::resource('parte', ParteController::class);

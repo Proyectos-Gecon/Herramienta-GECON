@@ -19,11 +19,21 @@ class ParteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-       $personalSinParte = PersonalCorporativo::where('GERENCIA', 'CONS')->count() - Parte::where('fecha', Carbon::now())->count();
-       $parte = Parte::where('fecha', Carbon::now())->with('user')->get();
-
+        $date = Carbon::now();
+        
+        
+        if(auth()->user()->hasAnyRole('ADMIN', 'USER DEPPC')){
+            $parte = Parte::where('fecha', Carbon::now())->with('user')->get();
+            $personalSinParte = PersonalCorporativo::where('GERENCIA', 'CONS')->count() - Parte::where('fecha', Carbon::now())->count();
+        }else{
+            $parte = Parte::with('user')->where('fecha', Carbon::now())->where(
+                'planillador_id', auth()->user()->id
+                )->get();
+            $personalSinParte = Personal::where('supervisor_id', auth()->user()->id)->count() - count($parte);
+       }
+      
        //$parte = PersonalCorporativo::where('GERENCIA', 'CONS')->whereNotIn('id', Parte::pluck('user_id')->toArray())->get();
        return inertia('personal/index', ['parte' => $parte, 'personalSinParte' => $personalSinParte]);
     }
@@ -57,20 +67,21 @@ class ParteController extends Controller
             'users.*.id' => ['required'],
             'users.*.proyecto' => ['required'],
             'users.*.estado' => ['required'],
+            'users.*.turno' => ['nullable'],
         ],[
             'users.*.id.required' => 'El Campo id es Obligatorio',
             'users.*.proyecto.required' => 'El Campo Proyecto es Obligatorio',
             'users.*.estado.required' => 'El Campo Estado es Obligatorio'
         ]);
         foreach ($validateData['users'] as $key => $user) {
-            
+           
             $parte = Parte::firstOrNew([
                 'user_id' => $user['id'],
                 'fecha' => Carbon::now(),
-                'truno' => 'Diurno',
                 'proyecto' => $user['proyecto']
             ]);
             $parte->planillador_id = auth()->user()->id;
+            $parte->truno = !$user['turno'] ? 'Diurno':'Nocturno';
             $parte->estado = $user['estado'];
             $parte->save();
        }

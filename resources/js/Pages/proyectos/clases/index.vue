@@ -94,6 +94,7 @@ const { exporting } = exportExcel(props.clases, "Clases");
                         </div>
                     </div>
                 </template>
+                    <Column field="id" header="# ID"  sortable></Column>
                     <Column field="name" header="Nombre"  sortable></Column>
                     <Column field="proyectos_count" header="Proyectos" dataType="numeric" sortable></Column>
                     <Column field="type" header="Tipo Buque"  sortable></Column>

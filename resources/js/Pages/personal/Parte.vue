@@ -31,14 +31,13 @@ const form = useForm({
 onMounted(() => {
     props.proyectos.push('Otro/Admin')
     for(let user of props.users){
-        console.log(user)
         form.users.push({
             id: user.user.ID,
             name: user.user.APELLIDOS_NOMBRES,
             cargo: user.user.CARGO,
             proyecto: user.parte.proyecto,
             estado: user.parte.estado,
-            turno: false,
+            turno: ref(true),
         })
     }
 })

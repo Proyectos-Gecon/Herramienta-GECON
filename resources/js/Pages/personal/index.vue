@@ -92,6 +92,7 @@ var filters = ref({
                     <Column field="estado" header="Estado"  :sortable="true"></Column>
                     <Column field="proyecto" header="Proyecto"  :sortable="true"></Column>
                     <Column field="truno" header="Turno" :sortable="true"></Column>
+                    <Column field="fecha" header="Fecha" :sortable="true"></Column>
                    
                     <Column
                     field="ID"

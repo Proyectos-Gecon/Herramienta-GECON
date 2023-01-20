@@ -124,7 +124,12 @@ import { permisos } from '@/composable/Permisions.js'
 						command: () => {
 							Inertia.get(route('parte.index'))
 						}
-
+					},
+					{
+						label:'Novedades',
+						command: () => {
+							Inertia.get(route('novedades.index'))
+						}
 					},
 				]
 			},

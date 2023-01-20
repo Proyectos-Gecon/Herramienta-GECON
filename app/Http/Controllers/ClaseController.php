@@ -6,6 +6,7 @@ use App\Imports\Proyectos\ClasesImport;
 use App\Models\CategoriaSAP;
 use App\Models\Clase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClaseController extends Controller
 {
@@ -99,7 +100,32 @@ class ClaseController extends Controller
      */
     public function update(Request $request, Clase $clase)
     {
-        return "Actualizar";
+        $validateData = $request->validate([
+            'name' => 'required|unique:clases,name,'.$clase->id,
+            'type' => 'required',
+            'empresa_diseñadora' => 'nullable|string',
+            'material_casco' => 'nullable|string',
+            'eslora' => 'nullable|numeric',
+            'manga' => 'nullable|numeric',
+            'calado_diseño' => 'nullable|numeric',
+            'puntal' => 'nullable|numeric',
+            'full_load' => 'nullable|numeric',
+            'light_ship' => 'nullable|numeric',
+            'potencia_total_kw' => 'nullable|numeric',
+            'tipo_propulsion' => 'nullable|string',
+            'velocidad' => 'nullable|numeric',
+            'autonomias' => 'nullable|numeric',
+            'alcance' => 'nullable|numeric',
+            'tripulacion_maxima' => 'nullable|numeric',
+            'GT' => 'nullable|numeric',
+            'CGT' => 'nullable|numeric',
+            'render' => 'nullable',
+            'bollard_pull' => 'nullable|numeric',
+            'clasificacion' => 'nullable',
+        ]);
+        DB::table('clases')
+            ->where('id', $clase->id)
+            ->update($validateData);
     }
 
     /**

@@ -75,8 +75,8 @@ const deleted = (event, id) => {
     <div class="py-4">
             <div class="max-w-full mx-2 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
-                <div class="flex align-items-center flex-column sm:flex-row mx-4">
-                  <Chip :label="(cargo.name + ': ' + cargo.count)" class="mr-2 mb-2 custom-chip" v-for="cargo in countsExtended" :key="cargo.name"/>
+                <div class="flex align-items-center flex-column sm:flex-row mx-4 overflow-x-scroll">
+                  <Chip :label="(cargo.name + ': ' + cargo.count)" class="mr-2 mb-2  custom-chip" v-for="cargo in countsExtended" :key="cargo.name"/>
                 </div>
                 <DataTable :value="props.users" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
                 :globalFilterFields="['APELLIDOS_NOMBRES','NUM_SAP']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
@@ -144,7 +144,8 @@ const deleted = (event, id) => {
 
 <style lang="scss" scoped>
 .p-chip.custom-chip {
-    background: var(--primary-color);
-    color: var(--primary-color-text);
+    background: var(--green-50);
+    color: var(--surface-900-color-text);
+    font-size: x-small;
 }
 </style>
