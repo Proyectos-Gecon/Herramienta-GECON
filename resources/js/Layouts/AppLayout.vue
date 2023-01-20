@@ -107,6 +107,13 @@ import { permisos } from '@/composable/Permisions.js'
 				visible: Inertia.page.props.user.permisos.includes('read personal'),
 				items:[
 					{
+						label:'Personal Activo',
+						visible: can(['read activos']),
+						command: () => {
+							Inertia.get(route('personal.activos'))
+						}
+					},
+					{
 						label:'Mi personal',
 						command: () => {
 							Inertia.get(route('personal.index'))

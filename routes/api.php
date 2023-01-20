@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\ProyectoController;
 use App\Imports\Proyectos\ProyectosImport;
 use Illuminate\Http\Request;
@@ -25,3 +26,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('clases/upload', [ClaseController::class, 'upload'])->name('clases.upload');
 Route::post('contratos/upload', [ContratoController::class, 'upload'])->name('contratos.upload');
 Route::post('proyectos/upload', [ProyectoController::class, 'upload'])->name('proyectos.upload');
+Route::post('personal/upload', [PersonalController::class, 'upload'])->name('personal.upload');

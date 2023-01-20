@@ -37,7 +37,7 @@ onMounted(() => {
             cargo: user.user.CARGO,
             proyecto: user.parte.proyecto,
             estado: user.parte.estado,
-            turno: ref(true),
+            turno: ref(false),
         })
     }
 })

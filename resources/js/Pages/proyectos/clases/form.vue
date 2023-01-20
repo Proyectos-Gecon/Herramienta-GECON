@@ -49,12 +49,10 @@
     //     url: route("equipos.store"),
     //     });
 
-
     const props = defineProps({
         clase: Object,
     });
     
-
     const submit = () => {
         if(props.clase == null){
             form.post(route('clases.store'),{
