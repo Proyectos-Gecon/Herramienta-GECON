@@ -45,7 +45,7 @@ class ParteController extends Controller
      */
     public function create()
     {
-        $users = Personal::with('user')->withWhereHas('parte')->where(
+        $users = Personal::with('user')->with('parte')->where(
             'supervisor_id', auth()->user()->id
         )->get();
         

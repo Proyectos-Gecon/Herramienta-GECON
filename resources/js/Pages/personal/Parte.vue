@@ -35,8 +35,8 @@ onMounted(() => {
             id: user.user.ID,
             name: user.user.APELLIDOS_NOMBRES,
             cargo: user.user.CARGO,
-            proyecto: user.parte.proyecto,
-            estado: user.parte.estado,
+            proyecto: user.parte != null ? user.parte.proyecto:null,
+            estado: user.parte != null ? user.parte.estado: null,
             turno: ref(false),
         })
     }

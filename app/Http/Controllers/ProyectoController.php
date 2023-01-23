@@ -20,7 +20,9 @@ class ProyectoController extends Controller
     {
         $proyectos = Proyecto::with('contrato', 'clase')->get();
         $construccion = Proyecto::where('estado_proyecto', 'CONSTRUCCIÓN')->count();
-        return inertia('proyectos/proyectos/index', ['proyectos' => $proyectos, 'construccion' => $construccion]);
+
+        $tipo_proyectos = Proyecto::whereNotNull('tipo_proyecto')->groupBy('tipo_proyecto')->pluck('tipo_proyecto')->toArray();
+        return inertia('proyectos/proyectos/index', ['proyectos' => $proyectos, 'construccion' => $construccion , 'tipos' => $tipo_proyectos]);
     }
 
     /**

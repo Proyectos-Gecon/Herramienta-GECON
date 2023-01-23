@@ -7,6 +7,7 @@ import { FilterMatchMode, FilterOperator } from "primevue/api";
 import InputText from "primevue/inputtext";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
+import Dropdown from 'primevue/dropdown';
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 import ConfirmPopup from "primevue/confirmpopup";
 import { useConfirm } from "primevue/useconfirm";
@@ -23,10 +24,13 @@ const can = (array) => {
 
 //Variables
 const confirm = useConfirm();
+
 const props = defineProps({
   proyectos: Array(),
   construccion: Number,
+  tipos: Array
 });
+
 const form = useForm({
   _method: "DELETE",
   contrato: "",
@@ -40,11 +44,14 @@ var clase = ref(null);
 
 var filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  representative: { value: null, matchMode: FilterMatchMode.IN },
-  status: { value: null, matchMode: FilterMatchMode.EQUALS },
-  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
+  casco: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  "clase.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  "contrato.contrato_id": { value: null, matchMode: FilterMatchMode.CONTAINS },
+  tipo_proyecto: { value: null, matchMode: FilterMatchMode.EQUALS },
+  codigo_SAP: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  alcance: { value: null, matchMode: FilterMatchMode.EQUALS },
+  estado_proyecto: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
 const closeModal = () => {
@@ -134,7 +141,7 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
                                   </div> -->
                   <div class="flex align-items-center mt-3 space-x-1">
                     <i class="fa-solid fa-hammer"></i>
-                    <span>
+                    <span class="cursor-pointer" @click="filters.estado_proyecto.value = 'CONSTRUCCIÓN'">
                       {{ props.construccion }} Proyectos en construcción</span
                     >
                   </div>
@@ -160,6 +167,8 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
             ref="dt"
             :value="props.proyectos"
             class="p-datatable-sm"
+            currentPageReportTemplate=" {first} al {last} de {totalRecords}"
+            paginatorTemplate="CurrentPageReport PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
             filterDisplay="menu"
             dataKey="id"
             v-model:filters="filters"
@@ -168,6 +177,8 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
               'name',
               'contrato.contrato_id',
               'clase.name',
+              'estado',
+              'codigo_SAP'
             ]"
             showGridlines
             :paginator="true"
@@ -180,7 +191,7 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
                   <i class="pi pi-search" />
                   <InputText
                     v-model="filters.global.value"
-                    placeholder="Keyword Search"
+                    placeholder="Buscado Global"
                   />
                 </span>
 
@@ -203,8 +214,15 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
                   >{{ data.casco }}</Link
                 >
               </template>
+              <template #filter="{filterModel}">
+                  <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Buscar por Numero de Casco"/>
+              </template>
             </Column>
-            <Column field="name" header="Nombre" sortable></Column>
+            <Column field="name" header="Nombre" sortable>
+              <template #filter="{filterModel}">
+                  <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Buscar por Nombre"/>
+              </template>
+            </Column>
 
             <Column field="clase.name" header="Clase" sortable>
               <template #body="{ data }">
@@ -214,6 +232,9 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
                   v-if="data.clase != null"
                   >{{ data.clase.name }}</span
                 >
+              </template>
+              <template #filter="{filterModel}">
+                  <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Buscar por Nombre de Clase"/>
               </template>
             </Column>
 
@@ -226,16 +247,35 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
                   >{{ data.contrato.contrato_id }}</span
                 >
               </template>
+              <template #filter="{filterModel}">
+                  <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Buscar por ID de contrato"/>
+              </template>
             </Column>
 
             <Column
               field="tipo_proyecto"
               header="Tipo de Proyecto"
               sortable
-            ></Column>
-            <Column field="codigo_SAP" header="PEP" sortable></Column>
-            <Column field="alcance" header="Alcance" sortable></Column>
-            <Column field="estado_proyecto" header="Estado" sortable></Column>
+            >
+            <template #filter="{filterModel}">
+              <Dropdown v-model="filterModel.value"  :options="tipos" placeholder="Seleccione un tipo de proyecto" />
+              </template>
+            </Column>
+            <Column field="codigo_SAP" header="PEP" sortable>
+              <template #filter="{filterModel}">
+                  <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Buscar PEP"/>
+              </template>
+            </Column>
+            <Column field="alcance" header="Alcance" sortable>
+              <template #filter="{filterModel}">
+              <Dropdown v-model="filterModel.value"  :options="['ADQUISICÓN Y ENTREGA', 'CO DESARROLL DISEÑO Y CONSTRUCCIÓN', 'CO PRODUCCIÓN', 'CONSTRUCCIÓN', 'DISEÑO BUQUE', 'DISEÑO Y CONSTRUCCIÓN', 'SERVICIOS INDUSTRIALES']" placeholder="Seleccione un alcance" />
+              </template>
+            </Column>
+            <Column field="estado_proyecto" header="Estado" sortable>
+              <template #filter="{filterModel}">
+              <Dropdown v-model="filterModel.value"  :options="['DISEÑO Y CONSTRUCCIÓN','CONSTRUCCIÓN', 'DISEÑO', 'GARANTIA', 'SERVICIO POSTVENTA']" placeholder="Seleccione un alcance" />
+              </template>
+            </Column>
             <Column field="contrato.fecha_inicio" header="Inicio" sortable></Column>
             <Column
               field="id"
