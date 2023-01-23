@@ -15,7 +15,7 @@ class PersonalController extends Controller
 {
     public function index(){
 
-        $users = PersonalCorporativo::whereIn('ID' , auth()->user()->users->pluck('user_id')->toArray())->get();
+        $users = Personal::with('user')->where('supervisor_id' , auth()->user()->id)->get();
 
         return inertia('personal/ListPersonal', ['users' => $users]);
     }

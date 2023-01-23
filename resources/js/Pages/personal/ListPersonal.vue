@@ -80,7 +80,7 @@ const deleted = (event, id) => {
                   <Chip :label="(cargo.name + ': ' + cargo.count)" class="mr-2 mb-2  custom-chip" v-for="cargo in countsExtended" :key="cargo.name"/>
                 </div>
                 <DataTable :value="props.users" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['APELLIDOS_NOMBRES','NUM_SAP']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
+                :globalFilterFields="['user.APELLIDOS_NOMBRES','user.NUM_SAP', 'user.IDENTIFICACION']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
                     <template #header>
                     <div class="flex justify-between mx-2">
                       <div class="text-center flex">
@@ -97,11 +97,12 @@ const deleted = (event, id) => {
                       </div>
                     </div>
                 </template>
-                    <Column field="NUM_SAP" header="# SAP"  ></Column>
-                    <Column field="IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
-                    <Column field="APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
-                    <Column field="EMAIL_CORP" header="Email" :sortable="true"></Column>
-                    <Column field="CARGO" header="Cargo" :sortable="true"></Column>
+                    <Column field="user.NUM_SAP" header="# SAP"  ></Column>
+                    <Column field="user.IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
+                    <Column field="user.APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
+                    <Column field="tipo_contrato" header="Tipo de Contrato"></Column>
+                    <Column field="user.EMAIL_CORP" header="Email" :sortable="true"></Column>
+                    <Column field="user.CARGO" header="Cargo" :sortable="true"></Column>
                    
                     <Column
                     field="ID"
