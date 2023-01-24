@@ -62,7 +62,7 @@ const { exporting } = exportExcel(props.clases, "Clases");
                             <i class="pi pi-search" />
                             <InputText v-model="filters.global.value" placeholder="Keyword Search" />
                         </span>
-                        <span class="mt-2 text-md md:text-2xl">Lista de clases</span>
+                        <span class="mt-2 text-md md:text-2xl">Lista de Novedades</span>
                         <div class="flex space-x-2">
                           
                           <div>
@@ -71,37 +71,10 @@ const { exporting } = exportExcel(props.clases, "Clases");
                         </div>
                     </div>
                 </template>
-                    <Column field="NUM_SAP" header="# ID"  sortable></Column>
-                    <Column field="APELLIDOS_NOMBRES" header="Nombre"  sortable></Column>
-                    <Column field="proyectos_count" header="Proyectos" dataType="numeric" sortable></Column>
-                    <Column field="type" header="Tipo Buque"  sortable></Column>
-                    <Column field="material_casco" header="Material del Casto" sortable></Column>
-                    <Column field="eslora" header="Eslora" sortable dataType="numeric" ></Column>
-                    <Column field="manga" header="Manga" sortable dataType="numeric" ></Column>
-                   
-                    <Column
-                    field="id"
-                    header="Acciones"
-                    headerStyle="width: 4rem; text-align: center"
-                    bodyStyle="text-align: center; overflow: visible"
-                    >
-                    <template #body="{ data }" style="min-width: 8rem">
-                    <div
-                        class="
-                        flex flex-column
-                        md:flex-row md:justiify-content-between
-                        "
-                    >
-                  
-                    <ConfirmPopup></ConfirmPopup>
-                    <Button
-                      @click="deleted($event, data.id, data.name)"
-                      icon="pi pi-trash"
-                      class="p-button-rounded p-button-danger p-button-text"
-                    ></Button>
-                  </div>
-                </template>
-              </Column>
+                    <Column field="user.NUM_SAP" header="# ID"  sortable></Column>
+                    <Column field="user.APELLIDOS_NOMBRES" header="Nombre"  sortable></Column>
+                    <Column field="supervisor.name" header="Encargado Parte"  sortable></Column>
+                    <Column field="division.name" header="División"  sortable></Column>
                 </DataTable>
                     
                 </div>

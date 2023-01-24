@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Division;
 use App\Models\Parte;
 use App\Models\Personal;
+use App\Models\PersonalCorporativo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,7 +15,7 @@ class DashboardController extends Controller
     public function index(Request $request){
         
    
-        $labels_divisions = Division::orderBy('name')->pluck('name')->toArray();
+        $labels_divisions = Division::orderBy('name')->pluck('abreiacion')->toArray();
         $noPresentesDivision = [];
         $noPresentesArea = [];
         $presentesDivision = [];
@@ -39,15 +40,19 @@ class DashboardController extends Controller
         foreach($partes as $parte){
             if($parte->personal->division != null){
                 if(!$parte->estaPresente()){
-                    $noPresentesDivision[$parte->personal->division->name] ++;
+                    $noPresentesDivision[$parte->personal->division->abreiacion] ++;
                     $noPresentesArea[$parte->personal->area_trabajo] ++;
                 }else{
-                    $presentesDivision[$parte->personal->division->name] ++;
+                    $presentesDivision[$parte->personal->division->abreiacion] ++;
                     $presentesArea[$parte->personal->area_trabajo] ++;
                 }
             }
         }
-        return Inertia::render('Dashboard', ['noPresentesDivision' => $noPresentesDivision, 'labes_division' => $labels_divisions,
-        'presentesDivision' => $presentesDivision, 'noPresenteArea' => $noPresentesArea, 'PresentesArea' => $presentesArea]); 
+        $usersContratosPorTerminar = PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
+        ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
+        ->where('F.CTEDT','LIKE' ,'%'.date("m").'__')->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(30)->format('Ymd'))->get();
+        
+        return Inertia::render('Dashboard', ['noPresentesDivision' => $noPresentesDivision, 'labesDivision' => $labels_divisions,
+        'presentesDivision' => $presentesDivision, 'noPresenteArea' => $noPresentesArea, 'PresentesArea' => $presentesArea, 'usersContratosPorTerminar' => $usersContratosPorTerminar]); 
     }
 }

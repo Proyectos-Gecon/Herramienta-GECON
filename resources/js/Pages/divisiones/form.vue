@@ -5,25 +5,37 @@ import InputText from 'primevue/inputtext';
 import { Link, useForm } from '@inertiajs/inertia-vue3';
 import Dropdown from 'primevue/dropdown';
 import MultiSelect from 'primevue/multiselect';
+import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
     users:  Array(),
+    division: Object
 });
 
 var form = useForm({
     _method: 'POST',
-    name: '',
-    jefe_id: '',
-    planillador_id: '',
-    auxiliares: ''
+    name: props.division != null ? props.division.name :'',
+    jefe_id: props.division != null ? props.division.jefe_id :'',
+    abreiacion: props.division != null ? props.division.abreiacion :'',
+    planillador_id: props.division != null ? props.division.planillador_id :'',
+    auxiliares: null,
 })
 
 const submit = () => {
-    form.post(route('divisiones.store'),{
+    if(props.division.id == null){
+        form.post(route('divisiones.create'),{
             onSuccess: () => {
                 alert('Enviado')
             }
         })
+        return props.division;
+    }
+    form.put(route('divisiones.update', props.division.id),{
+        onSuccess: () => {
+            Inertia.get(route('divisiones.index'))
+        }
+    })
+    
 }
 </script>
 
@@ -56,6 +68,10 @@ const submit = () => {
                           <div class="p-fluid border-0 space-y-2">
                             <span>Auxiliares</span>
                             <MultiSelect v-model="form.auxiliares" :options="props.users" display="chip" optionValue="ID" :filter="true" optionLabel="APELLIDOS_NOMBRES" placeholder="Seleccionar Usuario" />
+                          </div>
+                          <div class="p-fluid border-0 space-y-2">
+                            <span>Abreviación</span>
+                            <InputText v-model="form.abreiacion" placeholder="Escriba la Abrebiación de la división"></InputText>
                           </div>
                         </div>
                         <div class="px-[2%] text-end">

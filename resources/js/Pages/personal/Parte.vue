@@ -35,6 +35,7 @@ onMounted(() => {
             id: user.user.ID,
             name: user.user.APELLIDOS_NOMBRES,
             cargo: user.user.CARGO,
+            fecha: user.parte != null ? user.parte.fecha :null,
             proyecto: user.parte != null ? user.parte.proyecto:null,
             estado: user.parte != null ? user.parte.estado: null,
             turno: ref(false),
@@ -101,7 +102,7 @@ const submit = () => {
                 </div>
                 <form @focusout="validate" @submit.prevent="submit" class="my-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 p-2 gap-3 mt-4">
-                    <Card v-for="(user, index) in form.users" :key="index">
+                    <Card v-for="(user, index) in form.users" :key="index" >
                         <template #title>
                             <div class="flex justify-between">
                                 <span>
@@ -115,14 +116,14 @@ const submit = () => {
                         </template>
                         <template #footer>
                             <div class="flex justify-between space-x-4">
-                                <div class="p-fluid w-full">
+                                <div class="p-fluid w-full border-2 rounded-md" :class="user.fecha == new Date().toLocaleDateString('en-CA') ? 'border-green-400':''">
                                 <Dropdown  v-model="user.proyecto"  :filter="true" class="multiselect-custom" :options="props.proyectos"  placeholder="Seleccionar Proyecto" display="chip" :class="form.errors[`users.${index}.proyecto`] != null ? 'p-invalid':''">
                                 </Dropdown> 
                                 <small id="username2-help" class="p-error">{{
                                         form.errors[`users.${index}.proyecto`]
                                     }}</small>
                                 </div>
-                                <div class="p-fluid w-full">
+                                <div class="p-fluid w-full border-2 rounded-md" :class="user.fecha == new Date().toLocaleDateString('en-CA') ? 'border-green-400':''">
                                 <Dropdown v-model="user.estado" :filterFields="['estado']" :filter="true" class="multiselect-custom"        :options="props.estados" optionLabel="estado" optionValue="estado" placeholder="Seleccionar Estados" display="chip" :class="form.errors[`users.${index}.estado`] != null ? 'p-invalid':''">
                                 </Dropdown> 
                                 <small id="username2-help" class="p-error">{{

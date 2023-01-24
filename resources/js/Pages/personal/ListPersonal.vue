@@ -21,7 +21,7 @@ const form = useForm({
 });
 
 var counts = props.users.reduce((p, c) => {
-  var name = c.CARGO;
+  var name = c.tipo_contrato;
   if (!p.hasOwnProperty(name)) {
     p[name] = 0;
   }

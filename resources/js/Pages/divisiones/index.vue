@@ -81,6 +81,7 @@ const deleted = (event, id) => {
                 </template>
                     <Column field="id" header="#"  ></Column>
                     <Column field="name" header="División/DPTTO"  :sortable="true"></Column>
+                    <Column field="abreiacion" header="Abreviación"  :sortable="true"></Column>
                     <Column field="jefe.APELLIDOS_NOMBRES" header="Jefe"  :sortable="true"></Column>
                     <Column field="planillador.APELLIDOS_NOMBRES" header="Planillador" :sortable="true">
                     </Column>
@@ -106,11 +107,13 @@ const deleted = (event, id) => {
                       md:flex-row md:justiify-content-between
                     "
                   >
-                    
-                      <Button
+                    <Link :href="route('divisiones.edit', data.id)">
+                    <Button
                         icon="pi pi-pencil"
                         class="p-button-rounded p-button-info p-button-text"
                       />
+                    </Link>
+                      
                     
                     <ConfirmPopup></ConfirmPopup>
                     <Button

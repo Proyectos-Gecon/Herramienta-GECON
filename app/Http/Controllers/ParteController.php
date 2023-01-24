@@ -77,9 +77,9 @@ class ParteController extends Controller
            
             $parte = Parte::firstOrNew([
                 'user_id' => $user['id'],
-                'fecha' => Carbon::now(),
                 'proyecto' => $user['proyecto']
             ]);
+            $parte->fecha = Carbon::now();
             $parte->planillador_id = auth()->user()->id;
             $parte->truno = !$user['turno'] ? 'Diurno':'Nocturno';
             $parte->estado = $user['estado'];

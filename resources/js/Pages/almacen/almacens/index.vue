@@ -9,6 +9,7 @@ import InputText from "primevue/inputtext";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import { Inertia } from "@inertiajs/inertia";
+import DataTableCustom from "@/Components/customs/DataTableCustom";
 
 const props = defineProps({
     almacenes : Array()
@@ -24,15 +25,32 @@ var filters = ref({
   verified: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
+const labels = [
+    {
+        header: 'Nombre',
+        field: 'nombre_almacen'
+    },{
+        header: 'Gerencia',
+        field: 'gerencia_id'
+    },
+    {
+        header: 'Ubicacion',
+        field: 'ubicacion'
+    }
+]
+
 </script>
 <template>
     <AppLayout title="Almacen">
         <div class="max-w-full mx-2 mt-4">
             <div class="bg-white overflow-hidden shadow-xl max-w-full py-4">
-                <DataTable
+                <DataTableCustom :elements="almacenes" :filters="filters" :labels="labels" :globalFilters="['nombre_almacen']"></DataTableCustom>
+                <!-- <DataTable
                 ref="dt"
                     :value="props.almacenes"
                     class="p-datatable-sm"
+                    currentPageReportTemplate=" {first} al {last} de {totalRecords}"
+                    paginatorTemplate="CurrentPageReport PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
                     filterDisplay="menu"
                     dataKey="id"
                     v-model:filters="filters"
@@ -64,7 +82,7 @@ var filters = ref({
                     <Column field="nombre_almacen" header="Nombre"></Column>
                     <Column field="gerencia_id" header="Gerencia"></Column>
                     <Column field="ubicacion" header="Ubicacion"></Column>
-                </DataTable>
+                </DataTable> -->
             </div>
         </div>
     </AppLayout>

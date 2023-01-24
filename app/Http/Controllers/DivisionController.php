@@ -28,7 +28,7 @@ class DivisionController extends Controller
      */
     public function create()
     {
-        $users = PersonalCorporativo::get();
+        $users = PersonalCorporativo::where('GERENCIA', 'CONS')->get();
         return inertia('divisiones/form', ['users'=> $users]);
     }
 
@@ -79,9 +79,10 @@ class DivisionController extends Controller
      * @param  \App\Models\Division  $division
      * @return \Illuminate\Http\Response
      */
-    public function edit(Division $division)
+    public function edit(Division $divisione)
     {
-        //
+        $users = PersonalCorporativo::where('GERENCIA', 'CONS')->get();
+        return inertia('divisiones/form', ['users'=> $users, 'division' => $divisione]);
     }
 
     /**
@@ -91,9 +92,19 @@ class DivisionController extends Controller
      * @param  \App\Models\Division  $division
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Division $division)
+    public function update(Request $request, Division $divisione)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required|min:4|unique:divisions,name,'.$divisione->id,
+            'jefe_id' => 'required|numeric',
+            'planillador_id' => 'required',
+            'abreiacion' => 'nullable',
+        ]);
+
+        $division = Division::where('id', $divisione->id)->update($validateData);
+        
+       
+        return back();
     }
 
     /**
