@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
         <!-- Scripts -->
         @routes
-
+        
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         
         

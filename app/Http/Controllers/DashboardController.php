@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $presentesArea = [];
         $areatrabajos = Personal::groupBy('area_trabajo')->pluck('area_trabajo');
         
-        $partes = Parte::where('fecha', Carbon::now())->get();
+        $partes = Parte::where('fecha', Carbon::now()->subDay())->get();
        
         foreach($labels_divisions as $name){
             $noPresentesDivision[$name] = 0;
@@ -50,8 +50,8 @@ class DashboardController extends Controller
         }
         $usersContratosPorTerminar = PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
         ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
-        ->where('F.CTEDT','LIKE' ,'%'.date("m").'__')->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(30)->format('Ymd'))->get();
-        
+        ->where('F.CTEDT','LIKE' ,'%'.date("m").'__')->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(10)->format('Ymd'))->get();
+       
         return Inertia::render('Dashboard', ['noPresentesDivision' => $noPresentesDivision, 'labesDivision' => $labels_divisions,
         'presentesDivision' => $presentesDivision, 'noPresenteArea' => $noPresentesArea, 'PresentesArea' => $presentesArea, 'usersContratosPorTerminar' => $usersContratosPorTerminar]); 
     }

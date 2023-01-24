@@ -4,7 +4,7 @@ import { createApp, h } from 'vue';
 import Toast from 'primevue/toast';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia'
-
+import VueApexCharts from "vue3-apexcharts";
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import PrimeVue from 'primevue/config'; 
 import ConfirmationService from 'primevue/confirmationservice';
@@ -29,6 +29,7 @@ createInertiaApp({
             .use(ToggleButton)
             .use(ToastService)
             .use(Toast)
+            .use(VueApexCharts)
             .mount(el);
     },
 });

@@ -15,7 +15,6 @@
                 ['estado' => 'PERM MÉD (D)', 'tipo' => 0, 'grupo' => 'PERM REMUN'],
                 ['estado' => 'PERM REMUN (H)', 'tipo' => 0, 'grupo' => 'PERM REMUN'],
                 ['estado' => 'PERM MÉD (H)','tipo' => 0, 'grupo' => 'PERM REMUN'],
-                ['estado' => 'PERM REMUN (D)','tipo' => 0, 'grupo' => 'PERM REMUN'],
                 ['estado' => 'PERM NO REMUN (H)','tipo' => 0, 'grupo' => 'PERM NO REMUN'],
                 ['estado' => 'AUSENTE','tipo' => 0, 'grupo' => 'AUSENTE'],
                 ['estado' => 'APOYO DIV', 'tipo' => 1, 'grupo' => 'APOYO OTRAS UNIDADES'],

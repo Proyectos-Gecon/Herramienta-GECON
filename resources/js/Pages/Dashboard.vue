@@ -6,7 +6,7 @@ import Chart from 'primevue/chart';
 import Message from 'primevue/message';
 import { permisos } from '@/composable/Permisions.js'
 import SplitButton from 'primevue/splitbutton';
-
+import Barras from '@/charts/Barras.vue'
 
 const can = (array) => {
     
@@ -14,8 +14,7 @@ const can = (array) => {
     return val
 }
 const fecha = (fecha) => {
-    console.log(fecha);
-
+   
    return (fecha.substring(0,4)+'-'+fecha.substring(4,6)+'-'+fecha.substring(6,8))
     var fechaFin    = new Date().getTime();
     var diff = fechaFin - new Date(fecha.substring(0,4)+'-'+fecha.substring(4,6)+'-'+fecha.substring(6,8)).getTime();
@@ -56,6 +55,13 @@ const basicData = {
     ]
 }
 
+let presentes = []
+let noPresentes = []
+for (var f in props.noPresentesDivision) {
+  presentes.push( props.presentesDivision[f])
+  noPresentes.push(props.noPresentesDivision[f])
+}
+
 const dataArea =  {
   
     datasets: [
@@ -70,36 +76,17 @@ const dataArea =  {
         }
     ]
 }
-
-const options= {
-	responsive: true,
-	hoverMode: 'index',
-    plugins: {
-
-    },
-	scales: {
-    y: {
-        stacked: true,
-        ticks: {
-            color: '#495057'
-        },
-        grid: {
-            color: '#ebedef'
-        },
+const series = [
     
-    },
-    x: {
-        stacked: true,
-        ticks: {
-            color: '#495057'
-        },
-        grid: {
-            color: '#ebedef'
-        }
-    },
-    
-	}
-}
+{
+        name: 'No Presentes',
+        data: noPresentes
+    }
+,{
+        name: 'Presentes',
+        data: presentes
+    }
+]
 
 </script>
 <template>
@@ -136,18 +123,17 @@ const options= {
                     <Message severity="warn" :closable="false">Espere hasta que le Asignemos un ROL</Message>
                    </span>
 
-                   <div class=" grid grid-cols-3 mt-10 gap-6" v-if="can(['read activos'])">
+                   <div class=" grid grid-cols-1 md:grid-cols-3 mt-10 gap-6" v-if="can(['read activos'])">
                     <div class="text-center font-bold text-xl space-y-4">
-                        <h1>Parte Por división</h1>
-                        <Chart type="bar" :data="basicData" :names="['Presentes', 'No Presentes']" :options="options"/>
+                        <!-- <h1>Parte Por división</h1>
+                        <Chart type="bar" :data="basicData" :names="['Presentes', 'No Presentes']" :options="options"/> -->
+                      <Barras :stacked="true" :series="series" :categories="props.labesDivision"></Barras>
+                    
                     </div>
                     
+                    
                     <div class="text-center font-bold text-xl space-y-4">
-                        <h1>Parte Por Area de Trabajo</h1>
-                        <Chart type="bar" :data="dataArea" />
-                    </div>
-                    <div class="text-center font-bold text-xl space-y-4">
-                        <div class="overflow-scroll text-center text-sm">
+                        <div class="overflow-auto max-h-96 text-center text-sm">
                             <h1 class="font-bold font-roboto text-xl">Contratos a término fijo a vencer</h1>
                             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-900 mt-2 overflow-y-auto">
                                 <thead class="align-bottom">
