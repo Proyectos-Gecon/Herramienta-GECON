@@ -89,6 +89,7 @@ var filters = ref({
                 </template>
                     <Column field="user.APELLIDOS_NOMBRES" header="Personal"  ></Column>
                     <Column field="user.CARGO" header="Cargo" :sortable="true"></Column>
+                    
                     <Column field="estado" header="Estado"  :sortable="true"></Column>
                     <Column field="proyecto" header="Proyecto"  :sortable="true"></Column>
                     <Column field="truno" header="Turno" :sortable="true"></Column>

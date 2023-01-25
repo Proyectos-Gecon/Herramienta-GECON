@@ -18,18 +18,28 @@ class Parte extends Model
     public function personal(){
         return $this->belongsTo(Personal::class, 'user_id', 'user_id');
     }
+   
 
     public function scopeNopresentes($query){
         $estado = new Estado();
         return $query->whereIn('estado' , $estado->estadosTipo(false));
     }
-    public function scopepresentes($query){
+    public function scopePresentes($query){
         $estado = new Estado();
         return $query->whereIn('estado' , $estado->estadosTipo(true));
     }
 
+    public function grupoEstado(){
+        $estado = new Estado();
+        return $estado->buscarGrupoEstado($this->estado);
+    }
+    
     public function estaPresente(){
         $estado = new Estado();
         return $estado->buscarTipoEstado($this->estado);
+    }
+
+    public function scopeFecha($query, $fecha){
+        return $query->whereDate('fecha', $fecha);
     }
 }

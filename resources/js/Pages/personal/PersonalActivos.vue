@@ -69,7 +69,7 @@ const deleted = (event, id) => {
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
            
                 <DataTable :value="props.users" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['APELLIDOS_NOMBRES','NUM_SAP']" 
+                :globalFilterFields="['user.APELLIDOS_NOMBRES','NUM_SAP']" 
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[10,25,50, 100]"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 showGridlines  :paginator="true" :rows="10">

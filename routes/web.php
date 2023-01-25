@@ -37,6 +37,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('dashboard/personal', [DashboardController::class, 'personal'])->name('personal.dashboard');
+
     Route::get('personal/novedades', [NovedadesController::class, 'index'])->name('novedades.index');
     Route::get('personal/activos', [PersonalController::class, 'personalActivos'])->name('personal.activos');
 

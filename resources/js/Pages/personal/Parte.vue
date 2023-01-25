@@ -29,7 +29,9 @@ const form = useForm({
 });
 
 onMounted(() => {
-    props.proyectos.push('Otro/Admin')
+    
+    props.proyectos.push(['ADMINISTRATIVO', 'APOYO PROD'])
+
     for(let user of props.users){
         form.users.push({
             id: user.user.ID,

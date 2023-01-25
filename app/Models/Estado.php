@@ -75,4 +75,15 @@
             }
             return $estados;
         }
+        public function estadosTipoGrupo(bool $presente): array
+        {
+            $estados = [];
+            foreach ($this->estados as $e){
+                if($e['tipo'] == $presente){
+                    if(!array_search($e['grupo'] , $estados))
+                    $estados[] = $e['grupo'];
+                }
+            }
+            return $estados;
+        }
     }

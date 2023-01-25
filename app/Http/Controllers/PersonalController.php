@@ -75,4 +75,5 @@ class PersonalController extends Controller
     public function upload(Request $request){
        Excel::import(new PersonalImport, $request->file);
     }
+    
 }

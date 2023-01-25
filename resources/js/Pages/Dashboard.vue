@@ -7,7 +7,7 @@ import Message from 'primevue/message';
 import { permisos } from '@/composable/Permisions.js'
 import SplitButton from 'primevue/splitbutton';
 import Barras from '@/charts/Barras.vue'
-
+import CardMedium from '@/Components/customs/CardMedium.vue';
 const can = (array) => {
     
     var {val} = permisos(array)
@@ -34,10 +34,14 @@ const props  = defineProps({
     labesDivision: Array,
     noPresentesDivision: Array,
     presentesDivision: Array,
-    PresentesArea: Array,
-    noPresenteArea: Array,
-    usersContratosPorTerminar: Array
+    usersContratosPorTerminar: Array,
+    totalPresentes: Number,
+    totalNoPresentes: Number,
+    fecha: Date,
+    absentismos: Array,
+    proyectos: Array
 })
+
 const basicData = {
     labels: props.labesDivision,
     datasets: [
@@ -57,27 +61,13 @@ const basicData = {
 
 let presentes = []
 let noPresentes = []
+
 for (var f in props.noPresentesDivision) {
   presentes.push( props.presentesDivision[f])
   noPresentes.push(props.noPresentesDivision[f])
 }
 
-const dataArea =  {
-  
-    datasets: [
-        {
-            label: 'Presentes',
-            data: props.PresentesArea,
-            
-        },
-        {
-            label: 'no Presentes',
-            data: props.noPresenteArea
-        }
-    ]
-}
 const series = [
-    
 {
         name: 'No Presentes',
         data: noPresentes
@@ -99,20 +89,20 @@ const series = [
                             class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
                             >
                             <li>
-                                <span class="text-500 no-underline line-height-3 cursor-pointer"
-                                >Dashboard General</span>
+                                <span class="text-500 no-underline line-height-3"
+                                >Bienvenido - {{ props.fecha }}</span>
                             </li>
                             </ul>
                             <div class="flex align-items-start justify-between">
                             <div>
                                 <div class="font-medium text-3xl text-900">{{$page.props.user.name}}</div>
-                                <!-- <div class="flex align-items-center text-700 flex-wrap">
+                                <div class="flex align-items-center text-700 flex-wrap">
                                 <div class="mr-5 flex align-items-center mt-3">
-                                    <i class="fa fa-ship mr-2"></i>
+                                    <i class="fa fa-ship mr-2"></i> {{ props.proyectos.length }} Proyectos en construcción
                                  
                                 </div>
                           
-                                </div> -->
+                                </div>
                             </div>
                             <div class="mt-3 lg:mt-0 space-x-2">
                                 <SplitButton label="GECON" class="p-button-raised p-button-text p-button-info mb-2" :model="items"></SplitButton>
@@ -122,16 +112,24 @@ const series = [
                    <span v-if="$page.props.user.roles.length == 0">
                     <Message severity="warn" :closable="false">Espere hasta que le Asignemos un ROL</Message>
                    </span>
+                   <div class="flex space-x-2 px-4 py-5 md:px-6 lg:px-8">
+                        
+                    <div class="flex align-items-center">
+                            <i class="fa-solid fa-user-check mr-2"></i>
+                            <span>{{ props.totalPresentes }} Personas Presentes  </span>
+                        </div>
+
+                        <div class="flex align-items-center">
+                            <i class="fa-solid fa-user-xmark mr-2"></i>
+                            <span>{{ props.totalNoPresentes }} Personas NO Presentes  </span>
+                        </div>
+                   </div>
+
 
                    <div class=" grid grid-cols-1 md:grid-cols-3 mt-10 gap-6" v-if="can(['read activos'])">
-                    <div class="text-center font-bold text-xl space-y-4">
-                        <!-- <h1>Parte Por división</h1>
-                        <Chart type="bar" :data="basicData" :names="['Presentes', 'No Presentes']" :options="options"/> -->
-                      <Barras :stacked="true" :series="series" :categories="props.labesDivision"></Barras>
                     
-                    </div>
-                    
-                    
+                    <Barras :stacked="true" :horizontal="false" :series="series" :categories="props.labesDivision"></Barras>
+                                         
                     <div class="text-center font-bold text-xl space-y-4">
                         <div class="overflow-auto max-h-96 text-center text-sm">
                             <h1 class="font-bold font-roboto text-xl">Contratos a término fijo a vencer</h1>

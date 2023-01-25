@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class NovedadesController extends Controller
 {
     public function index(){
-        $personals = Personal::whereNotIn('user_id', Parte::where('fecha', Carbon::now())->pluck('user_id')->toArray())->with('user', 'supervisor', 'division')->get();
+        $personals = Personal::whereNotIn('user_id', Parte::where('fecha', Carbon::now())->pluck('user_id')->toArray())->with('user', 'supervisor', 'division')->orWhere('division_id', null)->get();
 
         return inertia('personal/novedades/Index', ['novedades' => $personals]) ;
     }

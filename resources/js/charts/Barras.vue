@@ -3,7 +3,8 @@
 const props = defineProps({
     stacked: Boolean,
     series: Array,
-    categories: Array
+    categories: Array,
+    horizontal: Boolean
 })
 
 const options= {
@@ -11,6 +12,11 @@ const options= {
           id: 'vuechart-example',
           stacked: props.stacked,
           
+        },
+        plotOptions: {
+            bar: {
+                horizontal: props.horizontal
+            }
         },
         xaxis: {
           categories: props.categories
