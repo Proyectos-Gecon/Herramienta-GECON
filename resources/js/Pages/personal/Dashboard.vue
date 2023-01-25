@@ -21,14 +21,14 @@ const fecha = (fecha) => {
     return diff/(1000*60*60*24);
 }
 const items=  [
-				{
-					label: 'Update',
-					icon: 'pi pi-refresh',
-					command: () => {
-						this.$toast.add({severity:'success', summary:'Updated', detail:'Data Updated', life: 3000});
-					}
-				},
-		]
+        {
+            label: 'Update',
+            icon: 'pi pi-refresh',
+            command: () => {
+                this.$toast.add({severity:'success', summary:'Updated', detail:'Data Updated', life: 3000});
+            }
+        },
+]
 
 const props  = defineProps({
     labesDivision: Array,
@@ -126,7 +126,9 @@ const series = [
                                 <span>{{ props.totalNoPresentes }} Personas NO Presentes  </span>
                             </div>
                         </div>
-                      <Barras :stacked="true" :horizontal="false" :series="series" :categories="props.labesDivision"></Barras>
+                      
+                            <Barras id="division" :stacked="true" :horizontal="false" :series="series" :categories="props.labesDivision"></Barras>
+                    
                       <Barras :stacked="false" :horizontal="true" :series="[{name: 'Personas' , data: AbsentismosCount }]" :categories="AbsentismosLabel"></Barras>
                     
                     <div class="text-center font-bold text-xl space-y-4">

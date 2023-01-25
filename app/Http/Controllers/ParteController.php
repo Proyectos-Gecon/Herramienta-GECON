@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ParteController extends Controller
 {
@@ -25,7 +26,15 @@ class ParteController extends Controller
        
         
         if(auth()->user()->hasAnyRole('ADMIN', 'USER DEPPC')){
-            $parte = Parte::where('fecha', Carbon::now())->with('user')->get();
+           
+            $parte = Parte::where('fecha', Carbon::now())
+            ->leftJoin('personals as p', 'p.user_id', 'partes.user_id')
+            ->leftJoin('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l','l.ID', DB::raw('partes.user_id'))
+            ->leftJoin('divisions as d' , 'd.id', 'p.division_id')
+            ->select('l.APELLIDOS_NOMBRES','l.IDENTIFICACION', 'p.tipo_contrato', 'p.area_trabajo','l.CARGO', 'estado', 'proyecto', 'truno', 'fecha','d.name as division', 'p.costo_hora', 'p.costo_dia', 'p.costo_mes')->get();
+         
+            // $parte = Parte::where('fecha', Carbon::now())->with('user')->select('user.APELLIDOS_NOMBRES')->get();
+            // return $parte;
             $personalSinParte = PersonalCorporativo::where('GERENCIA', 'CONS')->count() - Parte::where('fecha', $date)->count();
         }else{
             $parte = Parte::with('user')->where('fecha', $date)->where(

@@ -57,10 +57,6 @@ var filters = ref({
                     <i class="fa fa-users mr-2"></i>
                     <span>{{ props.parte.length }} Personas Registradas</span>
                   </div>
-                  <!-- <div class="mr-5 flex align-items-center mt-3">
-                                      <i class="pi pi-globe mr-2"></i>
-                                      <span>9402 Sessions</span>
-                                  </div> -->
                   <div class="flex align-items-center mt-3 space-x-1">
                     
                     <i class="fa-solid fa-user-slash"></i>
@@ -78,7 +74,7 @@ var filters = ref({
             </div>
           </div>
                 <DataTable :value="props.parte" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['user.APELLIDOS_NOMBRES','user.IDENTIFICACION']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
+                :globalFilterFields="['APELLIDOS_NOMBRES','IDENTIFICACION','estado']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
                     <template #header>
                     <div class="flex justify-end mx-2">
                         <span class="p-input-icon-left">
@@ -87,11 +83,12 @@ var filters = ref({
                         </span>
                     </div>
                 </template>
-                    <Column field="user.APELLIDOS_NOMBRES" header="Personal"  ></Column>
-                    <Column field="user.CARGO" header="Cargo" :sortable="true"></Column>
+                    <Column field="APELLIDOS_NOMBRES" header="Personal"  ></Column>
+                    <Column field="CARGO" header="Cargo" :sortable="true"></Column>
                     
                     <Column field="estado" header="Estado"  :sortable="true"></Column>
                     <Column field="proyecto" header="Proyecto"  :sortable="true"></Column>
+                    <Column field="division" header="Division"  :sortable="true"></Column>
                     <Column field="truno" header="Turno" :sortable="true"></Column>
                     <Column field="fecha" header="Fecha" :sortable="true"></Column>
                    

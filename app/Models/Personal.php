@@ -12,7 +12,9 @@ class Personal extends Model
     protected $guarded = [];
 
     public function supervisor(){
-        return $this->belongsTo(User::class, 'supervisor_id');
+        return $this->belongsTo(User::class, 'supervisor_id')->withDefault(function ($supervisor, $personal) {
+            $supervisor->name = '-';
+        });
     }
 
     public function user(){

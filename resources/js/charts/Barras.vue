@@ -1,17 +1,26 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
+
 
 const props = defineProps({
     stacked: Boolean,
     series: Array,
     categories: Array,
-    horizontal: Boolean
+    horizontal: Boolean,
+    id: String
 })
+
+const selecData =  (e, chart, opts) => {
+    console.log(chart, opts);
+    console.log(opts.seriesIndex)
+    Inertia.get(route('parte.index'));
+}
 
 const options= {
     chart: {
-          id: 'vuechart-example',
+          id: props.id,
           stacked: props.stacked,
-          
+         
         },
         plotOptions: {
             bar: {
@@ -25,5 +34,7 @@ const options= {
     }
 </script>
 <template>
-      <apexchart  type="bar" :options="options" :series="series"></apexchart>
+    <div :id="id">
+        <apexchart  type="bar" :options="options" :series="series" @dataPointSelection="selecData"></apexchart>
+    </div>
 </template>

@@ -19,17 +19,16 @@ class DashboardController extends Controller
         $estado = new Estado();
         $date = Carbon::now();
         
-        // if ( Carbon::now()->format('G') <  12){
-        //     $date =new Carbon('yesterday'); 
-        // }
-        $labelsAbsentismos = $estado->estadosTipoGrupo(false);
+        if ( Carbon::now()->format('G') <  12){
+            $date =new Carbon('yesterday'); 
+        }
+      
         
         $labels_divisions = Division::orderBy('name')->pluck('abreiacion')->toArray();
         $noPresentesDivision = [];
         $presentesDivision = [];
         $totalPresentes = 0;
         $totalNoPresentes = 0;
-        $tiposAbsentismos = [];
         $areatrabajos = Personal::groupBy('area_trabajo')->pluck('area_trabajo');
         
         $partes = Parte::where('fecha', $date)->get();
@@ -47,11 +46,9 @@ class DashboardController extends Controller
             if($parte->personal->division != null){
                 if(!$parte->estaPresente()){
                     $noPresentesDivision[$parte->personal->division->abreiacion] ++;
-                    
                     $totalNoPresentes ++;
                 }else{
                     $presentesDivision[$parte->personal->division->abreiacion] ++;
-                   
                     $totalPresentes ++;
                 }
             }
