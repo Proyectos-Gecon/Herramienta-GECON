@@ -42,8 +42,6 @@ class DashboardController extends Controller
             $presentesDivision[$name] = 0;
         }
 
-
-            
         foreach($partes as $parte){
             if($parte->personal->division != null){
                 if(!$parte->estaPresente()){
@@ -86,18 +84,21 @@ class DashboardController extends Controller
         $presentesDivision = [];
         $totalPresentes = 0;
         $totalNoPresentes = 0;
-        $tiposAbsentismos = [];
+
         $areatrabajos = Personal::groupBy('area_trabajo')->pluck('area_trabajo');
         
         $partes = Parte::where('fecha', $date)->get();
 
         $absentismos = Parte::fecha($date)->select("estado", DB::raw("count(*) as cantidad"))->nopresentes()->groupBy('estado')->get();
 
-        $proyectos = Parte::fecha($date)->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM('costo_dia') as cantidad"))
+        $proyectos = Parte::fecha($date)
+        ->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM(p.costo_h) as costo"))
         ->leftJoin('personals as p' ,'p.user_id', 'partes.user_id')
         ->presentes()
         ->groupBy('proyecto')->get();
-        return $proyectos;
+
+
+        
         foreach($labels_divisions as $name){
             $noPresentesDivision[$name] = 0;
             $presentesDivision[$name] = 0;
@@ -108,11 +109,9 @@ class DashboardController extends Controller
             if($parte->personal->division != null){
                 if(!$parte->estaPresente()){
                     $noPresentesDivision[$parte->personal->division->abreiacion] ++;
-                    
                     $totalNoPresentes ++;
                 }else{
                     $presentesDivision[$parte->personal->division->abreiacion] ++;
-                   
                     $totalPresentes ++;
                 }
             }
@@ -131,6 +130,7 @@ class DashboardController extends Controller
             'totalNoPresentes' => $totalNoPresentes , 
             'fecha' => $date->format('l,  d/m/Y'),
             'absentismos' => $absentismos,
+            'proyectos' => $proyectos
         ]); 
     }
 }

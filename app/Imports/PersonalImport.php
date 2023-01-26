@@ -32,9 +32,9 @@ class PersonalImport implements ToCollection, WithHeadingRow
             'tipo_contrato' => $row['tipo_de_contrato'],
             'objeto_contrato' => $row['obejto_del_contrato'],
             'area_trabajo' => $row['area_de_trabajo'],
-            'costo_hora' => $row['costo_hora'],
-            'costo_dia' => $row['costo_dia'],
-            'costo_mes' => $row['costo_mes'],  
+            'costo_h' => $row['costo_hora'],
+            'costo_d' => $row['costo_dia'],
+            'costo_m' => $row['costo_mes'],  
             ]);
             }
             

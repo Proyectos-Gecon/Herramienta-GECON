@@ -26,7 +26,7 @@ class ParteController extends Controller
        
         if(auth()->user()->hasAnyRole('ADMIN', 'USER DEPPC')){
            
-            $parte = Parte::where('fecha', Carbon::now())->where('estado', $request->estado)
+            $parte = Parte::where('fecha', Carbon::now())->where('estado', 'LIKE','%'.$request->estado.'%')
             ->leftJoin('personals as p', 'p.user_id', 'partes.user_id')
             ->leftJoin('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l','l.ID', DB::raw('partes.user_id'))
             ->leftJoin('divisions as d' , 'd.id', 'p.division_id')

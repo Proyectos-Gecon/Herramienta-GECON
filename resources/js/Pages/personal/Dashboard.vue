@@ -63,6 +63,7 @@ let presentes = []
 let noPresentes = []
 let AbsentismosLabel = []
 let AbsentismosCount = []
+
 for (var f in props.noPresentesDivision) {
   presentes.push( props.presentesDivision[f])
   noPresentes.push(props.noPresentesDivision[f])
@@ -72,8 +73,6 @@ for(var abs of props.absentismos){
     AbsentismosLabel.push(abs.estado)
     AbsentismosCount.push(abs.cantidad)
 }
-
-
 
 const series = [
 {
@@ -110,9 +109,7 @@ const series = [
                             </div>
                             </div>
                         </div>
-                   <span v-if="$page.props.user.roles.length == 0">
-                    <Message severity="warn" :closable="false">Espere hasta que le Asignemos un ROL</Message>
-                   </span>
+                 
                  
                    <div class=" grid grid-cols-1 md:grid-cols-3 gap-6" v-if="can(['read activos'])">
                         <div class="flex space-x-2 px-4 py-5 md:px-6 lg:px-8 col-span-3">
@@ -129,7 +126,7 @@ const series = [
                       
                             <Barras id="division" :stacked="true" :horizontal="false" :series="series" :categories="props.labesDivision"></Barras>
                     
-                      <Barras :stacked="false" :horizontal="true" :series="[{name: 'Personas' , data: AbsentismosCount }]" :categories="AbsentismosLabel"></Barras>
+                            <Barras :stacked="false" :horizontal="true" :series="[{name: 'Personas' , data: AbsentismosCount }]" :categories="AbsentismosLabel"></Barras>
                     
                     <div class="text-center font-bold text-xl space-y-4">
                         <div class="overflow-auto max-h-96 text-center text-sm">

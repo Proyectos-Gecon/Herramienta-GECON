@@ -30,7 +30,9 @@ const form = useForm({
 
 onMounted(() => {
     
-    props.proyectos.push(['ADMINISTRATIVO', 'APOYO PROD'])
+    props.proyectos.push('APOYO PROD')
+    props.proyectos.push('ADMINISTRATIVO')
+
 
     for(let user of props.users){
         form.users.push({
