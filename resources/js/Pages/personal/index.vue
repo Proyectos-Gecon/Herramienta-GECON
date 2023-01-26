@@ -18,7 +18,8 @@ const { exporting } = exportExcel(props.parte, "Parte de Personal");
 
 const props = defineProps({
   parte: Array(),
-  personalSinParte: Number
+  personalSinParte: Number,
+  
 })
 
 var filters = ref({

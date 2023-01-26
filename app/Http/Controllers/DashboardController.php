@@ -29,6 +29,7 @@ class DashboardController extends Controller
         $presentesDivision = [];
         $totalPresentes = 0;
         $totalNoPresentes = 0;
+
         $areatrabajos = Personal::groupBy('area_trabajo')->pluck('area_trabajo');
         
         $partes = Parte::where('fecha', $date)->get();
@@ -39,8 +40,9 @@ class DashboardController extends Controller
         foreach($labels_divisions as $name){
             $noPresentesDivision[$name] = 0;
             $presentesDivision[$name] = 0;
-            
         }
+
+
             
         foreach($partes as $parte){
             if($parte->personal->division != null){
@@ -91,8 +93,11 @@ class DashboardController extends Controller
 
         $absentismos = Parte::fecha($date)->select("estado", DB::raw("count(*) as cantidad"))->nopresentes()->groupBy('estado')->get();
 
-        $proyectos = Parte::fecha($date)->select("proyecto", DB::raw("count(*) as cantidad"))->presentes()->groupBy('proyecto')->get();
-     
+        $proyectos = Parte::fecha($date)->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM('costo_dia') as cantidad"))
+        ->leftJoin('personals as p' ,'p.user_id', 'partes.user_id')
+        ->presentes()
+        ->groupBy('proyecto')->get();
+        return $proyectos;
         foreach($labels_divisions as $name){
             $noPresentesDivision[$name] = 0;
             $presentesDivision[$name] = 0;
