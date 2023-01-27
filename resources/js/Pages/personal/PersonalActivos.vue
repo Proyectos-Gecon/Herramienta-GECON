@@ -21,12 +21,16 @@ const form = useForm({
   contratista: "",
 });
 
+const formatCurrency = (value) => {
+    return new Intl.NumberFormat().format(value)
+}
+
 var displayModal =  ref(false);
 
 
 var filters = ref({
     'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
-    'user.APELLIDOS_NOMBRES': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
+    APELLIDOS_NOMBRES: {value: null, matchMode: FilterMatchMode.STARTS_WITH},
     'country.name': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
     'representative': {value: null, matchMode: FilterMatchMode.IN},
     'status': {value: null, matchMode: FilterMatchMode.EQUALS},
@@ -69,7 +73,7 @@ const deleted = (event, id) => {
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
            
                 <DataTable :value="props.users" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['user.APELLIDOS_NOMBRES','NUM_SAP']" 
+                :globalFilterFields="['APELLIDOS_NOMBRES','NUM_SAP']" 
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[10,25,50, 100]"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 showGridlines  :paginator="true" :rows="10">
@@ -87,10 +91,23 @@ const deleted = (event, id) => {
                       </div>
                     </div>
                 </template>
-                    <Column field="user.NUM_SAP" header="# SAP"  ></Column>
-                    <Column field="user.IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
-                    <Column field="user.APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
-                    <Column field="division.name" header="Division/DPTO"  :sortable="true"></Column>
+                    <Column field="NUM_SAP" header="# SAP"  ></Column>
+                    <Column field="IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
+                    <Column field="APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
+                    <Column field="CARGO" header="Cargo"  :sortable="true"></Column>
+                    <Column field="tipo_contrato" header="Tipo Contrato"  :sortable="true"></Column>
+                    <Column field="inicio_contrato" header="Inicio Contrato"  :sortable="true"></Column>
+                    <Column field="fin_contrato" header="Fin Contrato"  :sortable="true"></Column>
+                    <Column field="salario" header="Salario" data-type="number" :sortable="true">
+                      <template #body="{data}">
+                        $ {{formatCurrency(data.salario)}}
+                      </template>
+                    </Column>
+                    <Column field="salario" header="Costo Mes" data-type="number" :sortable="true">
+                      <template #body="{data}">
+                        $ {{formatCurrency(data.salario * 1.6)}}
+                      </template>
+                    </Column>
                     <Column
                     field="ID"
                     header="Acciones"

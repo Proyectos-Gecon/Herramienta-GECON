@@ -101,6 +101,7 @@ const deleted = (event, id) => {
                     <Column field="user.IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
                     <Column field="user.APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
                     <Column field="tipo_contrato" header="Tipo de Contrato"></Column>
+                    <Column field="parte.estado" header="Estado Parte"></Column>
                     <Column field="user.EMAIL_CORP" header="Email" :sortable="true"></Column>
                     <Column field="user.CARGO" header="Cargo" :sortable="true"></Column>
                    

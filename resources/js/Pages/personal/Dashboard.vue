@@ -99,7 +99,7 @@ const series = [
                         </div>
                  
                  
-                        <div class=" grid grid-cols-1 md:grid-cols-3 gap-6" v-if="can(['read activos'])">
+                    <div class=" grid grid-cols-1 md:grid-cols-3 gap-6 mx-4" v-if="can(['read activos'])">
                             <div class="flex space-x-2 px-4 py-5 md:px-6 lg:px-8 col-span-3">
                                 <div class="flex align-items-center border p-1">
                                     <i class="fa-solid fa-users mr-2 "></i>
@@ -116,10 +116,10 @@ const series = [
                             </div>
                             <div class="grid grid-cols-2 md:grid-cols-2 max-h-80 px-4 pt-1 md:px-2 overflow-y-auto lg:px-2 gap-2 col-span-1">
                                 <div class="p-1  hover:scale-105 duration-500 "  v-for="proyecto in props.proyectos" :key="proyecto.proyecto">
-                                    <div class=" flex items-center  justify-between p-2  rounded-lg bg-white shadow-indigo-50 shadow-md">
+                                    <div class="flex items-center  justify-between p-2 border-2 border-indigo-300 rounded-lg bg-white shadow-blue-100 shadow-md">
                                     <div>
                                         <h2 class="text-gray-900 text-md font-bold">{{ proyecto.proyecto }}</h2>
-                                        <h3 class="mt-2 text-sm font-bold text-blue-300 text-left">
+                                        <h3 class="mt-2 text-sm font-bold text-blue-500 text-left">
                                            {{   new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(proyecto.costo) }}
                                            </h3>
                                        

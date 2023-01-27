@@ -87,7 +87,7 @@ var filters = ref({
             </div>
           </div>
                 <DataTable :value="props.parte" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['APELLIDOS_NOMBRES','IDENTIFICACION','estado']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
+                :globalFilterFields="['APELLIDOS_NOMBRES','IDENTIFICACION','estado', 'proyecto']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
                     <template #header>
                     <div class="flex justify-end mx-2">
                         <span class="p-input-icon-left">

@@ -36,8 +36,6 @@ class ParteController extends Controller
             ->leftJoin('divisions as d' , 'd.id', 'p.division_id')
             ->select('l.APELLIDOS_NOMBRES','l.IDENTIFICACION', 'p.tipo_contrato', 'p.area_trabajo','l.CARGO', 'estado', 'proyecto', 'truno', 'fecha','d.name as division', 'p.costo_hora', 'p.costo_dia', 'p.costo_mes')->get();
          
-            // $parte = Parte::where('fecha', Carbon::now())->with('user')->select('user.APELLIDOS_NOMBRES')->get();
-            // return $parte;
             $personalSinParte = PersonalCorporativo::where('GERENCIA', 'CONS')->count() - Parte::where('fecha', $date)->count();
         }else{
             $parte = Parte::with('user')->where('fecha', $date)->where(

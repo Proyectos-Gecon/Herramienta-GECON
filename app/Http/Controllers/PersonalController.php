@@ -15,13 +15,24 @@ class PersonalController extends Controller
 {
     public function index(){
 
-        $users = Personal::with('user')->where('supervisor_id' , auth()->user()->id)->get();
-
+        $users = Personal::with('user', 'parte')->where('supervisor_id' , auth()->user()->id)->get();
+        
+        if(auth()->user()->hasAnyRole('JEFE DE DEPARTAMENTO')){
+            $users = Personal::with('user', 'parte')->where('division_id' , auth()->user()->division_id)->get();
+        }
+        
         return inertia('personal/ListPersonal', ['users' => $users]);
     }
 
     public function personalActivos(){
-        $personal = Personal::with('user', 'division')->get();
+        $personal =  PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')
+        ->select('NUM_SAP', 'APELLIDOS_NOMBRES',  'IDENTIFICACION', 'S.BET01 as salario', 'CARGO' , 'B.PTEXT as tipo_contrato', 'F.CTEDT as fin_contrato', 'F.EINDT as inicio_contrato')
+        ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
+        ->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
+        ->leftJoin('SALARIO_VIew AS S', 'S.PERNR', 'NUM_SAP')
+        ->orderBy('APELLIDOS_NOMBRES')->get()
+        ;
+        
         return inertia('personal/PersonalActivos', ['users' => $personal]);
     }
     /**
@@ -74,6 +85,13 @@ class PersonalController extends Controller
 
     public function upload(Request $request){
        Excel::import(new PersonalImport, $request->file);
+    }
+
+    public function update(Request $request, Personal $personal){
+        $personal->update([
+            'division_id' => $request->division_id
+        ]);
+        return back();
     }
     
 }

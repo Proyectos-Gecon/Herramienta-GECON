@@ -73,7 +73,11 @@ class DashboardController extends Controller
     public function personal(Request $request){
         $estado = new Estado();
         $date = Carbon::now();
-        
+        $noPresentesDivision = [];
+        $presentesDivision = [];
+        $totalPresentes = 0;
+        $totalNoPresentes = 0;
+
         if ( Carbon::now()->format('G') <  12){
             $date =new Carbon('yesterday'); 
         }
@@ -84,14 +88,14 @@ class DashboardController extends Controller
        
         $labels_divisions = Division::whereNotNull('abreiacion')->orderBy('name')->pluck('abreiacion')->toArray();
             
-        $noPresentesDivision = [];
-        $presentesDivision = [];
-        $totalPresentes = 0;
-        $totalNoPresentes = 0;
-        
         $partes = Parte::where('fecha', $date)->get();
 
         $absentismos = Parte::fecha($date)->select("estado", DB::raw("count(*) as cantidad"))->nopresentes()->groupBy('estado')->get();
+
+        $divisiones = Parte::fecha($date)
+        ->select('d.name as division')
+        ->leftJoin('divisions as d' , 'd.id', 'partes.division_id')
+        ->groupBy('d.name');
 
         $proyectos = Parte::fecha($date)
         ->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM(p.costo_d) as costo"))
@@ -99,8 +103,6 @@ class DashboardController extends Controller
         ->presentes()
         ->groupBy('proyecto')->get();
 
-
-        
         foreach($labels_divisions as $name){
             $noPresentesDivision[$name] = 0;
             $presentesDivision[$name] = 0;
@@ -117,10 +119,12 @@ class DashboardController extends Controller
                 }
             }
         }
+
+
       
         $usersContratosPorTerminar = PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
-        ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
-        ->where('F.CTEDT','LIKE' ,'%'.date("m").'__')->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(10)->format('Ymd'))->get();
+            ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
+            ->where('F.CTEDT','LIKE' ,'%'.date("m").'__')->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(10)->format('Ymd'))->get();
        
         return Inertia::render('personal/Dashboard', [
             'noPresentesDivision' => $noPresentesDivision, 
