@@ -23,10 +23,14 @@ class ParteController extends Controller
     public function index(Request $request)
     {
         $date = Carbon::now();
+
+        if($request->fecha != null){
+            $date = Carbon::parse($request->fecha);
+        }
        
         if(auth()->user()->hasAnyRole('ADMIN', 'USER DEPPC')){
            
-            $parte = Parte::where('fecha', Carbon::now())->where('estado', 'LIKE','%'.$request->estado.'%')
+            $parte = Parte::where('fecha', $date)->where('estado', 'LIKE','%'.$request->estado.'%')
             ->leftJoin('personals as p', 'p.user_id', 'partes.user_id')
             ->leftJoin('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l','l.ID', DB::raw('partes.user_id'))
             ->leftJoin('divisions as d' , 'd.id', 'p.division_id')
@@ -41,7 +45,7 @@ class ParteController extends Controller
             $personalSinParte = Personal::where('supervisor_id', auth()->user()->id)->count() - count($parte);
        }
        //$parte = PersonalCorporativo::where('GERENCIA', 'CONS')->whereNotIn('id', Parte::pluck('user_id')->toArray())->get();
-       return inertia('personal/index', ['parte' => $parte, 'personalSinParte' => $personalSinParte]);
+       return inertia('personal/index', ['parte' => $parte, 'personalSinParte' => $personalSinParte, 'fecha' => $date->format('d/m/Y'),]);
     }
 
     /**
@@ -54,11 +58,13 @@ class ParteController extends Controller
         $users = Personal::with('user')->with('parte')->where(
             'supervisor_id', auth()->user()->id
         )->get();
-        
+        $parte = Parte::with('user')->where('fecha', Carbon::now())->where(
+            'planillador_id', auth()->user()->id)->count();
+
         $proyectos = Proyecto::construccion()->pluck('name');
         $estados = new Estado();
         
-        return inertia('personal/Parte', ['users' => $users, 'proyectos' => $proyectos, 'estados' => $estados->getEstados()]);
+        return inertia('personal/Parte', ['users' => $users, 'proyectos' => $proyectos, 'estados' => $estados->getEstados(), 'parte' => $parte]);
     }
 
     /**

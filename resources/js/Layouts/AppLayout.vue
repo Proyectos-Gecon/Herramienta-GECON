@@ -134,7 +134,7 @@ import { permisos } from '@/composable/Permisions.js'
 
 					},
 					{
-						label:'Tablero',
+						label:'Parte Actual',
 						command: () => {
 							Inertia.get(route('parte.index'))
 						}

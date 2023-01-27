@@ -12,6 +12,9 @@ import ConfirmPopup from "primevue/confirmpopup";
 import { useConfirm } from "primevue/useconfirm";
 import Chip from 'primevue/chip';
 import { exportExcel } from "@/composable/ExportData";
+import Calendar from 'primevue/calendar';
+import { Inertia } from '@inertiajs/inertia';
+
 
 
 const { exporting } = exportExcel(props.parte, "Parte de Personal");
@@ -19,8 +22,16 @@ const { exporting } = exportExcel(props.parte, "Parte de Personal");
 const props = defineProps({
   parte: Array(),
   personalSinParte: Number,
-  
+  fecha: Date,
 })
+
+const fechaDashboard = ref(props.fecha)
+const selectFecha = () => {
+    Inertia.get(route('parte.index', {
+        fecha: fechaDashboard._value
+    }))
+}
+
 
 var filters = ref({
     'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
@@ -67,10 +78,11 @@ var filters = ref({
                   </div>
                 </div>
               </div>
-              <div class="mt-3 lg:mt-0 space-x-2">
+              <div class="mt-3 lg:mt-0 space-x-2 flex">
                 <div>
                     <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-file-excel" @click="exporting" /> 
                 </div>
+                <Calendar inputId="icon" :maxDate="new Date()" v-model="fechaDashboard" dateFormat="mm/dd/yy" :showIcon="true" v-on:date-select="selectFecha" placeholder="Seleccione una fecha"/>
               </div>
             </div>
           </div>

@@ -21,6 +21,7 @@ import MultiSelect from 'primevue/multiselect';
 const props = defineProps({
   users: Array(),
   proyectos: Array,
+  parte: Number,
   estados: Array,
 })
 const form = useForm({
@@ -94,16 +95,18 @@ const submit = () => {
     <div class="py-4">
             <div class="max-w-full mx-2 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
-                <div class="flex align-items-center flex-column sm:flex-row mx-4">
-                    <div class="flex justify-between mx-2">
-                      <div class="text-center flex">
-                        <Link type="button" :href="route('personal.create')" class="btn mx-4">
+            
+                    <div class="flex justify-between mx-2 w-full">
+                        <div>
+                            <Link type="button" :href="route('personal.create')" class="btn mx-4">
                             <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-user-plus"  />
-                        </Link> 
-                        <span class="mt-2 text-2xl">Parte Personal</span>
-                      </div>
+                            </Link> 
+                            <span class="mt-2 text-2xl">Parte Personal</span>
+                        </div>
+                        <div>
+                            <span class="mt-8 text-sm mx-12 border border-green-400 p-2 rounded-full">{{ parte }} de {{ users.length }}</span>
+                        </div>
                     </div>
-                </div>
                 <form @focusout="validate" @submit.prevent="submit" class="my-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 p-2 gap-3 mt-4">
                     <Card v-for="(user, index) in form.users" :key="index" >

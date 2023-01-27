@@ -74,25 +74,27 @@ class DashboardController extends Controller
         $estado = new Estado();
         $date = Carbon::now();
         
-        // if ( Carbon::now()->format('G') <  12){
-        //     $date =new Carbon('yesterday'); 
-        // }
-        $labelsAbsentismos = $estado->estadosTipoGrupo(false);
-        
-        $labels_divisions = Division::orderBy('name')->pluck('abreiacion')->toArray();
+        if ( Carbon::now()->format('G') <  12){
+            $date =new Carbon('yesterday'); 
+        }
+
+        if($request->fecha != null){
+            $date = Carbon::parse($request->fecha['_value']);
+        }
+       
+        $labels_divisions = Division::whereNotNull('abreiacion')->orderBy('name')->pluck('abreiacion')->toArray();
+            
         $noPresentesDivision = [];
         $presentesDivision = [];
         $totalPresentes = 0;
         $totalNoPresentes = 0;
-
-        $areatrabajos = Personal::groupBy('area_trabajo')->pluck('area_trabajo');
         
         $partes = Parte::where('fecha', $date)->get();
 
         $absentismos = Parte::fecha($date)->select("estado", DB::raw("count(*) as cantidad"))->nopresentes()->groupBy('estado')->get();
 
         $proyectos = Parte::fecha($date)
-        ->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM(p.costo_h) as costo"))
+        ->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM(p.costo_d) as costo"))
         ->leftJoin('personals as p' ,'p.user_id', 'partes.user_id')
         ->presentes()
         ->groupBy('proyecto')->get();
@@ -102,11 +104,10 @@ class DashboardController extends Controller
         foreach($labels_divisions as $name){
             $noPresentesDivision[$name] = 0;
             $presentesDivision[$name] = 0;
-            
         }
             
         foreach($partes as $parte){
-            if($parte->personal->division != null){
+            if($parte->personal->division != null && $parte->personal->division->abreiacion != null){
                 if(!$parte->estaPresente()){
                     $noPresentesDivision[$parte->personal->division->abreiacion] ++;
                     $totalNoPresentes ++;
@@ -128,7 +129,7 @@ class DashboardController extends Controller
             'usersContratosPorTerminar' => $usersContratosPorTerminar, 
             'totalPresentes' => $totalPresentes, 
             'totalNoPresentes' => $totalNoPresentes , 
-            'fecha' => $date->format('l,  d/m/Y'),
+            'fecha' => $date->format('d/m/Y'),
             'absentismos' => $absentismos,
             'proyectos' => $proyectos
         ]); 
