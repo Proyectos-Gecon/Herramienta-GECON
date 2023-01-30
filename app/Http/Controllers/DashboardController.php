@@ -95,7 +95,6 @@ class DashboardController extends Controller
         $divisiones = Personal::select('d.name as division', DB::raw("SUM(costo_m) as costo_mes"), DB::raw("SUM(costo_d) as costo_dia"))
         ->leftJoin('divisions as d' , 'd.id', 'personals.division_id')
         ->groupBy('d.name')->get();
-        return $divisiones;
         
         $proyectos = Parte::fecha($date)
         ->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM(p.costo_d) as costo"))

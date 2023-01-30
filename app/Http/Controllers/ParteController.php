@@ -56,6 +56,7 @@ class ParteController extends Controller
         $users = Personal::with('user')->with('parte')->where(
             'supervisor_id', auth()->user()->id
         )->get();
+            
         $parte = Parte::with('user')->where('fecha', Carbon::now())->where(
             'planillador_id', auth()->user()->id)->count();
 
