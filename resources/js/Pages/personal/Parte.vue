@@ -36,6 +36,7 @@ onMounted(() => {
 
 
     for(let user of props.users){
+        if(user.user !== null)
         form.users.push({
             id: user.user.ID,
             name: user.user.APELLIDOS_NOMBRES,
@@ -104,7 +105,7 @@ const submit = () => {
                             <span class="mt-2 text-2xl">Parte Personal</span>
                         </div>
                         <div>
-                            <span class="mt-8 text-sm mx-12 border border-green-400 p-2 rounded-full">{{ parte }} de {{ users.length }}</span>
+                            <span class="mt-8 text-sm mx-12 border border-green-400 p-2 rounded-full">{{ parte }} de {{ form.users.length }}</span>
                         </div>
                     </div>
                 <form @focusout="validate" @submit.prevent="submit" class="my-8">
