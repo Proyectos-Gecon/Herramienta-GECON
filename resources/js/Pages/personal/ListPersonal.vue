@@ -97,13 +97,13 @@ const deleted = (event, id) => {
                       </div>
                     </div>
                 </template>
-                    <Column field="user.NUM_SAP" header="# SAP"  ></Column>
-                    <Column field="user.IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
-                    <Column field="user.APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
+                    <Column field="NUM_SAP" header="# SAP"  ></Column>
+                    <Column field="IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
+                    <Column field="APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
                     <Column field="tipo_contrato" header="Tipo de Contrato"></Column>
                     <Column field="parte.estado" header="Estado Parte"></Column>
-                    <Column field="user.EMAIL_CORP" header="Email" :sortable="true"></Column>
-                    <Column field="user.CARGO" header="Cargo" :sortable="true"></Column>
+                    <Column field="EMAIL_CORP" header="Email" :sortable="true"></Column>
+                    <Column field="CARGO" header="Cargo" :sortable="true"></Column>
                    
                     <Column
                     field="ID"

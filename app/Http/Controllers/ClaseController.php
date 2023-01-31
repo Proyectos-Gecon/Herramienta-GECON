@@ -123,6 +123,7 @@ class ClaseController extends Controller
             'bollard_pull' => 'nullable|numeric',
             'clasificacion' => 'nullable',
         ]);
+        
         DB::table('clases')
             ->where('id', $clase->id)
             ->update($validateData);

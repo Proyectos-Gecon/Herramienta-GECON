@@ -99,7 +99,26 @@ class ContratoController extends Controller
      */
     public function update(Request $request, Contrato $contrato)
     {
-        //
+        $validateData = $request->validate([
+            'contrato_id' => 'required|unique:contratos,contrato_id,'.$contrato->id,
+            'objeto' => 'nullable',
+            'cliente_id' => 'nullable|numeric',
+            'supervisor' => 'nullable',
+            'gerente' => 'nullable',
+            'tipo_venta' => 'nullable',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_fin' => 'nullable|date',
+            'moneda:' => 'nullable',
+            'precio_venta' => 'nullable|numeric',
+            'estado' => 'nullable',
+        ]);
+        
+        if(!$request->has('prevalidate')){
+            $validateData['años_ejecucion'] = $this->obtenerAnhos($request->fecha_inicio, $request->fecha_fin);
+            $contrato->update($validateData);
+        }
+
+        return redirect()->back();
     }
 
     /**

@@ -41,7 +41,7 @@
         construido:  props.clase != null ? props.clase.construido :null,
         imagen: props.clase != null ? props.clase.imagen : null,
     });
-
+    console.log(props.clase)
     var displayModal =  ref(false);
     
     // const { validate } = usePreValidate(form, {
