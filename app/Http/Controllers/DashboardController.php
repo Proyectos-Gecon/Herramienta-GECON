@@ -20,6 +20,10 @@ class DashboardController extends Controller
         $date = Carbon::now();
         
         if ( Carbon::now()->format('G') <  12){
+            if(Carbon::now()->format('w') == 1){
+
+                $date =Carbon::now()->subDays(2); 
+            }
             $date =new Carbon('yesterday'); 
         }
       
@@ -56,7 +60,8 @@ class DashboardController extends Controller
       
         $usersContratosPorTerminar = PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
         ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
-        ->where('F.CTEDT','LIKE' ,'%'.date("m").'__')->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(10)->format('Ymd'))->get();
+        ->where('F.CTEDT' , '<>', 0)
+        ->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(20)->format('Ymd'))->get();
        
         return Inertia::render('Dashboard', [
             'labesDivision' => $labels_divisions,
@@ -77,8 +82,12 @@ class DashboardController extends Controller
         $presentesDivision = [];
         $totalPresentes = 0;
         $totalNoPresentes = 0;
-
+        
         if ( Carbon::now()->format('G') <  12){
+            if(Carbon::now()->format('w') == 1){
+
+                $date =Carbon::now()->subDays(2); 
+            }
             $date =new Carbon('yesterday'); 
         }
 
@@ -122,8 +131,9 @@ class DashboardController extends Controller
 
       
         $usersContratosPorTerminar = PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
-            ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
-            ->where('F.CTEDT','LIKE' ,'%'.date("m").'__')->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(10)->format('Ymd'))->get();
+        ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
+        ->where('F.CTEDT' , '<>', 0)
+        ->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(20)->format('Ymd'))->get();
        
         return Inertia::render('personal/Dashboard', [
             'noPresentesDivision' => $noPresentesDivision, 

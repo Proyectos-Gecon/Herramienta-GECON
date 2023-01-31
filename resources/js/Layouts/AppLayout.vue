@@ -96,9 +96,23 @@ import { permisos } from '@/composable/Permisions.js'
 				label:'Presupuetos',
 				icon:'pi pi-dollar',
 				visible: can(['read division']),
-				command:	()=> {
-					Inertia.get(route('divisiones.index'))
-				}
+				items: [
+					{
+						label:'Dashboard',
+						visible: can(['read activos']),
+						command: () => {
+							Inertia.get(route('personal.dashboard'))
+						}
+					},
+					{
+						label:'Presupuestos vs Ejecutado',
+						visible: can(['read activos']),
+						command: () => {
+							Inertia.get(route('presupuestos.index'))
+						}
+					},
+
+				]
 				
 			},
 			{

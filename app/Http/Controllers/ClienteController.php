@@ -39,7 +39,13 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'nombre_cliente' => 'required',
+            'tipo_cliente' => 'nullable',
+            'pais' => 'nullable'
+        ]);
+        Cliente::create($validateData);
+        return back();
     }
 
     /**
@@ -73,7 +79,12 @@ class ClienteController extends Controller
      */
     public function update(Request $request, Cliente $cliente)
     {
-        //
+        $validateData = $request->validate([
+            'nombre_cliente' => 'required',
+            'tipo_cliente' => 'nullable',
+            'pais' => 'nullable'
+        ]);
+        $cliente->update($validateData);
     }
 
     /**
