@@ -17,8 +17,8 @@ const props = defineProps({
   clientes: Array(),
 });
 const form = useForm({
-  _method: "DELETE",
-  nombre_ciente: "",
+  _method: "POST",
+  nombre_cliente: "",
   tipo_cliente: '',
   pais: ''
 });
@@ -51,7 +51,7 @@ const onRowEditSave = (event) => {
 }
 
 const submit = () => {
-  form.post(route('cliente.store'), {
+  form.post(route('clientes.store'), {
     onSuccess: () => {
           this.display = ref(false);
         }
@@ -149,7 +149,7 @@ const { exporting } = exportExcel(props.clientes, "Clientes");
             <div class="mx-auto p-fluid border-0  mt-2">
                 <span class="text-md font-semibold">Nombre del Cliente</span>
                 <InputText
-                v-model="form.nombre_ciente"
+                v-model="form.nombre_cliente"
                     placeholder="Escriba el nombre del Cliente"
                 />
             </div> 

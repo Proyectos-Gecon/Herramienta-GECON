@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asignacion;
 use App\Models\CategoriaSAP;
-use App\Models\Cliente;
-use GuzzleHttp\Client;
+use App\Models\PersonalCorporativo;
 use Illuminate\Http\Request;
 
-class ClienteController extends Controller
+class AsignacionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,14 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        
-        $clientes = Cliente::orderBy('nombre_cliente')->get();
-        return inertia('proyectos/clientes/index', ['clientes' => $clientes]);
+        $prestamos = CategoriaSAP::
+        leftJoin('equipos' ,'equipos.id' ,'prestamos.equipo_id')
+        ->leftJoin('users', 'users.id', 'prestamos.persona_id')
+        ->join('proyectos', 'proyectos.id', 'prestamos.proyecto_id')
+        ->first();
+
+        $persona = PersonalCorporativo::where('IDENTIFICACION', $prestamos->identificacion)->get();
+        return $prestamos;
     }
 
     /**
@@ -39,23 +44,16 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-       
-        $validateData = $request->validate([
-            'nombre_cliente' => 'required',
-            'tipo_cliente' => 'required',
-            'pais' => 'required'
-        ]);
-        Cliente::create($validateData);
-        return back();
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Cliente  $cliente
+     * @param  \App\Models\Asignacion  $asignacion
      * @return \Illuminate\Http\Response
      */
-    public function show(Cliente $cliente)
+    public function show(Asignacion $asignacion)
     {
         //
     }
@@ -63,10 +61,10 @@ class ClienteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Cliente  $cliente
+     * @param  \App\Models\Asignacion  $asignacion
      * @return \Illuminate\Http\Response
      */
-    public function edit(Cliente $cliente)
+    public function edit(Asignacion $asignacion)
     {
         //
     }
@@ -75,26 +73,21 @@ class ClienteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cliente  $cliente
+     * @param  \App\Models\Asignacion  $asignacion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(Request $request, Asignacion $asignacion)
     {
-        $validateData = $request->validate([
-            'nombre_cliente' => 'required',
-            'tipo_cliente' => 'nullable',
-            'pais' => 'nullable'
-        ]);
-        $cliente->update($validateData);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Cliente  $cliente
+     * @param  \App\Models\Asignacion  $asignacion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cliente $cliente)
+    public function destroy(Asignacion $asignacion)
     {
         //
     }
