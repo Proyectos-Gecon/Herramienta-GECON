@@ -22,6 +22,7 @@ class PersonalController extends Controller
         if(auth()->user()->hasAnyRole('JEFE DE DEPARTAMENTO')){
             $users = Personal::
             Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'user_id')
+            ->leftJoin('CORPORATIVA_INTERFACE.dbo.SALARIO_VIew AS S', 'S.PERNR', 'l.NUM_SAP')
             ->with('parte')->where('division_id' , auth()->user()->division_id)->get();
         }
         

@@ -11,6 +11,13 @@ import { Link, useForm } from '@inertiajs/inertia-vue3';
 import ConfirmPopup from "primevue/confirmpopup";
 import { useConfirm } from "primevue/useconfirm";
 import Chip from 'primevue/chip';
+import { permisos } from '@/composable/Permisions.js'
+
+	const can = (array) => {
+		
+		var {val} = permisos(array)
+		return val
+	}
 
 const props = defineProps({
   users: Array(),
@@ -19,6 +26,11 @@ const form = useForm({
   _method: "DELETE",
   contratista: "",
 });
+
+const formatCurrency = (value) => {
+    return new Intl.NumberFormat().format(Number(value).toFixed(0) )
+}
+
 
 var counts = props.users.reduce((p, c) => {
   var name = c.tipo_contrato;
@@ -102,9 +114,11 @@ const deleted = (event, id) => {
                     <Column field="APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
                     <Column field="tipo_contrato" header="Tipo de Contrato"></Column>
                     <Column field="parte.estado" header="Estado Parte"></Column>
-                    <Column field="EMAIL_CORP" header="Email" :sortable="true"></Column>
                     <Column field="CARGO" header="Cargo" :sortable="true"></Column>
-                   
+                    <Column field="BET01" header="Costo Hora" :sortable="true" v-if="can(['read personal details'])">
+                      <template #body="{data}">
+                        $ {{formatCurrency((data.BET01/240)*1.60 )}}
+                      </template></Column>
                     <Column
                     field="ID"
                     header="Acciones"

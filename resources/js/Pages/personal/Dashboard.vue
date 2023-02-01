@@ -99,7 +99,7 @@ const series = [
                         </div>
                  
                  
-                    <div class=" grid grid-cols-1 md:grid-cols-3 gap-6 mx-4" v-if="can(['read activos'])">
+                    <div class=" grid grid-cols-1 md:grid-cols-3 gap-6 mx-4">
                             <div class="flex space-x-2 px-4 py-5 md:px-6 lg:px-8 col-span-3">
                                 <div class="flex align-items-center border p-1">
                                     <i class="fa-solid fa-users mr-2 "></i>

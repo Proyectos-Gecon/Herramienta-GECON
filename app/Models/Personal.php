@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,5 +29,14 @@ class Personal extends Model
     public function parte(){
         return $this->hasOne(Parte::class , 'user_id', 'user_id')->latestOfMany();
         //return $this->hasMany(Parte::class , 'user_id', 'user_id');
+    }
+
+    
+    protected function costoH(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => number_format($value, 0,",","."),
+            set: fn ($value) => strtoupper(trim($value)),
+        );
     }
 }
