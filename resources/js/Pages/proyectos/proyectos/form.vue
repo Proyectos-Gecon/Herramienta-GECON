@@ -15,7 +15,7 @@
     import Dialog from 'primevue/dialog';
     import FileUpload from 'primevue/fileupload';
     import InputMask from 'primevue/inputmask';
-    import BackButton from "@/Components/customs/BackButton.vue";
+    import Header from "@/Components/customs/Header.vue";
 
     var form = useForm({
         casco: props.proyecto != null ? props.proyecto.casco:null,
@@ -78,14 +78,10 @@
         <div class="py-6">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8 ">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
-                    <div class="flex justify-between mx-auto p-4 space-x-2">
-                        
-                        <BackButton />
-                        <span class="text-2xl text-blue-400 mt-1 font-bold capitalize mx-2">{{ props.proyecto == null ? 'crear':(props.doubling ? 'Duplicar':'editar') }} Proyecto</span>
-                        
+                  
+                    <Header :title="props.proyecto == null ? 'Crear  Proyecto':(props.doubling ? 'Duplicar  Proyecto':'Editar  Proyecto') ">
                         <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar"/>
-                      
-                    </div> 
+                    </Header>
                     <form @focusout="validate" @submit.prevent="submit" class="pb-4">
                         <div class="grid md:grid-cols-3 grid-cols-1 my-2 gap-6 px-6">
 

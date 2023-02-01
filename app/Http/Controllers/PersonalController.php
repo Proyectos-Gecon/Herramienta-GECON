@@ -15,7 +15,9 @@ class PersonalController extends Controller
 {
     public function index(){
 
-        $users = Personal::with('user', 'parte')->where('supervisor_id' , auth()->user()->id)->get();
+        $users = Personal::
+        Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'user_id')
+        ->with('parte')->where('supervisor_id' , auth()->user()->id)->get();
         
         if(auth()->user()->hasAnyRole('JEFE DE DEPARTAMENTO')){
             $users = Personal::

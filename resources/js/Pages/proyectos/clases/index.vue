@@ -26,7 +26,7 @@ const form = useForm({
 var filters = ref({
   eslora: {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]},
   type:{operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]},
-  material_casco: {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]},
+  "material_casco": { value: null, matchMode: FilterMatchMode.CONTAINS },
   name: {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]},
 });
 
@@ -48,7 +48,7 @@ const labels = [
     {
         header: 'Material del Casco',
         field: 'material_casco',
-       
+        typeFilter: 'text'
     },
     {
         header: 'Eslora',

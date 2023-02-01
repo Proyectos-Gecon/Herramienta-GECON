@@ -58,7 +58,7 @@ var filters = ref({
                         <span class="mt-2 text-2xl">Equipos</span>
                         <div class="space-x-4">
                             <Link type="button" :href="route('equipos.create')" class="btn mx-4">
-                            <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-user-plus"  />
+                            <Button class="p-button-raised p-button-info p-button-text" icon="pi pi pi-plus"  />
                         </Link> 
                         </div>
                     </div>

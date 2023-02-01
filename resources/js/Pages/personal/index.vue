@@ -104,37 +104,6 @@ var filters = ref({
                     <Column field="division" header="Division"  :sortable="true"></Column>
                     <Column field="truno" header="Turno" :sortable="true"></Column>
                     <Column field="fecha" header="Fecha" :sortable="true"></Column>
-                   
-                    <Column
-                    field="ID"
-                    header="Acciones"
-                    headerStyle="width: 4rem; text-align: center"
-                    bodyStyle="text-align: center; overflow: visible"
-                    >
-                <template #body="{ data }" style="min-width: 8rem">
-                  <div
-                    class="
-                      flex flex-column
-                      md:flex-row md:justiify-content-between
-                    "
-                  >
-                    
-                      <Button
-                      
-                        icon="pi pi-user-edit"
-                        class="p-button-rounded p-button-info p-button-text text-4xl"
-                      />
-                    
-                    <ConfirmPopup></ConfirmPopup>
-                    <Button
-                      style="font-size: 4rem"
-                      @click="deleted($event, data.ID)"
-                      icon="pi pi-user-minus"
-                      class="p-button-rounded p-button-danger p-button-text"
-                    ></Button>
-                  </div>
-                </template>
-              </Column>
                 </DataTable>
                     
             </div>

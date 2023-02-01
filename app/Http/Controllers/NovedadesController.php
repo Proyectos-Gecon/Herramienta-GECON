@@ -15,7 +15,7 @@ class NovedadesController extends Controller
     public function index(){
         $personals = Personal::
         Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'user_id')
-        ->whereNotIn('user_id', Parte::where('fecha', Carbon::now())->pluck('user_id')->toArray())->with('user', 'supervisor', 'division')->orWhere('division_id', null)->get();
+        ->whereNotIn('user_id', Parte::where('fecha', Carbon::now())->pluck('user_id')->toArray())->with('supervisor', 'division')->orWhere('division_id', null)->get();
         
         $divisiones = Division::orderBy('name')->get();
 

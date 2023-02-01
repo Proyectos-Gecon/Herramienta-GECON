@@ -12,7 +12,7 @@ class Clase extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['imagen',  'construido', 'created_at', 'updated_at'];
+    protected $hidden = ['imagen', 'construido', 'created_at', 'updated_at'];
 
     protected  $appends = [ 'proyectos_count' ];
 

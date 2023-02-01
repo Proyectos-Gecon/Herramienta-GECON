@@ -122,7 +122,7 @@ import { permisos } from '@/composable/Permisions.js'
 				items:[
 					{
 						label:'Dashboard',
-						visible: can(['read activos']),
+						visible: can(['read personal']),
 						command: () => {
 							Inertia.get(route('personal.dashboard'))
 						}
@@ -204,6 +204,9 @@ import { permisos } from '@/composable/Permisions.js'
 						label:'Asignaciones',
 						icon:'pi pi-fw pi-user-plus',
 						visible: can(['read prestamos']),
+						command:	()=> {
+							Inertia.get(route('asignaciones.index'))
+						}
 					},
 				]
 			},

@@ -9,12 +9,13 @@
     import Dropdown from 'primevue/dropdown';
     import InputNumber from 'primevue/inputnumber';
     import Calendar from 'primevue/calendar';
+    import Header from "@/Components/customs/Header.vue";
     import { Inertia } from '@inertiajs/inertia';
     import { usePreValidate } from "@/composable/UsePrevalidate";
     import NumberInput from '@/Components/customs/NumberInput.vue';
     import Dialog from 'primevue/dialog';
     import FileUpload from 'primevue/fileupload';
-    import BackButton from "@/Components/customs/BackButton.vue";
+    
 
     var form = useForm({
         name:  props.clase != null ? props.clase.name :null,
@@ -85,18 +86,12 @@
         <div class="py-6">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8 ">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
-                    <div class="flex justify-between mx-auto p-4 space-x-2">
-                        <div>
-                        <BackButton></BackButton>
-                        <span class="text-2xl text-blue-400 mt-1 font-bold ">Crear Clase</span>
-                        </div>
-                        <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar"/>
-                      
-                    </div> 
+                <Header :title="props.clase != null ? 'Editar Clase':'Crear Clase'">
+                    <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar"/>
+                </Header>
                     <form @focusout="validate" @submit.prevent="submit" class="pb-4">
                         <div class="grid md:grid-cols-3 grid-cols-1 my-2 gap-6 px-6">
                             <TextInput label="Nombre" v-model="form.name" :error="form.errors.name"  sugerencia="Escriba el nombre de la clase"></TextInput>
-
                             <TextInput label="Tipo de buque" v-model="form.type" :error="form.errors.type"  sugerencia="Escriba el tipo de buque"></TextInput>
 
                             <TextInput label="Empresa Diseñadora" v-model="form.empresa_diseñadora" sugerencia="Escriba el nombre de la empresa diseñadora"></TextInput>    

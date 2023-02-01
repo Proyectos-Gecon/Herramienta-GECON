@@ -36,8 +36,6 @@ const props = defineProps({
 
   const filtros = ref(props.filters)
 
-  
-
   const deleted = (event, id) => {
     confirm.require({
     target: event.currentTarget,
@@ -77,7 +75,7 @@ const props = defineProps({
         filterDisplay="menu"
         dataKey="id"
         stateStorage="local" 
-        :stateKey=props.keyState
+        :stateKey="props.keyState"
         v-model:filters="filtros"
         :globalFilterFields="globalFilters"
         showGridlines
@@ -85,7 +83,7 @@ const props = defineProps({
         :rows="10"
         :rowsPerPageOptions="[10, 25, 50, 100]"
         >
-        <template #header>
+            <template #header>
               <div class="flex justify-end">
                 <div class="flex space-x-2">
                     <Button
@@ -116,7 +114,6 @@ const props = defineProps({
                             ></Button>
                         </div>
                     </template>
-
             </Column>
         </DataTable>
     </div>

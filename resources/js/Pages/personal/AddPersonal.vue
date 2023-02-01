@@ -4,7 +4,7 @@
     import MultiSelect from 'primevue/multiselect';
     import { Link, useForm } from "@inertiajs/inertia-vue3";
     import Calendar from 'primevue/calendar';
-    import BackButton from "@/Components/customs/BackButton.vue";
+    import Header from '@/Components/customs/Header.vue';
     const props = defineProps({
         users: {
             type: Object,
@@ -31,10 +31,9 @@
         <div class="py-6">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8 ">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
-                    <div class="flex justify-start mx-auto p-4 space-x-2">
-                        <BackButton />
-                        <span class="text-2xl text-blue-400 mt-1 font-bold ">Agregar personas a mi Equipo</span>
-                    </div> 
+                    <Header title="Agregar Personal a mi Equipo">
+
+                    </Header>
                     <form @focusout="validate" @submit.prevent="submit" class="my-8">
                         <div class="grid grid-cols-2 my-4 gap-6 px-6">
                             <div class="p-fluid border-0 p-input-filled">
