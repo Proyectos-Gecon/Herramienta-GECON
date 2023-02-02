@@ -30,6 +30,11 @@ const form = useForm({
 const formatCurrency = (value) => {
     return new Intl.NumberFormat().format(Number(value).toFixed(0) )
 }
+const intialSalarioValue = 0;
+const costoTotal = props.users.reduce(
+  (accumulator, user) => accumulator + (user.BET01/240)*1.60,
+  intialSalarioValue
+);
 
 
 var counts = props.users.reduce((p, c) => {
@@ -55,6 +60,8 @@ var filters = ref({
 });
 
 const confirm = useConfirm();
+
+
 
 const closeModal = () => {
         displayModal = false;
@@ -108,7 +115,12 @@ const deleted = (event, id) => {
                         </span>
                       </div>
                     </div>
-                </template>
+                    </template>
+                    <template #footer>
+                      <div class="text-xl">
+                        Costo Hora total $ {{ formatCurrency(costoTotal) }}
+                      </div>
+                    </template>
                     <Column field="NUM_SAP" header="# SAP"  ></Column>
                     <Column field="IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
                     <Column field="APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>

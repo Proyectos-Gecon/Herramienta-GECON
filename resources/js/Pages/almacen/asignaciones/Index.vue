@@ -11,12 +11,29 @@ import { Link, useForm } from '@inertiajs/inertia-vue3';
 import ConfirmPopup from "primevue/confirmpopup";
 import { useConfirm } from "primevue/useconfirm";
 import { exportExcel } from "@/composable/ExportData";
-import Chip from 'primevue/chip';
+import Dropdown from 'primevue/dropdown';
 //Variables
 const props = defineProps({
   asignaciones: Array(),
 })
 
+const form = useForm({
+  observaciones: '',
+  estado: null,
+  equipo: null
+})
+
+
+const submit = () => {
+ 
+    form.post(route('asignaciones.descargar', form.equipo),{
+        onSuccess: () => {
+            alert('Enviado')
+        }
+    })
+      
+   
+}
 
 var filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -26,6 +43,8 @@ var filters = ref({
   "equipo.codigo_interno": { value: null, matchMode: FilterMatchMode.CONTAINS },
 
 });
+
+var display = ref(false)
 
 </script>
 
@@ -62,19 +81,12 @@ var filters = ref({
             <div class="flex align-items-start justify-between">
               <div>
                 <div class="font-medium text-3xl text-900">Asignaciones</div>
-                <div class="flex align-items-center text-700 flex-wrap">
-                  <div class="mr-5 flex align-items-center mt-3">
-                    <i class="fa fa-ship mr-2"></i>
-                    <span>0 Equipos Asignados</span>
-                  </div>
-                 
-                  
-                </div>
+               
               </div>
               <div class="mt-3 lg:mt-0 space-x-2">
                 <Link
                   type="button"
-                  :href="route('proyectos.create')"
+                  :href="route('asignaciones.create')"
                   class="btn"
                  
                 >
@@ -165,6 +177,9 @@ var filters = ref({
                         <div class="space-x-2">
                         
                           <Button
+                            v-on:click="display = true;
+                            form.equipo = data.id;
+                            "
                             icon="pi pi-download"
                             class="p-button-rounded p-button-help p-button-text"
                           />
@@ -173,12 +188,35 @@ var filters = ref({
                             ></Button>
                         </div>
                     </template>
-            </Column>
+                    </Column>
                    </DataTable>
                 </div>
             </div>
         </div>
-        
+        <Dialog header="Recibir Equipo" v-model:visible="display" position="top" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+          <form @submit.prevent="submit">
+            <div class="mx-auto p-fluid border-0  mt-2">
+                <span class="text-md font-semibold">Observación Devolución</span>
+                <InputText
+                v-model="form.observaciones"
+                    placeholder="Escriba una Observacion"
+                />
+            </div>
+            <div class="p-fluid p-input-filled border-0 space-y-2 mt-2">
+                <span>Estado del Equipo</span>
+                <Dropdown v-model="form.estado" :options="['OPERATIVO', 'OPERATIVO CON LIMITACIONES','FUERA DE SERVICIO', 'BAJA']" placeholder="Seleccione o escriba el material del casco" />
+            </div> 
+             <div class="px-[2%] text-end mt-8">
+                    <Button
+                    label="Descargar"
+                    type="submit"
+                    icon="pi pi-download"
+                    iconPos="left"
+                    />
+                </div>
+        </form>
+        </Dialog>
+
  </AppLayout>
 
 </template>

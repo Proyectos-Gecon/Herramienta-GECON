@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Division;
 use App\Models\Parte;
 use App\Models\Estado;
 use App\Models\Personal;
@@ -42,7 +43,7 @@ class ParteController extends Controller
             $personalSinParte = Personal::where('supervisor_id', auth()->user()->id)->count() - count($parte);
        }
        //$parte = PersonalCorporativo::where('GERENCIA', 'CONS')->whereNotIn('id', Parte::pluck('user_id')->toArray())->get();
-       return inertia('personal/index', ['parte' => $parte, 'personalSinParte' => $personalSinParte, 'fecha' => $date->format('d/m/Y'),]);
+       return inertia('personal/index', ['parte' => $parte, 'personalSinParte' => $personalSinParte, 'fecha' => $date->format('d/m/Y'), 'divisiones' => Division::get()]);
     }
 
     /**

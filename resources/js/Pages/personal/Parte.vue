@@ -132,7 +132,7 @@ const submit = () => {
                                     }}</small>
                                 </div>
                                 <div class="p-fluid w-full border-2 rounded-md" :class="user.fecha == new Date().toLocaleDateString('en-CA') ? 'border-green-400':''">
-                                <Dropdown v-model="user.estado" :filterFields="['estado']" :filter="true" class="multiselect-custom"        :options="props.estados" optionLabel="estado" optionValue="estado" placeholder="Seleccionar Estados" display="chip" :class="form.errors[`users.${index}.estado`] != null ? 'p-invalid':''">
+                                <Dropdown v-model="user.estado" :filterFields="['estado']" :filter="true" class="multiselect-custom"  :options="props.estados" optionLabel="estado" optionValue="estado" placeholder="Seleccionar Estados" display="chip" :class="form.errors[`users.${index}.estado`] != null ? 'p-invalid':''">
                                 </Dropdown> 
                                 <small id="username2-help" class="p-error">{{
                                         form.errors[`users.${index}.estado`]

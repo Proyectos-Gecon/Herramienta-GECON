@@ -108,7 +108,7 @@ class DashboardController extends Controller
         $proyectos = Parte::fecha($date)
         ->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM(p.costo_d) as costo"))
         ->leftJoin('personals as p' ,'p.user_id', 'partes.user_id')
-        ->presentes()
+        ->where('estado', '<>', 'VACAC')
         ->groupBy('proyecto')->get();
 
         foreach($labels_divisions as $name){

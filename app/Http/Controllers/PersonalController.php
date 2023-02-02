@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imports\PersonalImport;
+use App\Models\Division;
 use App\Models\Personal;
 use App\Models\PersonalCorporativo;
 use App\Models\User;
@@ -31,14 +32,14 @@ class PersonalController extends Controller
 
     public function personalActivos(){
         $personal =  PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')
-        ->select('NUM_SAP', 'APELLIDOS_NOMBRES',  'IDENTIFICACION', 'S.BET01 as salario', 'CARGO' , 'B.PTEXT as tipo_contrato', 'F.CTEDT as fin_contrato', 'F.EINDT as inicio_contrato')
+        ->select('NUM_SAP', 'APELLIDOS_NOMBRES',  'IDENTIFICACION', 'S.BET01 as salario', 'CARGO' , 'B.PTEXT as tipo_contrato', 'F.CTEDT as fin_contrato', 'F.EINDT as inicio_contrato', 'ID')
         ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
         ->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
         ->leftJoin('SALARIO_VIew AS S', 'S.PERNR', 'NUM_SAP')
         ->orderBy('APELLIDOS_NOMBRES')->get()
         ;
-        
-        return inertia('personal/PersonalActivos', ['users' => $personal]);
+        $divisiones = Division::get();
+        return inertia('personal/PersonalActivos', ['users' => $personal, 'divisiones' => $divisiones]);
     }
     /**
      * Show the form for creating a new resource.

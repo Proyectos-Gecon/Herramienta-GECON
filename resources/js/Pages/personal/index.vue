@@ -13,6 +13,7 @@ import { useConfirm } from "primevue/useconfirm";
 import Chip from 'primevue/chip';
 import { exportExcel } from "@/composable/ExportData";
 import Calendar from 'primevue/calendar';
+import Dropdown from 'primevue/dropdown';
 import { Inertia } from '@inertiajs/inertia';
 
 
@@ -23,6 +24,7 @@ const props = defineProps({
   parte: Array(),
   personalSinParte: Number,
   fecha: Date,
+  divisiones: Array
 })
 
 const fechaDashboard = ref(props.fecha)
@@ -34,7 +36,8 @@ const selectFecha = () => {
 
 
 var filters = ref({
-    'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
+    global: {value: null, matchMode: FilterMatchMode.CONTAINS},
+    division: {value: null, matchMode: FilterMatchMode.EQUALS}
 });
 
 </script>
@@ -87,7 +90,7 @@ var filters = ref({
             </div>
           </div>
                 <DataTable :value="props.parte" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['APELLIDOS_NOMBRES','IDENTIFICACION','estado', 'proyecto' , 'area_trabajo']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
+                :globalFilterFields="['APELLIDOS_NOMBRES','IDENTIFICACION','estado', 'proyecto' , 'area_trabajo', 'division']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
                     <template #header>
                     <div class="flex justify-end mx-2">
                         <span class="p-input-icon-left">
@@ -101,7 +104,14 @@ var filters = ref({
                     <Column field="area_trabajo" header="Area Trabajo" :sortable="true"></Column>
                     <Column field="estado" header="Estado"  :sortable="true"></Column>
                     <Column field="proyecto" header="Proyecto"  :sortable="true"></Column>
-                    <Column field="division" header="Division"  :sortable="true"></Column>
+
+                    <Column field="division" header="Division"  :sortable="true" :showFilterMatchModes="false">
+                      <template #filter="{filterModel}" >
+                        <Dropdown v-model="filterModel.value" :options="props.divisiones" optionValue="name" optionLabel="name" placeholder="Select a City" />
+                    
+                      </template>
+                    </Column>
+
                     <Column field="truno" header="Turno" :sortable="true"></Column>
                     <Column field="fecha" header="Fecha" :sortable="true"></Column>
                 </DataTable>

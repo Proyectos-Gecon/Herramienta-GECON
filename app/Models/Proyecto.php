@@ -37,7 +37,7 @@ class Proyecto extends Model
 
     public function scopeConstruccion($query)
     {
-        return $query->where('estado_proyecto', 'CONSTRUCCIÓN');
+        return $query->where('estado_proyecto','<>' ,'SERVICIO POSTVENTA');
     }
  
     

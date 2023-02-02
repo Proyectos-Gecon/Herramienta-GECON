@@ -12,7 +12,7 @@
     import TextInput from '@/Components/customs/TextInput.vue';
     import NumberInput from '@/Components/customs/NumberInput.vue';
     import { usePreValidate } from "@/composable/UsePrevalidate";
-
+    import Header from "@/Components/customs/Header.vue";
 
     
     var form = useForm({
@@ -77,12 +77,9 @@
         <div class="py-6">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8 ">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
-                    <div class="flex justify-start mx-auto p-4 space-x-2">
-                        <Link type="button" :href="route('equipos.index')">
-                            <Button icon="pi pi-chevron-left" class=" p-button-info  p-button-sm" />
-                        </Link>
-                        <span class="text-2xl text-blue-400 mt-1 font-bold ">Crear Equipos</span>
-                    </div> 
+                    <Header :title="props.equipo != null ? 'Editar Equipos':'Crear Equipos'">
+                    
+                    </Header>
                     <form @focusout="validate" @submit.prevent="submit" class="pb-4">
                         <div class="grid md:grid-cols-2 grid-cols-1 my-2 gap-6 px-6">
                         <div class="p-fluid p-input-filled border-0 space-y-2">

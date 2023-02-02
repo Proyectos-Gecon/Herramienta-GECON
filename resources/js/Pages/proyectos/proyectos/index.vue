@@ -108,7 +108,7 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
             shadow-xl
             sm:rounded-lg
             max-w-full
-            py-4
+            p-4
           "
         >
           <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
@@ -180,7 +180,6 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
               'estado',
               'codigo_SAP'
             ]"
-            showGridlines
             :paginator="true"
             :rows="25"
             :rowsPerPageOptions="[25, 50, 100]"

@@ -86,8 +86,8 @@ const { exporting } = exportExcel(props.clases, "Clases");
                         </div>
                     </div>
                 </template>
-                    <Column field="user.NUM_SAP" header="# ID"  sortable></Column>
-                    <Column field="user.APELLIDOS_NOMBRES" header="Nombre"  sortable></Column>
+                    <Column field="NUM_SAP" header="# ID"  sortable></Column>
+                    <Column field="APELLIDOS_NOMBRES" header="Nombre"  sortable></Column>
                     <Column field="supervisor.name" header="Encargado Parte"  sortable></Column>
                     <Column field="division.name" header="División"  sortable></Column>
                     <Column field="id" header="Actions"  sortable v-if="$page.props.user.permisos.includes('read activos')">
@@ -117,7 +117,7 @@ const { exporting } = exportExcel(props.clases, "Clases");
         </div>
 
         <Dialog
-      header="Agregar Permiso"
+      header="Agregar División"
       v-model:visible="display"
       position="top"
       :breakpoints="{ '960px': '75vw', '640px': '90vw' }"

@@ -15,8 +15,8 @@ defineEmits(['update:modelValue']);
 </script>
 
 <template>
-    <div class="p-fluid p-input-filled border-0 space-y-2">
-        <span>{{ label }}</span>
+    <div class="p-fluid p-input-filled border-0">
+        <span class="text-lg font-semibold">{{ label }}</span>
         <InputText :value="modelValue" :placeholder="sugerencia" :class="error != null ? 'p-invalid':''" @input="$emit('update:modelValue', $event.target.value)"></InputText>
         <small id="username2-help" class="p-error">{{
            error

@@ -12,17 +12,17 @@ import ConfirmPopup from "primevue/confirmpopup";
 import { useConfirm } from "primevue/useconfirm";
 import Chip from 'primevue/chip';
 import FileUpload from 'primevue/fileupload';
+import Dropdown from 'primevue/dropdown';
+
 
 const props = defineProps({
   users: Array(),
+  divisiones: Array
 })
-const form = useForm({
-  _method: "DELETE",
-  contratista: "",
-});
+
 
 const formatCurrency = (value) => {
-    return new Intl.NumberFormat().format(value)
+    return new Intl.NumberFormat().format(Number(value).toFixed(1))
 }
 
 var displayModal =  ref(false);
@@ -37,32 +37,23 @@ var filters = ref({
     'verified': {value: null, matchMode: FilterMatchMode.EQUALS}
 });
 
-const confirm = useConfirm();
+const form = useForm({
+  _method: "DELETE",
+  division_id: '',
+  user: '',
+});
 
-const closeModal = () => {
-        displayModal = false;
+const submit = () => {
+    form.put(route('personal.update', form.user),{
+        onSuccess: () => {
+          console.log('enviado')
+        }
+    })
 }
 
-const deleted = (event, id) => {
-  confirm.require({
-    target: event.currentTarget,
-    message: "¿Quitar de tu lista?",
-    icon: "pi pi-info-circle",
-    acceptClass: "p-button-danger",
-    accept: () => {
-      form.delete(route("personal.destroy", id), {
-        onSuccess: () => {
-        //   toast.add({
-        //     severity: "info",
-        //     summary: "Contratistas",
-        //     detail: "Contratista Eliminado Exitosamente",
-        //     life: 3000,
-        //   });
-        },
-      });
-    },
-  });
-};
+
+
+
 </script>
 
 <template>
@@ -74,9 +65,7 @@ const deleted = (event, id) => {
            
                 <DataTable :value="props.users" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
                 :globalFilterFields="['APELLIDOS_NOMBRES','NUM_SAP','CARGO']" 
-                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[10,25,50, 100]"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                showGridlines  :paginator="true" :rows="10">
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[10,25,50, 100]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" showGridlines  :paginator="true" :rows="10">
                     <template #header>
                     <div class="flex justify-between mx-2">
                       <div class="text-center flex">
@@ -90,7 +79,7 @@ const deleted = (event, id) => {
                         </span>
                       </div>
                     </div>
-                </template>
+                    </template>
                     <Column field="NUM_SAP" header="# SAP"  ></Column>
                     <Column field="IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
                     <Column field="APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
@@ -108,6 +97,11 @@ const deleted = (event, id) => {
                         $ {{formatCurrency(data.salario * 1.6)}}
                       </template>
                     </Column>
+                    <Column field="salario" header="Costo Hora" data-type="number" :sortable="true">
+                      <template #body="{data}">
+                        $ {{formatCurrency((data.salario/240) * 1.6)}}
+                      </template>
+                    </Column>
                     <Column
                     field="ID"
                     header="Acciones"
@@ -122,17 +116,12 @@ const deleted = (event, id) => {
                     "
                   >
                       <Button
+                      @click="
+                        form.user = data.ID;
+                        displayModal = true"
                         icon="pi pi-user-edit"
                         class="p-button-rounded p-button-info p-button-text text-4xl"
                       />
-                    
-                    <ConfirmPopup></ConfirmPopup>
-                    <Button
-                      style="font-size: 4rem"
-                      @click="deleted($event, data.ID)"
-                      icon="pi pi-user-minus"
-                      class="p-button-rounded p-button-danger p-button-text"
-                    ></Button>
                   </div>
                 </template>
               </Column>
@@ -141,23 +130,28 @@ const deleted = (event, id) => {
                 </div>
             </div>
         </div>
-        <Dialog header="Carga Masiva" position="topleft" v-model:visible="displayModal" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+        <Dialog
+            header="Agregar División"
+            v-model:visible="displayModal"
+            position="top"
+            :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+            :style="{ width: '50vw' }"
+          >
             <form @submit.prevent="submit">
-                <FileUpload name="file" :url="route('personal.upload')" @upload="onAdvancedUpload($event)" :multiple="false" accept=".xml,.xlsx,.csv" :maxFileSize="1000000">
-                <template #content>
-                    <ul v-if="uploadedFiles && uploadedFiles[0]">
-                        <li v-for="file of uploadedFiles[0]" :key="file">{{ file.name }} - {{ file.size }} bytes</li>
-                    </ul>
-                </template>
-                <template #empty>
-                    <p>Drag and drop files to here to upload.</p>
-                </template>
-            </FileUpload>
-
+              <div class="mx-auto p-fluid border-0 mt-2 space-y-2">
+                  <span class="text-md font-semibold">Division o Departamento</span>
+                  <Dropdown v-model="form.division_id" :options="props.divisiones" optionValue="id" :filter="true" optionLabel="name" placeholder="Seleccionar Division O Departamento" />
+              </div>
+              <div class="px-[2%] text-end mt-8">
+                <Button
+                  label="Crear"
+                  type="submit"
+                  icon="pi pi-save"
+                  iconPos="left"
+                />
+              </div>
             </form>
-            
         </Dialog>
-        
  </AppLayout>
 
 </template>
