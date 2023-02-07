@@ -48,7 +48,7 @@ class PersonalController extends Controller
      */
     public function create(){
 
-        $users = PersonalCorporativo::where('GERENCIA', 'CONS')->get();
+        $users = PersonalCorporativo::where('GERENCIA', 'BGDE')->get();
 
         return inertia('personal/AddPersonal', ['users' => $users]);
     }

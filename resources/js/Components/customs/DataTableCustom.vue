@@ -74,13 +74,13 @@ const props = defineProps({
             }"
         filterDisplay="menu"
         dataKey="id"
-        stateStorage="local" 
+        stateStorage="session" 
         :stateKey="props.keyState"
         v-model:filters="filtros"
         :globalFilterFields="globalFilters"
         showGridlines
         :paginator="true"
-        :rows="10"
+        :rows="25"
         :rowsPerPageOptions="[10, 25, 50, 100]"
         >
             <template #header>

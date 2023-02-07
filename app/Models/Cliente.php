@@ -11,4 +11,14 @@ class Cliente extends Model
 
     protected $guarded = [];
 
+    protected  $appends = [ 'proyectos_count' ];
+   
+    
+    public function getProyectosCountAttribute()
+    {
+        return Proyecto::whereHas('contrato', function ($q){
+            $q->where('cliente_id', $this->id);
+        })->count();
+    }
+
 }

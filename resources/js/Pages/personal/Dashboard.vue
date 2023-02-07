@@ -97,8 +97,6 @@ const series = [
                             </div>
                             </div>
                         </div>
-                 
-                 
                     <div class=" grid grid-cols-1 md:grid-cols-3 gap-6 mx-4">
                             <div class="flex space-x-2 px-4 py-5 md:px-6 lg:px-8 col-span-3">
                                 <div class="flex align-items-center border p-1">

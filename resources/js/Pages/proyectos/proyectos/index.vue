@@ -171,6 +171,8 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
             paginatorTemplate="CurrentPageReport PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
             filterDisplay="menu"
             dataKey="id"
+            stateStorage="session" 
+            stateKey="data-key-proyectos"
             v-model:filters="filters"
             :globalFilterFields="[
               'casco',

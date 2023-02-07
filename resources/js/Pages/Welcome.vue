@@ -179,7 +179,7 @@ const submit = () => {
       </nav>
     </header>
 
-    <div class="bg-white relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
+    <div class="relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
       <div class="relative xl:container m-auto px-6 md:px-12 lg:px-4 mb-2">
         <h1
           class="
@@ -229,7 +229,7 @@ const submit = () => {
             </p>
             <span class="block font-semibold text-gray-500 dark:text-gray-400">Ponemos todo nuestro empeño en tus necesidades.</span>
           </div>
-          <div class="mt-4 md:-mt-64 lg:absolute -right-20 lg:w-7/12">
+          <div class="mt-4 md:-mt-64 lg:absolute -right-20 lg:w-6/12">
             <div class="relative w-full">
               <div
                 aria-hidden="true"
@@ -241,7 +241,7 @@ const submit = () => {
                   m-auto
                   w-full
                   h-full
-                  md:w-96 md:h-96
+                  md:w-96 md:h-5
                   rounded-full
                   rotate-45
                   bg-gradient-to-r
@@ -251,25 +251,25 @@ const submit = () => {
                 "
               ></div>
               <img
-                src="https://tailus.io/sources/blocks/tech-startup/preview/images/globalization-cuate.svg"
-                class="relative w-full"
+                src="images/principal.gif"
+                class="relative w-10/12 rounded-2xl z-10"
                 alt="wath illustration"
                 loading="lazy"
-                width="320"
-                height="230"
+                width="200"
+                height="200"
               />
             </div>
           </div>
         </div>
       </div>
 
-      <div class="bg-white dark:bg-gray-900 m-auto px-6 md:px-12 lg:px-4 mt-0 md:mt-56">
-              <div class="container px-6 py-10 mx-auto">
+      <div class="bg-blue-100 rounded-2xl dark:bg-gray-900 z-20 px-6 md:px-12 lg:px-4 -mt-48 md:mt-36">
+              <div class="container p-2 mx-auto">
                   <div class="lg:flex lg:items-center">
-                    <div class="hidden lg:flex lg:items-center lg:w-1/2 lg:justify-center mt-4">
-                          <img class="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-full" src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=755&q=80" alt="">
+                    <div class="hidden lg:flex lg:items-center lg:w-1/2 lg:justify-center">
+                          <img class="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-full" src="images/funcionalidades.gif" alt="">
                       </div>
-                      <div class="w-full space-y-12 lg:w-1/2 mt-44">
+                      <div class="w-full space-y-12 lg:w-1/2 mt-20">
                           <div>
                               <h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">Explora todas <br> Nuestras Funciones</h1>
                           
@@ -320,7 +320,7 @@ const submit = () => {
                               <div class="mt-4 md:mx-4 md:mt-0">
                                   <h1 class="text-2xl font-semibold text-gray-700 capitalize dark:text-white">Proyectos de Construcción</h1>
                                   <p class="mt-3 text-gray-500 dark:text-gray-300">
-                                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ab nulla quod dignissimos vel non corrupti doloribus voluptatum eveniet
+                                      Gestion de proyectos de construcción, reportes, control de avance, indicadores control de avance y muchas funcionalidades mas.
                                   </p>
                               </div>
                           </div>

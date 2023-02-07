@@ -25,22 +25,19 @@ class AsignacionController extends Controller
         // Asignacion::truncate();
         // $prestamos = CategoriaSAP::
         // select('equipos.codigo_interno as equipo' ,'l.ID as user_id',  'prestamos.proyecto_id as proyecto', 'prestamos.observacion as observacion', 'prestamos.fecha_prestamo as fecha', 'prestamos.estado as estado' , 'prestamos.fecha_devolucion as fecha_devolucion', 'la.ID as almacenista')
-
         // ->leftJoin('users', 'users.id', 'prestamos.persona_id')
         // ->leftJoin('users as almacenista' , 'almacenista.id' , 'prestamos.almacenista_entrega')
         // ->leftJoin('equipos' ,'equipos.id' ,'prestamos.equipo_id')
-
         // ->Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_TODOS_View as l' ,'l.IDENTIFICACION', DB::raw('users.identificacion collate Latvian_BIN'))
-
         // ->Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_TODOS_View as la' ,'la.IDENTIFICACION', DB::raw('almacenista.identificacion collate Latvian_BIN'))
-        
-
         // ->join('proyectos', 'proyectos.id', 'prestamos.proyecto_id')
         // ->get();
+
+        
         // foreach ($prestamos as $key => $value) {
-        //     if($value->equipo != null){
+        //     if(Equipo::where('codigo_interno',$value->equipo)->first() != null){
         //          Asignacion::create([
-        //             'equipo_id' => Equipo::where('codigo_interno',$value->equipo)->first()->id ?? 1,
+        //             'equipo_id' => Equipo::where('codigo_interno',$value->equipo)->first()->id,
         //             'persona_id' => $value->user_id,
         //             'proyecto_id' => $value->proyecto,
         //             'supervisor_id' => 1,
@@ -69,7 +66,7 @@ class AsignacionController extends Controller
     public function create()
     {
         $personal = PersonalCorporativo::orderBy('APELLIDOS_NOMBRES')->get();
-        $equipos = Equipo::where('estado', 'DISPONIBLE')->get();
+        $equipos = Equipo::where('estado', 'DISPONIBLE')->whereIN('estado_operativo', ['OPERATIVO', 'OPERATIVA', 'OPERATIVO CON LIMITACIONES'])->get();
         $proyectos = Proyecto::construccion()->get();
         return inertia('almacen/asignaciones/form', [
             'equipos' => $equipos,
@@ -96,7 +93,6 @@ class AsignacionController extends Controller
 
         foreach ($validateData['equipos'] as $id) {
             $equipo = Equipo::where('id', $id)->first();
-        
             $asignacion = Asignacion::create([
                 'persona_id' => $validateData['persona_id'],
                 'equipo_id' => $id,        
@@ -110,7 +106,7 @@ class AsignacionController extends Controller
             ]);
         
         }
-        return $validateData;
+        return back();
     }
 
     /**
@@ -163,7 +159,8 @@ class AsignacionController extends Controller
         $asignacion->observacion = $request->observacion ?? $asignacion->observacion;
         $asignacion->save();
         $equipo = $asignacion->equipo;
-        $equipo->estado = $request->estado;
+        $equipo->estado_operativo = $request->estado;
+        $equipo->estado = 'DISPONIBLE';
         $equipo->save();
     }
 }

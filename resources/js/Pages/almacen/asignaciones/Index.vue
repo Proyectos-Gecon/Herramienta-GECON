@@ -12,23 +12,30 @@ import ConfirmPopup from "primevue/confirmpopup";
 import { useConfirm } from "primevue/useconfirm";
 import { exportExcel } from "@/composable/ExportData";
 import Dropdown from 'primevue/dropdown';
+import DataTableCustom from "@/Components/customs/DataTableCustom";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+
+
 //Variables
 const props = defineProps({
   asignaciones: Array(),
 })
 
+
 const form = useForm({
-  observaciones: '',
+  observacion: '',
   estado: null,
   equipo: null
 })
-
+var display = ref(false)
 
 const submit = () => {
  
     form.post(route('asignaciones.descargar', form.equipo),{
         onSuccess: () => {
-            alert('Enviado')
+          toast.add({severity:'success', summary: 'Asignaciones', detail:'Asignacion Descargada', life: 3000});
+          display.value = false
         }
     })
       
@@ -44,7 +51,7 @@ var filters = ref({
 
 });
 
-var display = ref(false)
+
 
 </script>
 
@@ -98,7 +105,7 @@ var display = ref(false)
                 </Link>
               </div>
             </div>
-                    </div>
+                  </div>
                    <DataTable :value="props.asignaciones"
                     class="p-datatable-sm"
                     currentPageReportTemplate="{first} al {last} de {totalRecords}"
@@ -198,7 +205,7 @@ var display = ref(false)
             <div class="mx-auto p-fluid border-0  mt-2">
                 <span class="text-md font-semibold">Observación Devolución</span>
                 <InputText
-                v-model="form.observaciones"
+                v-model="form.observacion"
                     placeholder="Escriba una Observacion"
                 />
             </div>
@@ -207,13 +214,13 @@ var display = ref(false)
                 <Dropdown v-model="form.estado" :options="['OPERATIVO', 'OPERATIVO CON LIMITACIONES','FUERA DE SERVICIO', 'BAJA']" placeholder="Seleccione o escriba el material del casco" />
             </div> 
              <div class="px-[2%] text-end mt-8">
-                    <Button
-                    label="Descargar"
-                    type="submit"
-                    icon="pi pi-download"
-                    iconPos="left"
-                    />
-                </div>
+                  <Button
+                  label="Descargar"
+                  type="submit"
+                  icon="pi pi-download"
+                  iconPos="left"
+                  />
+              </div>
         </form>
         </Dialog>
 

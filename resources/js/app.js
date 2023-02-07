@@ -1,7 +1,6 @@
 require ('./bootstrap');
 import NProgress from 'nprogress'
 import { createApp, h } from 'vue';
-import Toast from 'primevue/toast';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia'
 import VueApexCharts from "vue3-apexcharts";
@@ -28,8 +27,8 @@ createInertiaApp({
             .use(ConfirmationService)
             .use(ToggleButton)
             .use(ToastService)
-            .use(Toast)
             .use(VueApexCharts)
+          
             .mount(el);
     },
 });

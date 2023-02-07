@@ -12,8 +12,10 @@ import MenuBar from '@/Components/customs/MenuBar.vue';
 import sliderbar from '@/Components/customs/sliderbar.vue';
 import SplitButton from 'primevue/splitbutton';
 import Breadcrumb from 'primevue/breadcrumb';
+import Toast from 'primevue/toast';
 import Menubar from 'primevue/menubar';
 import { permisos } from '@/composable/Permisions.js'
+
 
 	const can = (array) => {
 		
@@ -197,16 +199,23 @@ import { permisos } from '@/composable/Permisions.js'
 							{
 								label:'Equipos Criticos',
 								icon:'pi pi-fw pi-exclamation-triangle'
-							}
+							},
+							{
+								label:'Asignaciones',
+								icon:'pi pi-fw pi-user-plus',
+								visible: can(['read prestamos']),
+								command:	()=> {
+									Inertia.get(route('asignaciones.index'))
+								}
+							},
+							
 						]
 					},
 					{
-						label:'Asignaciones',
+						label:'Consumibles',
 						icon:'pi pi-fw pi-user-plus',
 						visible: can(['read prestamos']),
-						command:	()=> {
-							Inertia.get(route('asignaciones.index'))
-						}
+						
 					},
 				]
 			},
@@ -259,7 +268,7 @@ import { permisos } from '@/composable/Permisions.js'
     <div>
         
         <Banner />
-
+		<Toast />
         <div class="min-h-screen bg-gray-100">
 			<Menubar :model="items" >
 				<template #end>

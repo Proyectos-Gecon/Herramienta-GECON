@@ -20,32 +20,32 @@ class EquipoController extends Controller
      */
     public function index()
     {
-        // Equipo::truncate();
-        // $equipos = CategoriaSAP::get();
-        // foreach ($equipos as  $value) {
-        //     $categoria = Categoria::where('name', $value->name)->first();
-        //     if($categoria != null){
-        //        Equipo::create([
-        //         'responsable' => 1,
-        //         'name' => $categoria->name,
-        //         'almacen_id' => 1,
-        //         'categoria_id' => $categoria->id,
-        //         'codigo_interno' => $value->codigo_interno,
-        //         'serial' => $value->serial,
-        //         'codigo_SAP' => $value->codigo_SAP,
-        //         'valor_compra' => $value->valor_compra,
-        //         'ubicacion' => $value->ubicacion,
-        //         'marca' => $value->marca,
-        //         'fecha_ingreso' => $value->fecha_ingreso,
-        //         'observaciones' => $value->observaciones,
-        //         'es_pequeño' => $value->es_pequeño,
-        //         'estado' => $value->estado,
-        //         'estado_operativo' => $value->estado_operativo,
-        //         'criticidad' => 0,
-        //     ]); 
-        //     }
+        Equipo::truncate();
+        $equipos = CategoriaSAP::get();
+        foreach ($equipos as  $value) {
+            $categoria = Categoria::where('name', $value->name)->first();
+            if($categoria != null){
+               Equipo::create([
+                'responsable' => 1,
+                'name' => $categoria->name,
+                'almacen_id' => 1,
+                'categoria_id' => $categoria->id,
+                'codigo_interno' => $value->codigo_interno,
+                'serial' => $value->serial,
+                'codigo_SAP' => $value->codigo_SAP,
+                'valor_compra' => $value->valor_compra,
+                'ubicacion' => $value->ubicacion,
+                'marca' => $value->marca,
+                'fecha_ingreso' => $value->fecha_ingreso,
+                'observaciones' => $value->observaciones,
+                'es_pequeño' => $value->es_pequeño,
+                'estado' => $value->estado == 'FUERA DE SERVICIO' ? 'DISPONIBLE':$value->estado,
+                'estado_operativo' => $value->estado == 'FUERA DE SERVICIO' ? 'FUERA DE SERVICIO': $value->estado_operativo,
+                'criticidad' => 0,
+            ]); 
+            }
             
-        // }
+        }
 
         $equipos = Equipo::active()->get();
         return inertia('almacen/equipos/index', [

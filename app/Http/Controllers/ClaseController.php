@@ -17,7 +17,7 @@ class ClaseController extends Controller
      */
     public function index()
     {
-        $clases = Clase::with('proyectos')->orderBy('name')->get();
+        $clases = Clase::select('id', 'name', 'type' ,'material_casco AS material', 'eslora')->orderBy('name')->get();
       
        return inertia('proyectos/clases/index', [
             'clases' => $clases

@@ -124,6 +124,11 @@ const { exporting } = exportExcel(props.clientes, "Clientes");
                 <InputText v-model="data[field]" autofocus />
               </template>
             </Column>
+            <Column field="proyectos_count" header="Proyectos" sortable>
+              <template #editor="{ data, field }">
+                <InputText v-model="data[field]" autofocus />
+              </template>
+            </Column>
             <Column field="tipo_cliente" header="Tipo Cliente" sortable>
               <template #editor="{ data, field }">
                 <InputText v-model="data[field]" autofocus />

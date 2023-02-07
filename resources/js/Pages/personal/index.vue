@@ -15,6 +15,7 @@ import { exportExcel } from "@/composable/ExportData";
 import Calendar from 'primevue/calendar';
 import Dropdown from 'primevue/dropdown';
 import { Inertia } from '@inertiajs/inertia';
+import MultiSelect from 'primevue/multiselect';
 
 
 
@@ -37,7 +38,7 @@ const selectFecha = () => {
 
 var filters = ref({
     global: {value: null, matchMode: FilterMatchMode.CONTAINS},
-    division: {value: null, matchMode: FilterMatchMode.EQUALS}
+    division: {value: null, matchMode: FilterMatchMode.IN}
 });
 
 </script>
@@ -107,7 +108,7 @@ var filters = ref({
 
                     <Column field="division" header="Division"  :sortable="true" :showFilterMatchModes="false">
                       <template #filter="{filterModel}" >
-                        <Dropdown v-model="filterModel.value" :options="props.divisiones" optionValue="name" optionLabel="name" placeholder="Select a City" />
+                        <MultiSelect  v-model="filterModel.value" :options="props.divisiones" optionValue="name" optionLabel="abreiacion" placeholder="Todas" />
                     
                       </template>
                     </Column>

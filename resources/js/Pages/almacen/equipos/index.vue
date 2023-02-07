@@ -37,7 +37,7 @@ var filters = ref({
                     :rowHover="true"
                     filterDisplay="menu"
                     v-model:filters="filters"
-                    :globalFilterFields="['name', 'padre.name', 'codigo_interno']"
+                    :globalFilterFields="['name', 'padre.name', 'codigo_interno', 'serial', 'estado']"
                     showGridlines
                     :paginator="true"
                     :rows="10"

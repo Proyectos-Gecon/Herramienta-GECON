@@ -24,10 +24,11 @@ const form = useForm({
 })
 
 var filters = ref({
-  eslora: {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]},
-  type:{operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]},
-  "material_casco": { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]},
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  type: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  material: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  eslora: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
 const labels = [
@@ -41,21 +42,24 @@ const labels = [
         typeFilter: 'text',
     },
     {
+        header: 'Proyectos',
+        field: 'proyectos_count',  
+    },
+    {
         header: 'Tipo',
         field: 'type',
         typeFilter: 'text',
     },
     {
         header: 'Material del Casco',
-        field: 'material_casco',
+        field: 'material',
         typeFilter: 'text'
     },
     {
         header: 'Eslora',
         field: 'eslora',
-      
+        typeFilter: 'text'
     },
-    
 ]
 
 
@@ -67,7 +71,7 @@ const labels = [
     <div class="py-4">
             <div class="max-w-full mx-2 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
-                  <DataTableCustom :elements="props.clases" model="clase" :filters="filters" keyState="data-key-clases" :labels="labels" :globalFilters="['name', 'type', 'material_casco', 'eslora']"></DataTableCustom>
+                  <DataTableCustom :elements="props.clases" model="clase" :filters="filters" keyState="data-key-clases" :labels="labels" :globalFilters="['name', 'type', 'material', 'eslora']"></DataTableCustom>
                 </div>
             </div>
         </div>

@@ -9,6 +9,11 @@ import Dropdown from 'primevue/dropdown';
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 import Listbox from 'primevue/listbox';
 import TextInput from '@/Components/customs/TextInput.vue';
+import { Inertia } from '@inertiajs/inertia';
+
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+
 //Variables
 const props = defineProps({
   asignaciones: Array(),
@@ -29,8 +34,9 @@ const submit = () => {
     
     form.post(route('asignaciones.store'),{
     onSuccess: () => {
-        alert('Holaa')
-        // Inertia.get(route('equipos.index'))
+        toast.add({severity:'success', summary: 'Asignaciones', detail:'Asignacion Agregada', life: 3000});
+        Inertia.visit(route('asignaciones.index'))
+       
     }
     })
       

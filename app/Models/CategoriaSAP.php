@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoriaSAP extends Model
 {
-    protected $table = 'prestamos';
+    protected $table = 'equipos';
     protected $connection = 'sqlsrv_sap_herramientas';
     protected $guard = 'personal_sap';
 
