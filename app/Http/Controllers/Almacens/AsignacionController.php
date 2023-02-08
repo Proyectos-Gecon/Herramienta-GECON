@@ -163,4 +163,28 @@ class AsignacionController extends Controller
         $equipo->estado = 'DISPONIBLE';
         $equipo->save();
     }
+
+    public function buscar($cedula){
+        $user = PersonalCorporativo::where('IDENTIFICACION', $cedula)->first();
+        if($user == null){
+            return back()->withErrors(['msg' => 'Usuario no encontrado']);
+        }
+
+        $asignaciones = Asignacion::where('persona_id', $user->ID)
+        ->select('e.name as nombre', 'e.serial as serial', 'fecha_prestamo as fecha', 'e.codigo_interno')
+        ->Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'persona_id')
+        ->Join('equipos as e' ,'e.id', 'equipo_id')
+        ->get();
+
+        if(count($asignaciones) == 0){
+            return back()->withErrors(['msg' => $user->APELLIDOS_NOMBRES .' no tiene Asignaciones']);
+        }
+
+
+        return inertia('almacen/asignaciones/buscar')->with([
+            'user' => $user,
+            'asignaciones' => $asignaciones,
+            'userLogin' => auth()->user()->id ?? null,
+        ]);
+    }
 }

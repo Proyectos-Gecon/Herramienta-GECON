@@ -102,7 +102,7 @@ const props = defineProps({
             </Column>
             <Column field="id" header="Acciones">
                     <template #body="{data}" >
-                        <div class="space-x-2">
+                        <div class="space-x-2" v-if="data.id !== undefined">
                           <Link :href="route(props.model +'s.edit', data.id)"> 
                           <Button
                             icon="pi pi-pencil"

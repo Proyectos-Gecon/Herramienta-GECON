@@ -92,8 +92,6 @@ const submit = () => {
 
 <template>
  <AppLayout title="Personal">
-
-    <div class="py-4">
             <div class="max-w-full mx-2 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
             
@@ -154,7 +152,6 @@ const submit = () => {
                 </form>
             </div>
         </div>
-    </div>
  </AppLayout>
 
 </template>

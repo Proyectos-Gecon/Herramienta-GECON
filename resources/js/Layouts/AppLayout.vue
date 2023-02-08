@@ -13,6 +13,7 @@ import sliderbar from '@/Components/customs/sliderbar.vue';
 import SplitButton from 'primevue/splitbutton';
 import Breadcrumb from 'primevue/breadcrumb';
 import Toast from 'primevue/toast';
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import Menubar from 'primevue/menubar';
 import { permisos } from '@/composable/Permisions.js'
 
@@ -44,7 +45,6 @@ import { permisos } from '@/composable/Permisions.js'
 	const items =  [
 			{
 				label: 'Inicio',
-				icon: 'pi pi-home',
 				url: route('login')
 			},
 			{
@@ -269,15 +269,25 @@ import { permisos } from '@/composable/Permisions.js'
         
         <Banner />
 		<Toast />
-        <div class="min-h-screen bg-gray-100">
-			<Menubar :model="items" >
+        <div class="min-h-screen bg-gradient-to-r from-blue-100 to-blue-200 ">
+			<div class="bg-white fixed w-full top-0 z-50">
+				<Menubar :model="items" >
+				<template #start>
+					<ApplicationLogo class="mr-2"></ApplicationLogo>
+				</template>
 				<template #end>
 					<SplitButton :label="$page.props.user.name" :model="userOptions" class="p-button-text mb-2"></SplitButton>
 				</template>
 			</Menubar>
-            <main>
-                <slot />
-            </main>
+			</div>
+			<div class="mt-12 py-12">
+			
+				<main>
+					<slot />
+				</main>
+				
+			</div>
+          
         </div>
     </div>
 </template>

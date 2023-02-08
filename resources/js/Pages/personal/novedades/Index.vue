@@ -65,8 +65,6 @@ const { exporting } = exportExcel(props.clases, "Clases");
 
 <template>
  <AppLayout title="Divisiones">
-
-    <div class="py-4">
             <div class="max-w-full mx-2 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
                 <DataTable ref="dt" :value="props.novedades" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
@@ -114,8 +112,6 @@ const { exporting } = exportExcel(props.clases, "Clases");
                     
                 </div>
             </div>
-        </div>
-
         <Dialog
       header="Agregar División"
       v-model:visible="display"

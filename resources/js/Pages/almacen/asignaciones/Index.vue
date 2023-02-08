@@ -31,15 +31,12 @@ const form = useForm({
 var display = ref(false)
 
 const submit = () => {
- 
     form.post(route('asignaciones.descargar', form.equipo),{
         onSuccess: () => {
           toast.add({severity:'success', summary: 'Asignaciones', detail:'Asignacion Descargada', life: 3000});
           display.value = false
         }
     })
-      
-   
 }
 
 var filters = ref({
@@ -57,8 +54,6 @@ var filters = ref({
 
 <template>
  <AppLayout title="Asinaciones">
-
-    <div class="py-4">
             <div class="max-w-full mx-2 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full p-4">
                     <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
@@ -199,7 +194,6 @@ var filters = ref({
                    </DataTable>
                 </div>
             </div>
-        </div>
         <Dialog header="Recibir Equipo" v-model:visible="display" position="top" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
           <form @submit.prevent="submit">
             <div class="mx-auto p-fluid border-0  mt-2">

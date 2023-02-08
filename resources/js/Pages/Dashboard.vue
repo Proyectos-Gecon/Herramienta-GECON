@@ -81,7 +81,6 @@ const series = [
 </script>
 <template>
     <AppLayout title="Dashboard">
-        <div class="py-12">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
@@ -179,6 +178,6 @@ const series = [
                 </div>
                 
             </div>
-        </div>
+        
     </AppLayout>
 </template>
