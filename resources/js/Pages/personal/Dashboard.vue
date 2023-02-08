@@ -25,7 +25,13 @@ const fecha = (fecha) => {
     return diff/(1000*60*60*24);
 }
 
-
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
 
 const props  = defineProps({
     labesDivision: Array,
@@ -37,6 +43,7 @@ const props  = defineProps({
     fecha: Date,
     proyectos: Array,
     absentismos: Array,
+    divsiones: Array,
 })
 
 const fechaDashboard = ref(props.fecha)
@@ -96,25 +103,25 @@ const series = [
                             <Calendar inputId="icon" :maxDate="new Date()" v-model="fechaDashboard" dateFormat="mm/dd/yy" :showIcon="true" v-on:date-select="selectFecha" placeholder="Seleccione una fecha"/>
                         </div>
                         </div>
-                    </div>
-                <div class=" grid grid-cols-1 md:grid-cols-4 gap-6 mx-4">
-                        <div class="flex space-x-2 px-4 py-5 md:px-6 lg:px-8 col-span-3">
-                            <div class="flex align-items-center border p-1">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mx-4">
+                        <div class="flex space-x-2  p-2 col-span-1  md:col-span-2">
+                            <div class="flex align-items-center  p-1">
                                 <i class="fa-solid fa-users mr-2 "></i>
                                 <span>{{ props.totalPresentes + props.totalNoPresentes }} Total  </span>
                             </div>
-                            <div class="flex align-items-center border p-1">
+                            <div class="flex align-items-center  p-1">
                                 <i class="fa-solid fa-user-check mr-2"></i>
                                 <span>{{ props.totalPresentes }} Personas Presentes  </span>
                             </div>
-                            <div class="flex align-items-center border p-1">
+                            <div class="flex align-items-center  p-1">
                                 <i class="fa-solid fa-user-xmark mr-2"></i>
                                 <span>{{ props.totalNoPresentes }} Personas NO Presentes  </span>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 md:grid-cols-2 max-h-80 px-4 pt-1 md:px-2 overflow-y-auto lg:px-2 gap-2 col-span-2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 max-h-80 px-4 pt-1 md:px-8 overflow-y-auto  gap-2 col-span-1 md:col-span-2">
                             <div class="p-1  hover:scale-105 duration-500 "  v-for="proyecto in props.proyectos" :key="proyecto.proyecto">
-                                <div class="flex items-center  justify-between p-2 border-2 border-indigo-300 rounded-lg bg-white shadow-blue-100 shadow-md">
+                                <div class="flex items-center  justify-between py-2 px-12 border-2 border-indigo-300 rounded-lg bg-white shadow-blue-100 shadow-md">
                                 <div>
                                     <h2 class="text-gray-900 text-md font-bold">{{ proyecto.proyecto }}</h2>
                                     <h3 class="mt-2 text-sm font-bold text-blue-500 text-left">
@@ -133,10 +140,13 @@ const series = [
                             </div>
                             
                         </div>
-                    
-                    <Barras id="division" :stacked="true" :horizontal="false" :series="series" :categories="props.labesDivision"></Barras>
+                    <div>
+                        <Barras id="division" :stacked="true" :horizontal="false" :series="series" :categories="props.labesDivision"></Barras>
+                    </div>
+                    <div>
+                        <Barras :stacked="false" :horizontal="true" :series="[{name: 'Personas' , data: AbsentismosCount }]" :categories="AbsentismosLabel"></Barras>
+                    </div>
             
-                    <Barras :stacked="false" :horizontal="true" :series="[{name: 'Personas' , data: AbsentismosCount }]" :categories="AbsentismosLabel"></Barras>
                 
                     <div class="text-center font-bold text-xl space-y-4">
                         <div class="overflow-auto max-h-96 text-center text-sm">
@@ -176,6 +186,51 @@ const series = [
                                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
                                                 <div class="w-3/4 mx-auto">
                                                         <span class="font-semibold leading-tight text-size-xs">{{user.CTTYP}}</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="text-center font-bold text-xl space-y-4 border border-black rounded-lg">
+                        <div class="overflow-auto max-h-96 text-center text-sm">
+                            <h1 class="font-bold font-roboto text-xl">Costos por división</h1>
+                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-900 mt-2 overflow-y-auto">
+                                <thead class="align-bottom">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-sm whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                            División</th>
+                                        <th
+                                            class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-sm whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                           Parte</th>
+                                        <th
+                                            class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-sm whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                            Costo Mes</th>
+                                        <th
+                                            class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-sm whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                            Costo Año</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr v-for="division in props.divsiones" :key="division.division" >
+                                    
+                                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                                                <h6 class="mb-0 leading-normal text-size-sm">{{division.division}}</h6>
+                                            </td>
+
+                                            <td
+                                                class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                                <span class="font-semibold leading-tight text-size-xs">{{ division.cantidad }}</span>
+                                            </td>
+                                            <td
+                                                class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                                <span class="font-semibold leading-tight text-size-xs"> {{ formatter.format((division.sum_salarios *1.6)/1000000) }} M</span>
+                                            </td>
+                                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                                                <div class="w-3/4 mx-auto">
+                                                        <span class="font-semibold leading-tight text-size-xs"> {{formatter.format(((division.sum_salarios *1.6)/1000000)*12) }}M</span>
                                                 </div>
                                             </td>
                                         </tr>

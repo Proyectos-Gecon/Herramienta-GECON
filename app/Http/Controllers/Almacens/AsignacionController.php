@@ -171,9 +171,10 @@ class AsignacionController extends Controller
         }
 
         $asignaciones = Asignacion::where('persona_id', $user->ID)
-        ->select('e.name as nombre', 'e.serial as serial', 'fecha_prestamo as fecha', 'e.codigo_interno')
+        ->select('e.name as nombre', 'e.serial as serial', 'fecha_prestamo as fecha', 'e.codigo_interno' ,'asignacions.estado as estado')
         ->Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'persona_id')
         ->Join('equipos as e' ,'e.id', 'equipo_id')
+        ->orderBy('estado')
         ->get();
 
         if(count($asignaciones) == 0){

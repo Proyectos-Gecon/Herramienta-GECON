@@ -1869,6 +1869,10 @@ select {
   --tw-border-opacity: 1;
   border-color: rgb(74 222 128 / var(--tw-border-opacity));
 }
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
 .border-b-gray-200 {
   --tw-border-opacity: 1;
   border-bottom-color: rgb(229 231 235 / var(--tw-border-opacity));
@@ -2159,6 +2163,10 @@ select {
 .py-16 {
   padding-top: 4rem;
   padding-bottom: 4rem;
+}
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 .pt-6 {
   padding-top: 1.5rem;
@@ -2934,6 +2942,14 @@ select {
     grid-column: span 4 / span 4;
   }
 
+  .sm\:col-span-3 {
+    grid-column: span 3 / span 3;
+  }
+
+  .sm\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
   .sm\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
@@ -3314,6 +3330,11 @@ select {
   .md\:px-2 {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+  }
+
+  .md\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   .md\:pr-12 {

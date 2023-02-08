@@ -101,10 +101,17 @@ class DashboardController extends Controller
 
         $absentismos = Parte::fecha($date)->select("estado", DB::raw("count(*) as cantidad"))->nopresentes()->groupBy('estado')->get();
 
-        $divisiones = Personal::select('d.name as division', DB::raw("SUM(costo_m) as costo_mes"), DB::raw("SUM(costo_d) as costo_dia"))
-        ->leftJoin('divisions as d' , 'd.id', 'personals.division_id')
-        ->groupBy('d.name')->get();
-      
+        $divisiones = Personal::
+        select('d.abreiacion as division', DB::raw("SUM(S.BET01) as sum_salarios"), DB::raw("count(p.user_id) as cantidad") )
+        ->join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'user_id')
+        ->join('CORPORATIVA_INTERFACE.dbo.SALARIO_VIew AS S', 'S.PERNR', 'l.NUM_SAP')
+        ->join('divisions as d' , 'd.id', 'personals.division_id')
+        ->join('partes as p', 'p.user_id', 'personals.user_id')
+        ->where('p.fecha', Carbon::now())
+        ->groupBy('d.abreiacion')->orderBy('sum_salarios', 'DESC')->get();
+
+       
+
         $proyectos = Parte::fecha($date)
         ->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM(p.costo_d) as costo"))
         ->leftJoin('personals as p' ,'p.user_id', 'partes.user_id')
@@ -128,12 +135,12 @@ class DashboardController extends Controller
             }
         }
 
-
-      
         $usersContratosPorTerminar = PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
         ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
         ->where('F.CTEDT' , '<>', 0)
         ->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(20)->format('Ymd'))->get();
+
+        
        
         return Inertia::render('personal/Dashboard', [
             'noPresentesDivision' => $noPresentesDivision, 
@@ -144,7 +151,8 @@ class DashboardController extends Controller
             'totalNoPresentes' => $totalNoPresentes , 
             'fecha' => $date->format('d/m/Y'),
             'absentismos' => $absentismos,
-            'proyectos' => $proyectos
+            'proyectos' => $proyectos,
+            'divsiones' => $divisiones
         ]); 
     }
 }
