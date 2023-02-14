@@ -13,8 +13,8 @@ defineEmits(['update:modelValue']);
 </script>
 
 <template>
-    <div class="p-fluid p-input-filled border-0 space-y-2 ">
-        <span class="text-capitalize">{{label}}</span>
+    <div class="p-fluid p-input-filled border-0">
+        <span class="text-lg font-semibold">{{ label }}</span>
         <InputNumber :modelValue="modelValue" @input="$emit('update:modelValue', $event.value)" locale="de-DE" :placeholder="sugerencia" :suffix="suffix" :maxFractionDigits="2" />
     </div> 
 </template>

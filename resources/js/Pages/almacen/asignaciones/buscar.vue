@@ -22,11 +22,6 @@ const labels = [
         header: 'Serial',
         field: 'serial',  
     },
-    {
-        header: 'Estado',
-        field: 'estado',  
-    },
- 
 ]
 
 </script>

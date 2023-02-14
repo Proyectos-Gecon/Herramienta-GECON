@@ -26,6 +26,8 @@ class DashboardController extends Controller
             }
             $date =new Carbon('yesterday'); 
         }
+
+        $divisiones = $this->divisionesConsulta($date);
       
         
         $labels_divisions = Division::orderBy('name')->pluck('abreiacion')->toArray();
@@ -72,6 +74,7 @@ class DashboardController extends Controller
             'totalNoPresentes' => $totalNoPresentes , 
             'fecha' => $date->format('l,  d/m/Y'),
             'proyectos' => $proyectos,
+            'divisiones' => $divisiones,
         ]); 
     }
 
@@ -85,7 +88,6 @@ class DashboardController extends Controller
         
         if ( Carbon::now()->format('G') <  12){
             if(Carbon::now()->format('w') == 1){
-
                 $date =Carbon::now()->subDays(2); 
             }
             $date =new Carbon('yesterday'); 
@@ -101,16 +103,7 @@ class DashboardController extends Controller
 
         $absentismos = Parte::fecha($date)->select("estado", DB::raw("count(*) as cantidad"))->nopresentes()->groupBy('estado')->get();
 
-        $divisiones = Personal::
-        select('d.abreiacion as division', DB::raw("SUM(S.BET01) as sum_salarios"), DB::raw("count(p.user_id) as cantidad") )
-        ->join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'user_id')
-        ->join('CORPORATIVA_INTERFACE.dbo.SALARIO_VIew AS S', 'S.PERNR', 'l.NUM_SAP')
-        ->join('divisions as d' , 'd.id', 'personals.division_id')
-        ->join('partes as p', 'p.user_id', 'personals.user_id')
-        ->where('p.fecha', Carbon::now())
-        ->groupBy('d.abreiacion')->orderBy('sum_salarios', 'DESC')->get();
-
-       
+        $divisiones = $this->divisionesConsulta($date);
 
         $proyectos = Parte::fecha($date)
         ->select("proyecto", DB::raw("count(*) as cantidad"), DB::raw("SUM(p.costo_d) as costo"))
@@ -142,7 +135,7 @@ class DashboardController extends Controller
 
         
        
-        return Inertia::render('personal/Dashboard', [
+        return Inertia::render('personal/Dashboard', [  
             'noPresentesDivision' => $noPresentesDivision, 
             'labesDivision' => $labels_divisions,
             'presentesDivision' => $presentesDivision, 
@@ -154,5 +147,16 @@ class DashboardController extends Controller
             'proyectos' => $proyectos,
             'divsiones' => $divisiones
         ]); 
+    }
+
+    protected function divisionesConsulta($date){
+        return Personal::
+        select('d.abreiacion as division', DB::raw("SUM(S.BET01) as sum_salarios"), DB::raw("count(p.user_id) as cantidad") )
+        ->join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'user_id')
+        ->join('CORPORATIVA_INTERFACE.dbo.SALARIO_VIew AS S', 'S.PERNR', 'l.NUM_SAP')
+        ->join('divisions as d' , 'd.id', 'personals.division_id')
+        ->join('partes as p', 'p.user_id', 'personals.user_id')
+        ->where('p.fecha', $date)
+        ->groupBy('d.abreiacion')->orderBy('sum_salarios', 'DESC')->get();
     }
 }

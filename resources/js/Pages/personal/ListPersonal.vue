@@ -97,7 +97,7 @@ const deleted = (event, id) => {
                   <Chip :label="(cargo.name + ': ' + cargo.count)" class="mr-2 mb-2  custom-chip" v-for="cargo in countsExtended" :key="cargo.name"/>
                 </div>
                 <DataTable :value="props.users" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['user.APELLIDOS_NOMBRES','user.NUM_SAP', 'user.IDENTIFICACION']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
+                :globalFilterFields="['APELLIDOS_NOMBRES','NUM_SAP', 'IDENTIFICACION']"  showGridlines  :paginator="true" :rows="10" :rowsPerPageOptions="[10,25,50]">
                     <template #header>
                     <div class="flex justify-between mx-2">
                       <div class="text-center flex">
@@ -145,7 +145,7 @@ const deleted = (event, id) => {
                     
                       <Button
                       
-                        icon="pi pi-user-edit"
+                        icon="pi pi-sign-out"
                         class="p-button-rounded p-button-info p-button-text text-4xl"
                       />
                     

@@ -1,6 +1,6 @@
 <template>
    <svg  version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="40.000000pt" height="40.000000pt" viewBox="0 0 30.000000 30.000000"
+ width="35.000000pt" height="35.000000pt" viewBox="0 0 30.000000 30.000000"
  preserveAspectRatio="xMidYMid meet">
 <metadata>
 Created by potrace 1.16, written by Peter Selinger 2001-2019

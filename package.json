@@ -29,6 +29,7 @@
     "dependencies": {
         "apexcharts": "^3.36.3",
         "chart.js": "^4.2.0",
+        "chartjs-gauge": "^0.3.0",
         "file-saver": "^2.0.5",
         "ldap-escape": "^2.0.6",
         "nprogress": "^0.2.0",

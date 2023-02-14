@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\DB;
 
 class AsignacionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:read prestamos');
+        $this->middleware('permission:edit prestamo')->only('edit', 'update', 'create', 'store');
+        
+       
+    }
     /**
      * Display a listing of the resource.
      *
@@ -170,11 +177,10 @@ class AsignacionController extends Controller
             return back()->withErrors(['msg' => 'Usuario no encontrado']);
         }
 
-        $asignaciones = Asignacion::where('persona_id', $user->ID)
-        ->select('e.name as nombre', 'e.serial as serial', 'fecha_prestamo as fecha', 'e.codigo_interno' ,'asignacions.estado as estado')
-        ->Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'persona_id')
-        ->Join('equipos as e' ,'e.id', 'equipo_id')
-        ->orderBy('estado')
+        $asignaciones = Asignacion::where('persona_id', $user->ID)->where('asignacions.estado','ASIGNADO')
+        ->select('e.name as nombre', 'e.serial as serial', 'fecha_prestamo as fecha', 'asignacions.estado as estado')
+        ->Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'asignacions.persona_id')
+        ->Join('equipos as e' ,'e.id', 'asignacions.equipo_id')
         ->get();
 
         if(count($asignaciones) == 0){

@@ -29,6 +29,14 @@ const items=  [
 					}
 				},
 		]
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
 
 const props  = defineProps({
     labesDivision: Array,
@@ -39,7 +47,8 @@ const props  = defineProps({
     totalNoPresentes: Number,
     fecha: Date,
     absentismos: Array,
-    proyectos: Array
+    proyectos: Array,
+    divisiones: Array
 })
 
 const basicData = {
@@ -111,22 +120,21 @@ const series = [
                    <span v-if="$page.props.user.roles.length == 0">
                     <Message severity="warn" :closable="false">Espere hasta que le Asignemos un ROL</Message>
                    </span>
-                   <div class="flex space-x-2 px-4 py-5 md:px-6 lg:px-8">
-                        
-                    <div class="flex align-items-center">
-                            <i class="fa-solid fa-user-check mr-2"></i>
-                            <span>{{ props.totalPresentes }} Personas Presentes  </span>
-                        </div>
+               
 
+
+                   <div class=" grid grid-cols-1 md:grid-cols-3 mt-10 gap-6 px-2" v-if="can(['read activos'])">
+                    <div class="flex space-x-2 py-1 md:px-6 lg:px-8 col-span-1 md:col-span-3">
                         <div class="flex align-items-center">
-                            <i class="fa-solid fa-user-xmark mr-2"></i>
-                            <span>{{ props.totalNoPresentes }} Personas NO Presentes  </span>
-                        </div>
-                   </div>
-
-
-                   <div class=" grid grid-cols-1 md:grid-cols-3 mt-10 gap-6" v-if="can(['read activos'])">
-                    
+                                <i class="fa-solid fa-user-check mr-2"></i>
+                                <span>{{ props.totalPresentes }} Personas Presentes  </span>
+                            </div>
+    
+                            <div class="flex align-items-center">
+                                <i class="fa-solid fa-user-xmark mr-2"></i>
+                                <span>{{ props.totalNoPresentes }} Personas NO Presentes  </span>
+                            </div>
+                       </div>
                     <Barras :stacked="true" :horizontal="false" :series="series" :categories="props.labesDivision"></Barras>
                                          
                     <div class="text-center font-bold text-xl space-y-4">
@@ -167,6 +175,51 @@ const series = [
                                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
                                                 <div class="w-3/4 mx-auto">
                                                         <span class="font-semibold leading-tight text-size-xs">{{user.CTTYP}}</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="text-center font-bold text-xl py-2 space-y-4 border border-blue-200 rounded-lg">
+                        <div class="overflow-auto max-h-96 text-center text-sm">
+                            <h1 class="font-bold font-roboto text-xl">Costos por división</h1>
+                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-900 mt-2 overflow-y-auto">
+                                <thead class="align-bottom">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-sm whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                            División</th>
+                                        <th
+                                            class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-sm whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                           Parte</th>
+                                        <th
+                                            class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-sm whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                            Costo Mes</th>
+                                        <th
+                                            class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-sm whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                            Costo Año</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr v-for="division in props.divisiones" :key="division.division" >
+                                    
+                                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                                                <h6 class="mb-0 leading-normal text-size-sm">{{division.division}}</h6>
+                                            </td>
+
+                                            <td
+                                                class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                                <span class="font-semibold leading-tight text-size-xs">{{ division.cantidad }}</span>
+                                            </td>
+                                            <td
+                                                class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                                <span class="font-semibold leading-tight text-size-xs"> {{ formatter.format((division.sum_salarios *1.6)/1000000) }} M</span>
+                                            </td>
+                                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                                                <div class="w-3/4 mx-auto">
+                                                        <span class="font-semibold leading-tight text-size-xs"> {{formatter.format(((division.sum_salarios *1.6)/1000000)*12) }}M</span>
                                                 </div>
                                             </td>
                                         </tr>

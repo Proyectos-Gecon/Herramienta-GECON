@@ -13,12 +13,16 @@ import { useConfirm } from "primevue/useconfirm";
 import Chip from 'primevue/chip';
 import FileUpload from 'primevue/fileupload';
 import Dropdown from 'primevue/dropdown';
-
+import { exportExcel } from "@/composable/ExportData";
 
 const props = defineProps({
   users: Array(),
   divisiones: Array
 })
+
+
+const { exporting } = exportExcel(props.users, "Parte de Personal");
+
 
 
 const formatCurrency = (value) => {
@@ -69,7 +73,7 @@ const submit = () => {
                     <template #header>
                     <div class="flex justify-between mx-2">
                       <div class="text-center flex">
-                        <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar"/>
+                        <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-file-excel" @click="exporting" /> 
                         <span class="mt-2 text-2xl"> Personal</span>
                       </div>
                       <div>

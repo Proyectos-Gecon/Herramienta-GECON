@@ -46,9 +46,17 @@
     
 
     const submit = () => {
+        if(props.contrato != null){
+            form.put(route('contratos.update', props.contrato.id),{
+                onSuccess: () => {
+                    Inertia.get(route('contratos.idex'))
+                }
+            })
+            return 
+        }
         form.post(route('contratos.store'),{
             onSuccess: () => {
-                alert('Holaa')
+                alert('Actualizado')
                // Inertia.get(route('equipos.index'))
             }
         })

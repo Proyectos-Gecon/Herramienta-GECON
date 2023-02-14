@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imports\Proyectos\ProyectosImport;
+use App\Models\AvanceProyectoSemanal;
 use App\Models\CategoriaSAP;
 use App\Models\Clase;
 use App\Models\Contrato;
@@ -73,8 +74,8 @@ class ProyectoController extends Controller
     public function show(Proyecto $proyecto)
     {
         $p = Proyecto::with('clase', 'contrato', 'contrato.cliente')->where('id' , $proyecto->id)->first();
- 
-        return inertia('proyectos/proyectos/show', ['proyecto' => $p]);
+        $avance = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->latest()->get();
+        return inertia('proyectos/proyectos/show', ['proyecto' => $p, 'avance' => $avance]);
     }
 
     /**

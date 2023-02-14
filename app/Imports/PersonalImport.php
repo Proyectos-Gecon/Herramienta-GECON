@@ -37,8 +37,6 @@ class PersonalImport implements ToCollection, WithHeadingRow
             'costo_m' => $row['costo_mes'],  
             ]);
             }
-            
-      
         }
     }
 

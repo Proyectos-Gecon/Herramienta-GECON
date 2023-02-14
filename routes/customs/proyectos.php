@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AvanceProyectoSemanalController;
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ContratoController;
@@ -19,4 +20,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::resource('contratos', ContratoController::class);
     Route::resource('clientes', ClienteController::class);
     Route::resource('proyectos', ProyectoController::class);
+    Route::get('avanceSemanal/getData/{proyecto}', [AvanceProyectoSemanalController::class, 'getDataProyecto'])->name('getDataProyecto');
+    Route::resource('avanceSemanal', AvanceProyectoSemanalController::class);
 });

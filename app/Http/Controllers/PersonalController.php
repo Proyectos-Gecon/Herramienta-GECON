@@ -14,6 +14,15 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class PersonalController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except('upload');
+        $this->middleware('permission:read personal')->only('index');
+        $this->middleware('role:USER DEPPC|ADMIN')->only('personalActivos');
+    }
+
+
     public function index(){
 
         $users = Personal::

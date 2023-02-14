@@ -28,6 +28,10 @@
         siglas_proyecto:  props.proyecto != null ? props.proyecto.siglas_proyecto:null,
         alcance:  props.proyecto != null ? props.proyecto.alcance:null,
         nombre_buque:  props.proyecto != null ? props.proyecto.nombre_buque:null,
+        observacions:  props.proyecto != null ? props.proyecto.observacions:null,
+        costo_materiales_presupuesto:  props.proyecto != null ? props.proyecto.costo_materiales_presupuesto:null,
+        costo_mdo_presupuesto:  props.proyecto != null ? props.proyecto.costo_mdo_presupuesto:null,
+        costo_servicios_presupuesto:  props.proyecto != null ? props.proyecto.costo_servicios_presupuesto:null,
     });
 
     var displayModal =  ref(false);
@@ -37,6 +41,10 @@
         url: route("proyectos.store"),
     });
 
+    const archivo = useForm({
+        file: null,
+        proyecto: props.proyecto != null ? props.proyecto.id:null
+    })
 
     const props =  defineProps({
         clases: Array,
@@ -45,6 +53,9 @@
         proyecto: Object
     });
     
+    const cargarAvance = () => {
+        archivo.post(route('avanceSemanal.store'))
+    }
 
     const submit = () => {
         if(props.proyecto != null && !props.doubling){
@@ -80,7 +91,7 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
                   
                     <Header :title="props.proyecto == null ? 'Crear  Proyecto':(props.doubling ? 'Duplicar  Proyecto':'Editar  Proyecto') ">
-                        <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar"/>
+                        <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar Avance"/>
                     </Header>
                     <form @focusout="validate" @submit.prevent="submit" class="pb-4">
                         <div class="grid md:grid-cols-3 grid-cols-1 my-2 gap-6 px-6">
@@ -125,6 +136,15 @@
                             </div>
 
                             <TextInput label="Nombre del Buque" v-model="form.nombre_buque" sugerencia="Escriba el nombre del proyecto"></TextInput>
+                            <NumberInput label="Presupuesto Materiales" v-model="form.costo_materiales_presupuesto" sugerencia="Escriba el Valor del Presupuesto Materiales" suffix=" $"></NumberInput> 
+
+                            <NumberInput label="Presupuesto Mano de Obra" v-model="form.costo_mdo_presupuesto" sugerencia="Escriba el Valor del Presupuesto Mano de Obra" suffix=" $"></NumberInput> 
+                            
+                            <NumberInput label="Presupuesto Servicios" v-model="form.costo_servicios_presupuesto" sugerencia="Escriba el Valor del Presupuesto Servicios" suffix=" $"></NumberInput> 
+                            <div class="col-span-1 md:col-span-2">
+                                <TextInput label="Descripción del Proyecto" v-model="form.observacions" :error="form.errors.siglas_proyecto" sugerencia="Escriba la descripción"></TextInput>
+                            </div>
+                            
                         </div>
 
                             <div class="px-[2%] text-end">
@@ -140,21 +160,23 @@
             </div>
          
         </div>
-        <Dialog header="Carga Masiva" position="topright" v-model:visible="displayModal" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
-            <form @submit.prevent="submit">
-                <FileUpload name="file" :url="route('proyectos.upload')" @upload="onAdvancedUpload($event)" :multiple="false" accept=".xml,.xlsx,.csv" :maxFileSize="1000000">
-                <template #content>
-                    <ul v-if="uploadedFiles && uploadedFiles[0]">
-                        <li v-for="file of uploadedFiles[0]" :key="file">{{ file.name }} - {{ file.size }} bytes</li>
-                    </ul>
-                </template>
-                <template #empty>
-                    <p>Drag and drop files to here to upload.</p>
-                </template>
-            </FileUpload>
-
-            </form>
-            
+        <Dialog header="Carga de Avances Semanales" position="topright" v-model:visible="displayModal" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+            <div class="mx-2">
+                    <form class="space-y-3" action="#"  @submit.prevent="cargarAvance">
+                                <div class="grid grid-cols-1 space-y-2">
+                                    <div class="items-center justify-center w-full">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Subir Archivo</label>
+                                        <input  @input="archivo.file = $event.target.files[0]" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
+                                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Archivos de Excel</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit" class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
+                                    Subir
+                                </button>
+                                </div>
+                    </form>
+            </div>
         </Dialog>
 
     </AppLayout>

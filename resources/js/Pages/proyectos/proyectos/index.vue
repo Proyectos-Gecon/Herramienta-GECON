@@ -16,6 +16,7 @@ import Chip from "primevue/chip";
 import OverlayPanel from "primevue/overlaypanel";
 import Divider from "primevue/divider";
 import { permisos } from "@/composable/Permisions.js";
+import FileUpload from 'primevue/fileupload';
 
 const can = (array) => {
   var { val } = permisos(array);
@@ -30,6 +31,10 @@ const props = defineProps({
   construccion: Number,
   tipos: Array
 });
+
+const onAdvancedUpload = () => {
+        
+}
 
 const form = useForm({
   _method: "DELETE",
@@ -57,6 +62,8 @@ var filters = ref({
 const closeModal = () => {
   displayModal = false;
 };
+
+var displayModalUpdate =  ref(false);
 
 const deleted = (event, id, name) => {
   confirm.require({
@@ -86,7 +93,6 @@ const toggle = (event, data) => {
     op.value.toggle(event);
   }
 };
-
 const toggleClase = (event, data) => {
   clase = data;
   if (clase.name != "-") {
@@ -147,7 +153,7 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
                   </div>
                 </div>
               </div>
-              <div class="mt-3 lg:mt-0 space-x-2">
+              <div class="mt-3 lg:mt-0 space-x-2 flex">
                 <Link
                   type="button"
                   :href="route('proyectos.create')"
@@ -160,6 +166,9 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
                     icon="pi pi-plus"
                   ></Button>
                 </Link>
+                <div>
+                  <Button icon="pi pi-upload" class=" p-button-info  p-button-outlined" @click="displayModalUpdate = true" label="Importar"/>
+                </div>
               </div>
             </div>
           </div>
@@ -425,6 +434,22 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
         </Link>
       </div>
     </OverlayPanel>
+
+    <Dialog header="Carga Masiva" position="topright" v-model:visible="displayModalUpdate" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+            <form @submit.prevent="submit">
+                <FileUpload name="file" :url="route('proyectos.upload')" @upload="onAdvancedUpload($event)" :multiple="false" accept=".xml,.xlsx,.csv" :maxFileSize="1000000">
+                <template #content>
+                    <ul v-if="uploadedFiles && uploadedFiles[0]">
+                        <li v-for="file of uploadedFiles[0]" :key="file">{{ file.name }} - {{ file.size }} bytes</li>
+                    </ul>
+                </template>
+                <template #empty>
+                    <p>Drag and drop files to here to upload.</p>
+                </template>
+            </FileUpload>
+
+            </form>
+    </Dialog>
   </AppLayout>
 </template>
 

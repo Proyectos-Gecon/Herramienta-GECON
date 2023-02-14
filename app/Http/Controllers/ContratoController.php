@@ -99,6 +99,7 @@ class ContratoController extends Controller
      */
     public function update(Request $request, Contrato $contrato)
     {
+        
         $validateData = $request->validate([
             'contrato_id' => 'required|unique:contratos,contrato_id,'.$contrato->id,
             'objeto' => 'nullable',

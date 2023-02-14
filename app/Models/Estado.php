@@ -25,6 +25,7 @@
                 ['estado' => 'PERM SEPELIO','tipo' => 0, 'grupo' => 'PERM REMUN'],
                 ['estado' => 'PERM SER MADRE','tipo' => 0, 'grupo' => 'PERM REMUN'],
                 ['estado' => 'PERM OFIC/JUR', 'tipo' => 0, 'grupo' => 'PERM REMUN'],
+                ['estado' => 'CAPAC/CURSOS', 'tipo' => 0, 'grupo' => 'PERM REMUN'],
 
                 ['estado' => 'APOYO DIV', 'tipo' => 1, 'grupo' => 'APOYO OTRAS UNIDADES'],
                 

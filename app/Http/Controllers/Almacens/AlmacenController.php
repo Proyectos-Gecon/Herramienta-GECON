@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class AlmacenController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:read almacen')->only('index');
+        $this->middleware('role:ADMIN')->only(['store', 'create']);
+       
+    }
     /**
      * Display a listing of the resource.
      *

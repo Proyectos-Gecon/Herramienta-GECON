@@ -32,7 +32,7 @@ const options= {
         xaxis: {
           categories: props.categories
         },
-        colors: ['#FC6881','#3EEE73'],       
+        colors: ['#636465','#067CBB'],       
     }
 </script>
 <template>
