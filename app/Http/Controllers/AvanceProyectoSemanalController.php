@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\Proyectos\ImportAvanceSemanal;
 use App\Models\AvanceProyectoSemanal;
 use App\Models\Proyecto;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -25,9 +26,11 @@ class AvanceProyectoSemanalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $fecha = strtotime($request->fecha);
+        return date('yW', $fecha);
+        return $request;
     }
 
     /**
@@ -55,7 +58,7 @@ class AvanceProyectoSemanalController extends Controller
 
     public function getDataProyecto(Proyecto $proyecto){
      
-        $semanas = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->pluck('semana')->toArray();
+        $semanas = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->pluck('fecha_estado')->toArray();
         $planeado = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->pluck('avance_planeado')->toArray();
         $ejecutado = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->pluck('avance_real')->toArray();
 

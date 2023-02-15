@@ -64,7 +64,6 @@ const basicData = {
             data: props.noPresentesDivision,
             backgroundColor: '#E83D3D'
         }
-        
     ]
 }
 

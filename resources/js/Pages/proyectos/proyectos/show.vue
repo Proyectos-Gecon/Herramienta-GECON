@@ -44,9 +44,7 @@ const props = defineProps({
                         {{ props.proyecto.name }}  {{ props.proyecto.siglas_proyecto != null ? '/'+props.proyecto.siglas_proyecto:'' }}
                     </h1>
                     <p class="mt-4 text-lg text-gray-300">
-                        This is a simple example of a Landing Page you can build using
-                        Tailwind Starter Kit. It features multiple CSS components
-                        based on the Tailwindcss design system.
+                       {{ props.proyecto.observacions }}
                     </p>
                     </div>
                 </div>
@@ -250,7 +248,8 @@ const props = defineProps({
                 </div>
             </div>
             </section>
-            <section class="relative py-2" v-if="props.avance.length > 0">
+
+            <section class="relative p-8 bg-white" v-if="props.avance.length > 0">
             <div class="text-center">
                 <h3 class="text-3xl font-semibold leading-normal">
                         Estado del Proyeto
@@ -258,31 +257,42 @@ const props = defineProps({
             </div>
             <div class="bg-white">
                 <div class="mx-2 py-2 grid grid-cols-5 gap-4 mb-2">
-                <div class="bg-white rounded-xl shadow-xl shadow-slate-400 p-4">
+                <div class="bg-white rounded-xl shadow-xl shadow-slate-400 text-center p-4">
                     <h5>Semana de Reporte</h5>
                     <h5>WK - {{props.avance[0].semana_format}}</h5>
+                    
                 </div>
-                <div class="bg-indigo-200 rounded-xl shadow-xl shadow-slate-400 p-4">
+                <div class="bg-bray-200 rounded-xl shadow-xl text-blue-500 text-xl shadow-slate-400 text-center pt-4">
                     <h5>Avance Planeado</h5>
                     <h5>{{props.avance[0].avance_planeado *100}} %</h5>
+                    <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
+                    <div class="bg-blue-500 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: {{props.avance[0].avance_planeado *100}}%"></div>
+                    </div>
                 </div>
-                <div class=" rounded-xl shadow-xl shadow-slate-400 p-4" :class="props.avance[0].avance_planeado > props.avance[0].avance_real ? 'bg-red-100':'bg-green-200'">
+                <div class="bg-bray-200 rounded-xl shadow-xl text-teal-500 text-xl shadow-slate-400 text-center pt-4">
                     <h5>Avance Real</h5>
                     <h5>{{props.avance[0].avance_real *100}} %</h5>
+                    <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
+                    <div class="bg-teal-500 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: {{props.avance[0].avance_real *100}}%"></div>
+                    </div>
                 </div>
-                <div class="bg-green-100 rounded-xl shadow-xl shadow-slate-400 p-4">
+               
+                <div class="bg-green-100 rounded-xl shadow-xl shadow-slate-400 text-center p-4">
                     <h5>CPI</h5>
                     <h5>{{props.avance[0].CPI}}</h5>
                 </div>
-                <div class="bg-green-100 rounded-xl shadow-xl shadow-slate-400 p-4">
+                <div class="bg-green-100 rounded-xl shadow-xl shadow-slate-400 text-center p-4">
                     <h5>SPI</h5>
                     <h5>{{props.avance[0].SPI}}</h5>
                 </div>
             </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mx-5">
                     <GaugeChart :value="props.avance[0].CPI" title="CPI"></GaugeChart>
                     <GaugeChart :value="props.avance[0].SPI" title="SPI"></GaugeChart>
-                    <CurvaS :proyecto="props.avance[0].proyecto_id"></CurvaS>
+                    <div class="col-span-3">
+                         <CurvaS :proyecto="props.avance[0].proyecto_id"></CurvaS>
+                    </div>
+                   
                 </div>
             </div>
             

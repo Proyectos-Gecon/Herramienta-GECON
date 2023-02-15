@@ -28,6 +28,7 @@ class ImportAvanceSemanal implements ToCollection, WithHeadingRow
             if(isset($row['avance_planeado'])){
                 AvanceProyectoSemanal::create([
                     'proyecto_id' => $this->proyecto,
+                    'fecha_estado' =>  \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_de_estado']),
                     'semana' => $row['semana'],
                     'avance_planeado' => $row['avance_planeado'],
                     'avance_real'=> $row['avance_real'] ?? 0,

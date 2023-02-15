@@ -123,19 +123,20 @@ const submit = () => {
                         <template #footer>
                             <div class="flex justify-between space-x-4">
                                 <div class="p-fluid w-full border-2 rounded-md" :class="user.fecha == new Date().toLocaleDateString('en-CA') ? 'border-green-400':''">
-                                <Dropdown  v-model="user.proyecto"  :filter="true" class="multiselect-custom" :options="props.proyectos"  placeholder="Seleccionar Proyecto" display="chip" :class="form.errors[`users.${index}.proyecto`] != null ? 'p-invalid':''">
-                                </Dropdown> 
-                                <small id="username2-help" class="p-error">{{
-                                        form.errors[`users.${index}.proyecto`]
-                                    }}</small>
-                                </div>
-                                <div class="p-fluid w-full border-2 rounded-md" :class="user.fecha == new Date().toLocaleDateString('en-CA') ? 'border-green-400':''">
                                 <Dropdown v-model="user.estado" :filterFields="['estado']" :filter="true" class="multiselect-custom"  :options="props.estados" optionLabel="estado" optionValue="estado" placeholder="Seleccionar Estados" display="chip" :class="form.errors[`users.${index}.estado`] != null ? 'p-invalid':''">
                                 </Dropdown> 
                                 <small id="username2-help" class="p-error">{{
                                         form.errors[`users.${index}.estado`]
                                     }}</small>
                                 </div>
+                                <div class="p-fluid w-full border-2 rounded-md" :class="user.fecha == new Date().toLocaleDateString('en-CA') ? 'border-green-400':''" v-if="user.estado != 'VACAC'">
+                                <Dropdown  v-model="user.proyecto" :options="props.proyectos"  placeholder="Seleccionar Proyecto" display="chip" :class="form.errors[`users.${index}.proyecto`] != null ? 'p-invalid':''">
+                                </Dropdown> 
+                                <small id="username2-help" class="p-error">{{
+                                        form.errors[`users.${index}.proyecto`]
+                                    }}</small>
+                                </div>
+                              
                             </div>
                         </template>
                     </Card>

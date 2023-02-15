@@ -11,8 +11,6 @@ const props = defineProps({
 })
 
 const selecData =  (e, chart, opts) => {
-    console.log(chart, opts);
-    console.log(opts.seriesIndex)
     Inertia.get(route('parte.index', {
         estado: opts.w.globals.labels[opts.dataPointIndex]
     }));

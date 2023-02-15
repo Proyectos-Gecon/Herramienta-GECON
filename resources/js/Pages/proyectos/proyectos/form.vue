@@ -35,6 +35,7 @@
     });
 
     var displayModal =  ref(false);
+    var displayModalAvance =  ref(false);
     
     const { validate } = usePreValidate(form, {
         method: "post",
@@ -53,6 +54,15 @@
         proyecto: Object
     });
     
+    const formAvance = useForm({
+        fecha: new Date(),
+        avance_real: 0,
+        avance_real_costo: 0,
+        costo_material: 0,
+        costo_mano_obra: 0,
+        costo_servicio: 0,
+    })
+
     const cargarAvance = () => {
         archivo.post(route('avanceSemanal.store'))
     }
@@ -78,8 +88,11 @@
         })
     }
 
+    const submitAvance = () => {
+        formAvance.get(route('avanceSemanal.create'))
+    }
+
     const onAdvancedUpload = () => {
-        
     }
     /* End functions */ 
 </script>
@@ -91,6 +104,7 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
                   
                     <Header :title="props.proyecto == null ? 'Crear  Proyecto':(props.doubling ? 'Duplicar  Proyecto':'Editar  Proyecto') ">
+                        <Button icon="pi pi-plus" class=" p-button-success  p-button-sm" @click="displayModalAvance = true" label="Avance de la Semana"/>
                         <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar Avance"/>
                     </Header>
                     <form @focusout="validate" @submit.prevent="submit" class="pb-4">
@@ -163,21 +177,47 @@
         <Dialog header="Carga de Avances Semanales" position="topright" v-model:visible="displayModal" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
             <div class="mx-2">
                     <form class="space-y-3" action="#"  @submit.prevent="cargarAvance">
-                                <div class="grid grid-cols-1 space-y-2">
-                                    <div class="items-center justify-center w-full">
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Subir Archivo</label>
-                                        <input  @input="archivo.file = $event.target.files[0]" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
-                                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Archivos de Excel</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button type="submit" class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
-                                    Subir
-                                </button>
-                                </div>
-                    </form>
+                        <div class="grid grid-cols-1 space-y-2">
+                            <div class="items-center justify-center w-full">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Subir Archivo</label>
+                                <input  @input="archivo.file = $event.target.files[0]" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Archivos de Excel</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
+                            Subir
+                        </button>
+                        </div>
+                </form>
             </div>
         </Dialog>
+        <Dialog header="Avance de la Semana" v-model:visible="displayModalAvance" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+            <div class="mx-2">
+                    <form class="space-y-3" action="#"  @submit.prevent="submitAvance">
+                        <div class="grid grid-cols-1 space-y-4">
+                            <div class="p-fluid p-input-filled border-0">
+                                <span class="text-lg font-semibold">Fecha</span>
+                                <Calendar inputId="icon" v-model="formAvance.fecha" :showIcon="true"  :maxDate="new Date()"/>
+                            </div>
+                            <NumberInput label="Avance Real Esfuerzo" v-model="formAvance.avance_real" sugerencia="Digite el valor del avance Ejecutado en el formato (0.0)"></NumberInput> 
 
+                            <NumberInput label="Avance Real Costo" v-model="formAvance.avance_real_costo" sugerencia="Digite el valor del avance Ejecutado en el formato (0.0)"></NumberInput> 
+
+                            <NumberInput label="Costo Ejecutado Materiales" v-model="formAvance.costo_material" sugerencia="Escriba el Valor del Costo Ejecutado Materiales" suffix=" $"></NumberInput> 
+
+                            <NumberInput label="Costo Ejecutado Mano de Obra" v-model="formAvance.costo_mano_obra" sugerencia="Escriba el Valor del Costo Ejecutado Mano de Obra" suffix=" $"></NumberInput> 
+                            
+                            <NumberInput label="Costo Ejecutado Servicios" v-model="formAvance.costo_servicio" sugerencia="Escriba el Valor del Costo Ejecutado Servicios" suffix=" $"></NumberInput> 
+                        </div>
+                        <div>
+                            <button type="submit" class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
+                            Guardar
+                        </button>
+                        </div>
+                </form>
+            </div>
+        </Dialog>
+        
     </AppLayout>
 </template>

@@ -59,7 +59,7 @@ class ParteController extends Controller
         $parte = Parte::with('user')->where('fecha', Carbon::now())->where(
             'planillador_id', auth()->user()->id)->count();
 
-        $proyectos = Proyecto::construccion()->pluck('name');
+        $proyectos = Proyecto::construccion()->pluck('name')->toArray();
         $estados = new Estado();
         
         return inertia('personal/Parte', ['users' => $users, 'proyectos' => $proyectos, 'estados' => $estados->getEstados(), 'parte' => $parte]);
@@ -88,7 +88,7 @@ class ParteController extends Controller
                 'user_id' => $user['id'],
                 'fecha' => Carbon::now(),
             ]);
-            $parte->proyecto = $user['proyecto'];
+            $parte->proyecto = $user['estado'] == 'VACAC' ? '-' : $user['proyecto'];
             $parte->planillador_id = auth()->user()->id;
             $parte->truno = !$user['turno'] ? 'Diurno':'Nocturno';
             $parte->estado = $user['estado'];

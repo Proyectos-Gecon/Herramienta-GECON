@@ -57,6 +57,10 @@ class ProyectoController extends Controller
             'estado_proyecto' => 'nullable|string|min:3',
             'alcance' => 'nullable|string|min:3',
             'nombre_buque' => 'nullable|string|min:3',
+            'costo_materiales_presupuesto' => 'nullable',
+            'costo_mdo_presupuesto' => 'nullable',
+            'costo_servicios_presupuesto' => 'nullable',
+            'observacions' => 'nullable',
         ]);
 
         if(!$request->prevalidate){
@@ -112,6 +116,10 @@ class ProyectoController extends Controller
             'estado_proyecto' => 'nullable|string|min:3',
             'alcance' => 'nullable|string|min:3',
             'nombre_buque' => 'nullable|string|min:3',
+            'costo_materiales_presupuesto' => 'nullable',
+            'costo_mdo_presupuesto' => 'nullable',
+            'costo_servicios_presupuesto' => 'nullable',
+            'observacions' => 'nullable',
         ]);
         $proyecto->update($validateData);
         return back();
