@@ -170,7 +170,7 @@ class DashboardController extends Controller
     }
 
     protected  function costosMes($date){
-        return PersonalCorporativo::where('GERENCIA', 'CONS')->select(DB::raw("SUM(S.BET01) as sum_salarios"), DB::raw("COUNT(*) as count") )
+        return PersonalCorporativo::where('GERENCIA', 'CONS')->where('TIPO_NOMINA', '<>','AR')->select(DB::raw("SUM(S.BET01) as sum_salarios"), DB::raw("COUNT(*) as count") )
         ->join('CORPORATIVA_INTERFACE.dbo.SALARIO_VIew AS S', 'S.PERNR', 'NUM_SAP')
         ->orderBy('sum_salarios', 'DESC')->get();
     }

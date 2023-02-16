@@ -34,7 +34,7 @@ class ParteController extends Controller
             ->leftJoin('personals as p', 'p.user_id', 'partes.user_id')
             ->leftJoin('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l','l.ID', DB::raw('partes.user_id'))
             ->leftJoin('divisions as d' , 'd.id', 'p.division_id')
-            ->select('l.APELLIDOS_NOMBRES','l.IDENTIFICACION', 'p.tipo_contrato', 'p.area_trabajo','l.CARGO', 'estado', 'proyecto', 'truno', 'fecha','d.name as division', 'p.costo_hora', 'p.costo_dia', 'p.costo_mes')->get();
+            ->select('l.NUM_SAP','l.APELLIDOS_NOMBRES','l.IDENTIFICACION', 'p.tipo_contrato', 'p.area_trabajo','l.CARGO', 'estado', 'proyecto', 'truno', 'fecha','d.name as division', 'p.costo_hora', 'p.costo_dia', 'p.costo_mes')->orderBy('l.APELLIDOS_NOMBRES')->get();
          
             $personalSinParte = PersonalCorporativo::where('GERENCIA', 'CONS')->count() - Parte::where('fecha', $date)->count();
         }else{

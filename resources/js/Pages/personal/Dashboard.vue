@@ -118,7 +118,6 @@ const series = [
                             </div>
                             <div class="flex align-items-center">
                                 <i class="fa-solid fa-users-slash mr-2"></i>
-                               
                                 <span>{{ props.noRegistrados }} Personas NO Registradas  </span>
                             </div>
                         </div>
@@ -126,7 +125,6 @@ const series = [
                         <div class="bg-bray-200 rounded-xl shadow-xl text-sky-600 text-xl shadow-slate-400 text-center pt-4 max-w-xs">
                                 <h5>Personal Total</h5>
                                 <h5>{{ props.costoMes[0].count}}</h5>
-                                
                                 <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
                                 <div class="bg-sky-600 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: 100%"></div>
                                 </div>
@@ -134,7 +132,6 @@ const series = [
                         <div class="bg-bray-200 rounded-xl shadow-xl text-teal-600 text-xl shadow-slate-400 text-center pt-4 max-w-xs">
                                 <h5>Costo dia total</h5>
                                 <h5>{{ formatter.format(props.costoMes[0].sum_salarios*1.6/30000000) }} Millones</h5>
-                                
                                 <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
                                 <div class="bg-teal-600 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: 100%"></div>
                                 </div>
