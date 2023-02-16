@@ -287,9 +287,23 @@ const props = defineProps({
                 </div>
             </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mx-5">
+                    
                     <GaugeChart :value="props.avance[0].CPI" title="CPI"></GaugeChart>
                     <GaugeChart :value="props.avance[0].SPI" title="SPI"></GaugeChart>
-                    <div class="col-span-3">
+                    <div class="mt-12">
+                        <div class="bg-bray-200 rounded-xl shadow-xl text-teal-500 text-xl shadow-slate-400 text-center pt-4">
+                        <h5>Materiales</h5>
+                        <div class="fexl justify-between">
+                            <span>
+                                {{ props.proyecto.costo_materiales_presupuesto }}
+                            </span>
+                        </div>
+                        <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
+                        <div class="bg-teal-500 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: {{props.avance[0].avance_real *100}}%"></div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-span-2">
                          <CurvaS :proyecto="props.avance[0].proyecto_id"></CurvaS>
                     </div>
                    

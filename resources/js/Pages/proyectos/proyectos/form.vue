@@ -28,6 +28,8 @@
         siglas_proyecto:  props.proyecto != null ? props.proyecto.siglas_proyecto:null,
         alcance:  props.proyecto != null ? props.proyecto.alcance:null,
         nombre_buque:  props.proyecto != null ? props.proyecto.nombre_buque:null,
+        supervisor: props.proyecto != null ? props.proyecto.supervisor:null,
+        gerente: props.proyecto != null ? props.proyecto.gerente:null,
         observacions:  props.proyecto != null ? props.proyecto.observacions:null,
         costo_materiales_presupuesto:  props.proyecto != null ? props.proyecto.costo_materiales_presupuesto:null,
         costo_mdo_presupuesto:  props.proyecto != null ? props.proyecto.costo_mdo_presupuesto:null,
@@ -51,7 +53,8 @@
         clases: Array,
         contratos: Array,
         doubling: Boolean,
-        proyecto: Object
+        proyecto: Object,
+        gerentes: Array
     });
     
     const formAvance = useForm({
@@ -150,6 +153,14 @@
                             </div>
 
                             <TextInput label="Nombre del Buque" v-model="form.nombre_buque" sugerencia="Escriba el nombre del proyecto"></TextInput>
+
+                            <TextInput label="Supervisor" v-model="form.supervisor" sugerencia="Escriba el nombre del Supervisor"></TextInput> 
+                            
+                            <div class="p-fluid p-input-filled border-0 space-y-2">
+                                <span>Gerente</span>
+                                <Dropdown v-model="form.gerente" :filter="true" :editable="true" optionValue="APELLIDOS_NOMBRES" optionLabel="APELLIDOS_NOMBRES" :options="props.gerentes" placeholder="Seleccione o escriba el nombre del Gerente" />
+                            </div>
+
                             <NumberInput label="Presupuesto Materiales" v-model="form.costo_materiales_presupuesto" sugerencia="Escriba el Valor del Presupuesto Materiales" suffix=" $"></NumberInput> 
 
                             <NumberInput label="Presupuesto Mano de Obra" v-model="form.costo_mdo_presupuesto" sugerencia="Escriba el Valor del Presupuesto Mano de Obra" suffix=" $"></NumberInput> 

@@ -41,9 +41,11 @@ const props  = defineProps({
     totalPresentes: Number,
     totalNoPresentes: Number,
     fecha: Date,
+    noRegistrados: Number,
     proyectos: Array,
     absentismos: Array,
     divsiones: Array,
+    costoMes: Array,
 })
 
 const fechaDashboard = ref(props.fecha)
@@ -107,10 +109,6 @@ const series = [
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mx-4">
                         <div class="flex space-x-2  p-2 col-span-1  md:col-span-2">
                             <div class="flex align-items-center  p-1">
-                                <i class="fa-solid fa-users mr-2 "></i>
-                                <span>{{ props.totalPresentes + props.totalNoPresentes }} Total  </span>
-                            </div>
-                            <div class="flex align-items-center  p-1">
                                 <i class="fa-solid fa-user-check mr-2"></i>
                                 <span>{{ props.totalPresentes }} Personas Presentes  </span>
                             </div>
@@ -118,6 +116,37 @@ const series = [
                                 <i class="fa-solid fa-user-xmark mr-2"></i>
                                 <span>{{ props.totalNoPresentes }} Personas NO Presentes  </span>
                             </div>
+                            <div class="flex align-items-center">
+                                <i class="fa-solid fa-users-slash mr-2"></i>
+                               
+                                <span>{{ props.noRegistrados }} Personas NO Registradas  </span>
+                            </div>
+                        </div>
+                        <div class="col-span-3 grid grid-cols-3 mb-8 gap-4">
+                        <div class="bg-bray-200 rounded-xl shadow-xl text-sky-600 text-xl shadow-slate-400 text-center pt-4 max-w-xs">
+                                <h5>Personal Total</h5>
+                                <h5>{{ props.costoMes[0].count}}</h5>
+                                
+                                <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
+                                <div class="bg-sky-600 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: 100%"></div>
+                                </div>
+                        </div>
+                        <div class="bg-bray-200 rounded-xl shadow-xl text-teal-600 text-xl shadow-slate-400 text-center pt-4 max-w-xs">
+                                <h5>Costo dia total</h5>
+                                <h5>{{ formatter.format(props.costoMes[0].sum_salarios*1.6/30000000) }} Millones</h5>
+                                
+                                <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
+                                <div class="bg-teal-600 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: 100%"></div>
+                                </div>
+                        </div>
+                        <div class="bg-bray-200 rounded-xl shadow-xl text-teal-600 text-xl shadow-slate-400 text-center pt-4 max-w-xs">
+                                <h5>Costo mes total</h5>
+                                <h5>{{ formatter.format(props.costoMes[0].sum_salarios*1.6 /1000000) }} Millones</h5>
+                                
+                                <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
+                                <div class="bg-teal-600 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: 100%"></div>
+                                </div>
+                        </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 max-h-80 px-4 pt-1 md:px-8 overflow-y-auto  gap-2 col-span-1 md:col-span-2">
                             <div class="p-1  hover:scale-105 duration-500 "  v-for="proyecto in props.proyectos" :key="proyecto.proyecto">

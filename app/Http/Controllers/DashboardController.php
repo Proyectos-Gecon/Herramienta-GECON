@@ -18,7 +18,7 @@ class DashboardController extends Controller
     public function index(Request $request){
         $estado = new Estado();
         $date = Carbon::now();
-        
+   
         if ( Carbon::now()->format('G') <  12){
             if(Carbon::now()->format('w') == 1){
 
@@ -75,6 +75,8 @@ class DashboardController extends Controller
             'fecha' => $date->format('l,  d/m/Y'),
             'proyectos' => $proyectos,
             'divisiones' => $divisiones,
+            'noRegistrados' => $this->noRegistrados($date),
+            'costoMes' => $this->costosMes($date),
         ]); 
     }
 
@@ -145,7 +147,9 @@ class DashboardController extends Controller
             'fecha' => $date->format('d/m/Y'),
             'absentismos' => $absentismos,
             'proyectos' => $proyectos,
-            'divsiones' => $divisiones
+            'divsiones' => $divisiones,
+            'noRegistrados' => $this->noRegistrados($date),
+            'costoMes' => $this->costosMes($date)
         ]); 
     }
 
@@ -158,5 +162,16 @@ class DashboardController extends Controller
         ->join('partes as p', 'p.user_id', 'personals.user_id')
         ->where('p.fecha', $date)
         ->groupBy('d.abreiacion')->orderBy('sum_salarios', 'DESC')->get();
+    }
+
+    protected function noRegistrados($date){
+        return Personal::Join('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l' ,'l.ID', 'user_id')
+        ->whereNotIn('user_id', Parte::where('fecha', Carbon::now())->pluck('user_id')->toArray())->count();
+    }
+
+    protected  function costosMes($date){
+        return PersonalCorporativo::where('GERENCIA', 'CONS')->select(DB::raw("SUM(S.BET01) as sum_salarios"), DB::raw("COUNT(*) as count") )
+        ->join('CORPORATIVA_INTERFACE.dbo.SALARIO_VIew AS S', 'S.PERNR', 'NUM_SAP')
+        ->orderBy('sum_salarios', 'DESC')->get();
     }
 }

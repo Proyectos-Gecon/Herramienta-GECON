@@ -7,6 +7,7 @@ use App\Models\AvanceProyectoSemanal;
 use App\Models\CategoriaSAP;
 use App\Models\Clase;
 use App\Models\Contrato;
+use App\Models\PersonalCorporativo;
 use App\Models\Proyecto;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,8 @@ class ProyectoController extends Controller
     {
         $clases = Clase::get();
         $contratos = Contrato::get();
-        return inertia('proyectos/proyectos/form', ['clases' => $clases, 'contratos' => $contratos]);
+        $gerentes = PersonalCorporativo::where('CARGO', 'LIKE', '%GERENTE DE PROYECTO%')->where('GERENCIA', 'CONS')->get();
+        return inertia('proyectos/proyectos/form', ['clases' => $clases, 'contratos' => $contratos, 'gerentes' => $gerentes]);
     }
 
     /**
@@ -57,6 +59,8 @@ class ProyectoController extends Controller
             'estado_proyecto' => 'nullable|string|min:3',
             'alcance' => 'nullable|string|min:3',
             'nombre_buque' => 'nullable|string|min:3',
+            'supervisor' => 'nullable|string|min:3',
+            'gerente' => 'nullable|string|min:3',
             'costo_materiales_presupuesto' => 'nullable',
             'costo_mdo_presupuesto' => 'nullable',
             'costo_servicios_presupuesto' => 'nullable',
@@ -92,8 +96,8 @@ class ProyectoController extends Controller
     {
         $clases = Clase::get();
         $contratos = Contrato::get();
-        
-        return inertia('proyectos/proyectos/form', ['clases' => $clases, 'contratos' => $contratos, 'proyecto' => $proyecto, 'doubling' => false]);
+        $gerentes = PersonalCorporativo::where('CARGO', 'LIKE', '%GERENTE DE PROYECTO%')->where('GERENCIA', 'CONS')->get();
+        return inertia('proyectos/proyectos/form', ['clases' => $clases, 'contratos' => $contratos, 'proyecto' => $proyecto, 'doubling' => false,'gerentes' => $gerentes]);
     }
 
     /**
@@ -116,6 +120,8 @@ class ProyectoController extends Controller
             'estado_proyecto' => 'nullable|string|min:3',
             'alcance' => 'nullable|string|min:3',
             'nombre_buque' => 'nullable|string|min:3',
+            'supervisor' => 'nullable|string|min:3',
+            'gerente' => 'nullable|string|min:3',
             'costo_materiales_presupuesto' => 'nullable',
             'costo_mdo_presupuesto' => 'nullable',
             'costo_servicios_presupuesto' => 'nullable',
@@ -144,7 +150,7 @@ class ProyectoController extends Controller
     public function duplicate(Proyecto $proyecto){
         $clases = Clase::get();
         $contratos = Contrato::get();
-        
-        return inertia('proyectos/proyectos/form', ['clases' => $clases, 'contratos' => $contratos, 'proyecto' => $proyecto, 'doubling' => true]);
+        $gerentes = PersonalCorporativo::where('CARGO', 'LIKE', '%GERENTE DE PROYECTO%')->where('GERENCIA', 'CONS')->get();
+        return inertia('proyectos/proyectos/form', ['clases' => $clases, 'contratos' => $contratos, 'proyecto' => $proyecto, 'doubling' => true, 'gerentes' => $gerentes]);
     }
 }
