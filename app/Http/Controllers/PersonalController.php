@@ -36,7 +36,7 @@ class PersonalController extends Controller
             ->with('parte')->where('division_id' , auth()->user()->division_id)->get();
         }
         
-        return inertia('personal/ListPersonal', ['users' => $users]);
+        return inertia('personal/ListPersonal', ['users' => $users, 'personal' => User::get()]);
     }
 
     public function personalActivos(){
@@ -109,4 +109,35 @@ class PersonalController extends Controller
         return back();
     }
     
+    public function getFinContratos($dias){
+        $usersContratosPorTerminar = PersonalCorporativo::
+        select('APELLIDOS_NOMBRES as name', 'PTEXT as tipo_contrato', 'CTEDT as fecha', 'CTTYP as prorrogas')
+        ->where('GERENCIA', 'LIKE', 'CONS')->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
+        ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
+        ->where('F.CTEDT' , '<>', 0)
+        ->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay($dias)->format('Ymd'))->get();
+
+        return response()->json(['users' => $usersContratosPorTerminar], 200);
+    }
+
+    public function getCostoDivision(){
+        
+    }
+
+    public function traerPersonal(Request $request){
+
+        $actual = $request->user_actual_supervisor;
+        $nuevo = $request->user_nuevo_supervisor;
+
+        $personal = Personal::where('supervisor_id', $actual)->get();
+        foreach($personal as $p){
+            $p->update([
+                'supervisor_id' => $nuevo,
+              'supervisor_anterior_id' => $actual,
+            ]);
+        }
+        return back();
+    }
+
+
 }

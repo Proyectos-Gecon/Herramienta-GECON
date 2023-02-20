@@ -14,8 +14,8 @@ const planeado = ref([])
 
 axios.get(route('getDataProyecto', props.proyecto)).then((res) => {
     label.value = res.data.labels
-    planeado.value = res.data.planeado.map(x => Number.parseFloat(x*100).toFixed(2))
-    ejecutado.value = res.data.ejecutado.map(x => Number.parseFloat(x*100).toFixed(2))
+    planeado.value = res.data.planeado.map(x => Number.parseFloat(x).toFixed(2))
+    ejecutado.value = res.data.ejecutado.map(x => Number.parseFloat(x).toFixed(2))
 }); 
 const  series= [
             {

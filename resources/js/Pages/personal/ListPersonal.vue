@@ -6,6 +6,7 @@ import Column from 'primevue/column';
 import {FilterMatchMode,FilterOperator} from 'primevue/api';
 import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
+import Dropdown from 'primevue/dropdown';
 import Button from 'primevue/button';
 import { Link, useForm } from '@inertiajs/inertia-vue3';
 import ConfirmPopup from "primevue/confirmpopup";
@@ -13,19 +14,27 @@ import { useConfirm } from "primevue/useconfirm";
 import Chip from 'primevue/chip';
 import { permisos } from '@/composable/Permisions.js'
 
-	const can = (array) => {
-		
+const can = (array) => {
 		var {val} = permisos(array)
 		return val
 	}
 
 const props = defineProps({
   users: Array(),
+  personal: Array
 })
+
+const displayModal = ref(false)
+
 const form = useForm({
   _method: "DELETE",
   contratista: "",
 });
+
+const formTraer = useForm({
+  user_actual_supervisor: null,
+  user_nuevo_supervisor: null,
+})
 
 const formatCurrency = (value) => {
     return new Intl.NumberFormat().format(Number(value).toFixed(0) )
@@ -61,12 +70,6 @@ var filters = ref({
 
 const confirm = useConfirm();
 
-
-
-const closeModal = () => {
-        displayModal = false;
-    }
-
 const deleted = (event, id) => {
   confirm.require({
     target: event.currentTarget,
@@ -87,6 +90,14 @@ const deleted = (event, id) => {
     },
   });
 };
+
+const traerPersonal = () => {
+  formTraer.get(route('traerPersonal'), {
+    onSuccess: ()  => {
+      alert('traer')
+    }
+  })
+}
 </script>
 
 <template>
@@ -104,6 +115,7 @@ const deleted = (event, id) => {
                         <Link type="button" :href="route('personal.create')" class="btn mx-4">
                             <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-user-plus"  />
                         </Link> 
+                        <Button @click="displayModal = true" class="p-button-raised p-button-info p-button-text" icon="pi pi-user-plus" label="Transladar Personal" />
                         <span class="mt-2 text-2xl"> Personal</span>
                       </div>
                       <div>
@@ -164,7 +176,32 @@ const deleted = (event, id) => {
                 </div>
             </div>
  </AppLayout>
-
+ <Dialog
+      header="Traer nuevo Personal"
+      v-model:visible="displayModal"
+      position="top"
+      :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+      :style="{ width: '50vw' }"
+    >
+      <form @submit.prevent="traerPersonal">
+        <div class="mx-auto p-fluid border-0 mt-2 space-y-2">
+            <span class="text-md font-semibold">Division o Departamento</span>
+            <Dropdown v-model="formTraer.user_actual_supervisor" :options="props.personal" optionValue="id" :filter="true" optionLabel="name" placeholder="Seleccionar El Auxiliar Anterior" />
+        </div>
+        <div class="mx-auto p-fluid border-0 mt-2 space-y-2">
+            <span class="text-md font-semibold">Division o Departamento</span>
+            <Dropdown v-model="formTraer.user_nuevo_supervisor" :options="props.personal" optionValue="id" :filter="true" optionLabel="name" placeholder="Seleccionar El Auxiliar Nuevo" />
+        </div>
+        <div class="px-[2%] text-end mt-8">
+          <Button
+            label="Crear"
+            type="submit"
+            icon="pi pi-save"
+            iconPos="left"
+          />
+        </div>
+      </form>
+    </Dialog>
 </template>
 
 <style lang="scss" scoped>

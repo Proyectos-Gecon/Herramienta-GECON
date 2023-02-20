@@ -44,7 +44,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('dashboard/personal', [DashboardController::class, 'personal'])->name('personal.dashboard');
 
     Route::get('personal/novedades', [NovedadesController::class, 'index'])->name('novedades.index');
+
     Route::get('personal/activos', [PersonalController::class, 'personalActivos'])->name('personal.activos');
+
+    Route::get('personal/traerPersonal', [PersonalController::class , 'traerPersonal'])->name('traerPersonal');
+
+    Route::get('personal/getFinContratos/{dias}', [PersonalController::class , 'getFinContratos'])->name('getFinContratos');
 
     Route::resource('personal', PersonalController::class);
     Route::resource('parte', ParteController::class);

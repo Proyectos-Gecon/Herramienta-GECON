@@ -15,21 +15,21 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
+
+    
     public function index(Request $request){
         $estado = new Estado();
         $date = Carbon::now();
    
         if ( Carbon::now()->format('G') <  12){
+            $date =new Carbon('yesterday');
             if(Carbon::now()->format('w') == 1){
-
-                $date =Carbon::now()->subDays(2); 
+                $date =Carbon::now()->subDays(3); 
             }
-            $date =new Carbon('yesterday'); 
         }
 
         $divisiones = $this->divisionesConsulta($date);
       
-        
         $labels_divisions = Division::orderBy('name')->pluck('abreiacion')->toArray();
         $noPresentesDivision = [];
         $presentesDivision = [];
@@ -40,7 +40,6 @@ class DashboardController extends Controller
         
         $partes = Parte::where('fecha', $date)->get();
 
-    
         $proyectos = Proyecto::where('estado_proyecto', 'CONSTRUCCIÓN')->get();
      
         foreach($labels_divisions as $name){
@@ -81,30 +80,21 @@ class DashboardController extends Controller
     }
 
     public function personal(Request $request){
+
         $estado = new Estado();
-        $date = Carbon::now();
+        $date = $this->fecha();
         $noPresentesDivision = [];
         $presentesDivision = [];
         $totalPresentes = 0;
         $totalNoPresentes = 0;
-        
-        if ( Carbon::now()->format('G') <  12){
-            if(Carbon::now()->format('w') == 1){
-                $date =Carbon::now()->subDays(2); 
-            }
-            $date =new Carbon('yesterday'); 
-        }
-
+       
         if($request->fecha != null){
             $date = Carbon::parse($request->fecha['_value']);
         }
        
         $labels_divisions = Division::whereNotNull('abreiacion')->orderBy('name')->pluck('abreiacion')->toArray();
-            
         $partes = Parte::where('fecha', $date)->get();
-
         $absentismos = Parte::fecha($date)->select("estado", DB::raw("count(*) as cantidad"))->nopresentes()->groupBy('estado')->get();
-
         $divisiones = $this->divisionesConsulta($date);
 
         $proyectos = Parte::fecha($date)
@@ -130,18 +120,12 @@ class DashboardController extends Controller
             }
         }
 
-        $usersContratosPorTerminar = PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
-        ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
-        ->where('F.CTEDT' , '<>', 0)
-        ->orderBy('F.CTEDT')->where('F.CTEDT' , '<', Carbon::now()->addDay(20)->format('Ymd'))->get();
-
+      
         
-       
         return Inertia::render('personal/Dashboard', [  
             'noPresentesDivision' => $noPresentesDivision, 
             'labesDivision' => $labels_divisions,
             'presentesDivision' => $presentesDivision, 
-            'usersContratosPorTerminar' => $usersContratosPorTerminar, 
             'totalPresentes' => $totalPresentes, 
             'totalNoPresentes' => $totalNoPresentes , 
             'fecha' => $date->format('d/m/Y'),
@@ -149,7 +133,8 @@ class DashboardController extends Controller
             'proyectos' => $proyectos,
             'divsiones' => $divisiones,
             'noRegistrados' => $this->noRegistrados($date),
-            'costoMes' => $this->costosMes($date)
+            'costoMes' => $this->costosMes($date),
+            'tipoContratos' => $this->tipoContratoConsulta(),
         ]); 
     }
 
@@ -173,5 +158,23 @@ class DashboardController extends Controller
         return PersonalCorporativo::where('GERENCIA', 'CONS')->where('TIPO_NOMINA', '<>','AR')->select(DB::raw("SUM(S.BET01) as sum_salarios"), DB::raw("COUNT(*) as count") )
         ->join('CORPORATIVA_INTERFACE.dbo.SALARIO_VIew AS S', 'S.PERNR', 'NUM_SAP')
         ->orderBy('sum_salarios', 'DESC')->get();
+    }
+
+    protected function fecha(){
+        $date = Carbon::now();    
+        if ( Carbon::now()->format('G') <  12){
+            $date =new Carbon('yesterday'); 
+            if(Carbon::now()->format('w') == 1){
+                $date =Carbon::now()->subDays(3); 
+            }
+        }
+        return $date;
+    }
+
+    protected function tipoContratoConsulta(){
+        $tipoContrato = PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')
+        ->select('B.PTEXT as tipoNomina', DB::raw("count(ID) as cantidad"))
+        ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')->groupBy('B.PTEXT')->get();
+        return $tipoContrato;
     }
 }

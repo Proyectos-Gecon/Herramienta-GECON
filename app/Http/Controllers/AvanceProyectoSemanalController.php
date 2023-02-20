@@ -41,7 +41,7 @@ class AvanceProyectoSemanalController extends Controller
      */
     public function store(Request $request)
     {
-        AvanceProyectoSemanal::truncate();
+       
         Excel::import(new ImportAvanceSemanal($request->proyecto), $request->file);       
     }
 

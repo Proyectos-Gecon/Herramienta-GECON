@@ -264,9 +264,9 @@ const props = defineProps({
                 </div>
                 <div class="bg-bray-200 rounded-xl shadow-xl text-blue-500 text-xl shadow-slate-400 text-center pt-4">
                     <h5>Avance Planeado</h5>
-                    <h5>{{props.avance[0].avance_planeado *100}} %</h5>
+                    <h5>{{props.avance[0].avance_planeado}} %</h5>
                     <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
-                    <div class="bg-blue-500 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: {{props.avance[0].avance_planeado *100}}%"></div>
+                    <div class="bg-blue-500 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: {{props.avance[0].avance_planeado}}%"></div>
                     </div>
                 </div>
                 <div class="bg-bray-200 rounded-xl shadow-xl text-teal-500 text-xl shadow-slate-400 text-center pt-4">
@@ -303,7 +303,7 @@ const props = defineProps({
                         </div>
                     </div>
                     </div>
-                    <div class="col-span-2">
+                    <div class="col-span-3">
                          <CurvaS :proyecto="props.avance[0].proyecto_id"></CurvaS>
                     </div>
                    
