@@ -58,7 +58,7 @@ class AvanceProyectoSemanalController extends Controller
 
     public function getDataProyecto(Proyecto $proyecto){
      
-        $semanas = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->pluck('fecha_estado')->toArray();
+        $semanas = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->pluck('semana')->toArray();
         $planeado = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->pluck('avance_planeado')->toArray();
         $ejecutado = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->pluck('avance_real')->toArray();
 

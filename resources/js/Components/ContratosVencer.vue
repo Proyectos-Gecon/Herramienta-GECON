@@ -19,7 +19,6 @@ const getData = async (dias) => {
     await axios.get(route('getFinContratos', dias)).then((res) => {
         users.value = res.data.users;
         loading.value = false
-       
     })
 }
 

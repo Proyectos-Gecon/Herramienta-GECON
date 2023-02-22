@@ -94,6 +94,7 @@ class DashboardController extends Controller
        
         $labels_divisions = Division::whereNotNull('abreiacion')->orderBy('name')->pluck('abreiacion')->toArray();
         $partes = Parte::where('fecha', $date)->get();
+        
         $absentismos = Parte::fecha($date)->select("estado", DB::raw("count(*) as cantidad"))->nopresentes()->groupBy('estado')->get();
         $divisiones = $this->divisionesConsulta($date);
 
@@ -112,15 +113,11 @@ class DashboardController extends Controller
             if($parte->personal->division != null && $parte->personal->division->abreiacion != null){
                 if(!$parte->estaPresente()){
                     $noPresentesDivision[$parte->personal->division->abreiacion] ++;
-                    $totalNoPresentes ++;
                 }else{
                     $presentesDivision[$parte->personal->division->abreiacion] ++;
-                    $totalPresentes ++;
                 }
             }
         }
-
-      
         
         return Inertia::render('personal/Dashboard', [  
             'noPresentesDivision' => $noPresentesDivision, 
@@ -128,7 +125,7 @@ class DashboardController extends Controller
             'presentesDivision' => $presentesDivision, 
             'totalPresentes' => $totalPresentes, 
             'totalNoPresentes' => $totalNoPresentes , 
-            'fecha' => $date->format('d/m/Y'),
+            'fecha' => $date->format('Y-m-d'),
             'absentismos' => $absentismos,
             'proyectos' => $proyectos,
             'divsiones' => $divisiones,

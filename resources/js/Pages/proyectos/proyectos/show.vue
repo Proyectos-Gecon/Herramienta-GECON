@@ -10,7 +10,8 @@ import CurvaS from '@/Components/customs/CurvaS.vue'
 
 const props = defineProps({
     proyecto: Object,
-    avance: Array
+    avance: Array,
+    avance_actual: Object
 })
 
 
@@ -259,37 +260,37 @@ const props = defineProps({
                 <div class="mx-2 py-2 grid grid-cols-5 gap-4 mb-2">
                 <div class="bg-white rounded-xl shadow-xl shadow-slate-400 text-center p-4">
                     <h5>Semana de Reporte</h5>
-                    <h5>WK - {{props.avance[0].semana_format}}</h5>
+                    <h5>WK - {{props.avance_actual.semana_format}}</h5>
                     
                 </div>
                 <div class="bg-bray-200 rounded-xl shadow-xl text-blue-500 text-xl shadow-slate-400 text-center pt-4">
                     <h5>Avance Planeado</h5>
-                    <h5>{{props.avance[0].avance_planeado}} %</h5>
+                    <h5>{{props.avance_actual.avance_planeado}} %</h5>
                     <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
-                    <div class="bg-blue-500 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: {{props.avance[0].avance_planeado}}%"></div>
+                    <div class="bg-blue-500 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: {{props.avance_actual.avance_planeado}}%"></div>
                     </div>
                 </div>
                 <div class="bg-bray-200 rounded-xl shadow-xl text-teal-500 text-xl shadow-slate-400 text-center pt-4">
                     <h5>Avance Real</h5>
                     <h5>{{props.avance[0].avance_real *100}} %</h5>
                     <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
-                    <div class="bg-teal-500 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: {{props.avance[0].avance_real *100}}%"></div>
+                    <div class="bg-teal-500 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: {{props.avance_actual.avance_real *100}}%"></div>
                     </div>
                 </div>
                
                 <div class="bg-green-100 rounded-xl shadow-xl shadow-slate-400 text-center p-4">
                     <h5>CPI</h5>
-                    <h5>{{props.avance[0].CPI}}</h5>
+                    <h5>{{props.avance_actual.CPI}}</h5>
                 </div>
                 <div class="bg-green-100 rounded-xl shadow-xl shadow-slate-400 text-center p-4">
                     <h5>SPI</h5>
-                    <h5>{{props.avance[0].SPI}}</h5>
+                    <h5>{{props.avance_actual.SPI}}</h5>
                 </div>
             </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mx-5">
                     
-                    <GaugeChart :value="props.avance[0].CPI" title="CPI"></GaugeChart>
-                    <GaugeChart :value="props.avance[0].SPI" title="SPI"></GaugeChart>
+                    <GaugeChart :value="props.avance_actual.CPI" title="CPI"></GaugeChart>
+                    <GaugeChart :value="props.avance_actual.SPI" title="SPI"></GaugeChart>
                     <div class="mt-12">
                         <div class="bg-bray-200 rounded-xl shadow-xl text-teal-500 text-xl shadow-slate-400 text-center pt-4">
                         <h5>Materiales</h5>

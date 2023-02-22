@@ -82,9 +82,13 @@ class ProyectoController extends Controller
     public function show(Proyecto $proyecto)
     {
         $p = Proyecto::with('clase', 'contrato', 'contrato.cliente')->where('id' , $proyecto->id)->first();
-        $avance_actual = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id);
-        $avance = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->latest()->get();
-        return inertia('proyectos/proyectos/show', ['proyecto' => $p, 'avance' => $avance]);
+        $avance_actual = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->where('avance_real', '<>', 0)->latest()->first();
+        if(!isset($avance_actual)){
+            $avance_actual = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->first();
+        }
+        $avance = AvanceProyectoSemanal::where('proyecto_id', $proyecto->id)->orderBy('semana')->get();
+        
+        return inertia('proyectos/proyectos/show', ['proyecto' => $p, 'avance' => $avance, 'avance_actual' => $avance_actual]);
     }
 
     /**

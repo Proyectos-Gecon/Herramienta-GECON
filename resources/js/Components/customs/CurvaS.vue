@@ -55,7 +55,10 @@ const  series= [
               align: 'left'
             },
             xaxis: {
-                categories: label,
+              type: 'category',
+              tickPlacement: 'between',
+              tickPlacement: 'on',
+              categories: label,
             },
             yaxis: {
               min: 0,

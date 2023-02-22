@@ -17,7 +17,7 @@ import OverlayPanel from "primevue/overlaypanel";
 import Divider from "primevue/divider";
 import { permisos } from "@/composable/Permisions.js";
 import FileUpload from 'primevue/fileupload';
-
+import Header from "@/Components/customs/Header.vue";
 const can = (array) => {
   var { val } = permisos(array);
   return val;
@@ -101,6 +101,7 @@ const toggleClase = (event, data) => {
 };
 
 const { exporting } = exportExcel(props.proyectos, "Proyectos");
+
 </script>
 
 <template>
@@ -117,7 +118,46 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
             p-4
           "
         >
-          <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
+        <Header title="proyecto" :create="can(['create proyectos'])" url="proyectos.create">
+          <template #head>
+            <ul
+              class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
+            >
+              <li>
+                <a class="text-500 no-underline line-height-3 cursor-pointer"
+                  >Proyectos</a
+                >
+              </li>
+              <li class="px-2">
+                <i class="pi pi-angle-right text-500 line-height-3"></i>
+              </li>
+              <li>
+                <span class="text-900 line-height-3">Lista de Proyectos</span>
+              </li>
+            </ul>
+          </template>
+          
+          <template #buttons>
+            <div>
+                <Button icon="pi pi-upload" class=" p-button-info  p-button-outlined" @click="displayModalUpdate = true" label="Importar"/>
+              </div>
+          </template>
+
+          <template #footer>
+            <div class="mr-5 flex align-items-center mt-3">
+                    <i class="fa fa-ship mr-2"></i>
+                    <span>{{ props.proyectos.length }} Proyectos totales</span>
+                  </div>
+                
+                  <div class="flex align-items-center mt-3 space-x-1">
+                    <i class="fa-solid fa-hammer"></i>
+                    <span class="cursor-pointer" @click="filters.estado_proyecto.value = 'CONSTRUCCIÓN'">
+                      {{ props.construccion }} Proyectos en construcción</span
+                    >
+                  </div>
+          </template>
+        </Header>
+          <!-- <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
             <ul
               class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
             >
@@ -137,20 +177,7 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
               <div>
                 <div class="font-medium text-3xl text-900">Proyectos</div>
                 <div class="flex align-items-center text-700 flex-wrap">
-                  <div class="mr-5 flex align-items-center mt-3">
-                    <i class="fa fa-ship mr-2"></i>
-                    <span>{{ props.proyectos.length }} Proyectos totales</span>
-                  </div>
-                  <!-- <div class="mr-5 flex align-items-center mt-3">
-                                      <i class="pi pi-globe mr-2"></i>
-                                      <span>9402 Sessions</span>
-                                  </div> -->
-                  <div class="flex align-items-center mt-3 space-x-1">
-                    <i class="fa-solid fa-hammer"></i>
-                    <span class="cursor-pointer" @click="filters.estado_proyecto.value = 'CONSTRUCCIÓN'">
-                      {{ props.construccion }} Proyectos en construcción</span
-                    >
-                  </div>
+                  
                 </div>
               </div>
               <div class="mt-3 lg:mt-0 space-x-2 flex">
@@ -171,7 +198,7 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <DataTable
             ref="dt"
             :value="props.proyectos"

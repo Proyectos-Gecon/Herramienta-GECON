@@ -46,6 +46,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/customs/presupuestos.php'));
 
             Route::middleware('web')
+                ->prefix('personal')
+                ->group(base_path('routes/customs/personal.php'));
+
+            Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
     }

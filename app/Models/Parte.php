@@ -22,11 +22,11 @@ class Parte extends Model
 
     public function scopeNopresentes($query){
         $estado = new Estado();
-        return $query->whereIn('estado' , $estado->estadosTipo(false));
+        return $query->whereIn('estado' , $estado->estadosTipo(0));
     }
     public function scopePresentes($query){
         $estado = new Estado();
-        return $query->whereIn('estado' , $estado->estadosTipo(true));
+        return $query->whereIn('estado' , $estado->estadosTipo(1));
     }
 
     public function grupoEstado(){

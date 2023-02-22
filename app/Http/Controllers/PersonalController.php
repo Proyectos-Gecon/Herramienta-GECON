@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Imports\PersonalImport;
 use App\Models\Division;
+use App\Models\Estado;
+use App\Models\Parte;
 use App\Models\Personal;
 use App\Models\PersonalCorporativo;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PersonalController extends Controller
@@ -137,6 +140,41 @@ class PersonalController extends Controller
             ]);
         }
         return back();
+    }
+
+    public function getResumenPersonal($fecha){
+     
+        $partes = Parte::where('fecha', $fecha)->get();
+        $noPresentes = 0;
+        $presentes = 0;
+        foreach($partes as $parte){
+            if($parte->personal->division != null && $parte->personal->division->abreiacion != null){
+                if(!$parte->estaPresente()){
+                  
+                    $noPresentes ++;
+                }else{
+                 
+                    $presentes ++;
+                }
+            }
+        }
+
+        $personal = Parte::where('fecha', $fecha)->count();
+
+        if($fecha == Carbon::now()){
+            $personal = PersonalCorporativo::where('GERENCIA', 'CONS')->count();    
+        }
+        $costos = PersonalCorporativo::where('GERENCIA', 'CONS')->where('TIPO_NOMINA', '<>','AR')->select(DB::raw("SUM(S.BET01 *1.60) as sum_salarios") )
+        ->join('CORPORATIVA_INTERFACE.dbo.SALARIO_VIew AS S', 'S.PERNR', 'NUM_SAP')
+        ->orderBy('sum_salarios', 'DESC')->first();
+       
+        return response()->json([
+            'costos' => $costos->sum_salarios,
+            'presentes' => $presentes,
+            'noPresentes' => $noPresentes,
+            'personal' => $personal,
+            'NoRegistrados' => $personal - ($presentes + $noPresentes)
+        ], 200);
     }
 
 
