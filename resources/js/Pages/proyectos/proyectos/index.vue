@@ -17,7 +17,7 @@ import OverlayPanel from "primevue/overlaypanel";
 import Divider from "primevue/divider";
 import { permisos } from "@/composable/Permisions.js";
 import FileUpload from 'primevue/fileupload';
-import Header from "@/Components/customs/Header.vue";
+import HeaderPage from "@/Components/customs/HeaderPage.vue";
 const can = (array) => {
   var { val } = permisos(array);
   return val;
@@ -118,7 +118,7 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
             p-4
           "
         >
-        <Header title="proyecto" :create="can(['create proyectos'])" url="proyectos.create">
+        <HeaderPage title="proyecto" :create="can(['create proyectos'])" url="proyectos.create">
           <template #head>
             <ul
               class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
@@ -156,7 +156,7 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
                     >
                   </div>
           </template>
-        </Header>
+        </HeaderPage>
           <!-- <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
             <ul
               class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
