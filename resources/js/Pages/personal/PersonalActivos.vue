@@ -96,14 +96,14 @@ const submit = () => {
                         $ {{formatCurrency(data.salario)}}
                       </template>
                     </Column>
-                    <Column field="salario" header="Costo Mes" data-type="number" :sortable="true">
+                    <Column field="costo_mes" header="Costo Mes" data-type="number" :sortable="true">
                       <template #body="{data}">
-                        $ {{formatCurrency(data.salario * 1.6)}}
+                        $ {{formatCurrency(data.costo_mes)}}
                       </template>
                     </Column>
-                    <Column field="salario" header="Costo Hora" data-type="number" :sortable="true">
+                    <Column field="costa_hora" header="Costo Hora" data-type="number" :sortable="true">
                       <template #body="{data}">
-                        $ {{formatCurrency((data.salario/180) * 1.6)}}
+                        $ {{formatCurrency(data.costo_hora)}}
                       </template>
                     </Column>
                     <Column

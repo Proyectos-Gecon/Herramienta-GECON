@@ -104,7 +104,6 @@ var filters = ref({
                 <Column field="area_trabajo" header="Area Trabajo" :sortable="true"></Column>
                 <Column field="estado" header="Estado"  :sortable="true"></Column>
                 <Column field="proyecto" header="Proyecto"  :sortable="true"></Column>
-
                 <Column field="division" header="Division"  :sortable="true" :showFilterMatchModes="false">
                   <template #filter="{filterModel}" >
                     <MultiSelect  v-model="filterModel.value" :options="props.divisiones" optionValue="name" optionLabel="abreiacion" placeholder="Todas" />
