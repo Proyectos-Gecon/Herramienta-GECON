@@ -139,7 +139,7 @@ const traerPersonal = () => {
                     <Column field="CARGO" header="Cargo" :sortable="true"></Column>
                     <Column field="BET01" header="Costo Hora" :sortable="true" v-if="can(['read personal details'])">
                       <template #body="{data}">
-                        $ {{formatCurrency((data.BET01/240)*1.60 )}}
+                        $ {{formatCurrency((data.BET01/180)*1.60 )}}
                       </template></Column>
                     <Column
                     field="ID"

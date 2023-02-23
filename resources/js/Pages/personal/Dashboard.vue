@@ -15,6 +15,7 @@ import Divider from 'primevue/divider';
 import ContratosVencer from "@/Components/ContratosVencer.vue";
 import Fieldset from 'primevue/fieldset';
 import ResumenPersonal from "@/Components/customs/ResumenPersonal.vue";
+import HeaderPage from "@/Components/customs/HeaderPage.vue";
 const can = (array) => {
   var { val } = permisos(array);
   return val;
@@ -107,8 +108,10 @@ const countPersonal = props.divsiones.reduce(
   <AppLayout title="Dashboard">
     <div class="max-w-full mx-auto sm:px-6 lg:px-8">
       <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg py-4">
-        <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
-          <ul
+
+        <HeaderPage title="Dashboard Personal" :create="false" url="proyectos.create">
+          <template #head>
+            <ul
             class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
           >
             <li>
@@ -117,13 +120,10 @@ const countPersonal = props.divsiones.reduce(
               }}</span>
             </li>
           </ul>
-          <div class="flex align-items-start justify-between">
+          </template>
+          
+          <template #buttons>
             <div>
-              <div class="font-medium text-3xl text-900">
-                Dashboard Personal
-              </div>
-            </div>
-            <div class="mt-3 lg:mt-0 space-x-2">
               <Calendar
                 inputId="icon"
                 :maxDate="new Date()"
@@ -133,9 +133,9 @@ const countPersonal = props.divsiones.reduce(
                 v-on:date-select="selectFecha"
                 placeholder="Seleccione una fecha"
               />
-            </div>
-          </div>
-        </div>
+              </div>
+          </template>
+        </HeaderPage>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mx-4">
           
           <ResumenPersonal :fecha="fechaDashboard" class="col-span-3"></ResumenPersonal>

@@ -149,8 +149,7 @@ class PersonalController extends Controller
         $presentes = 0;
         foreach($partes as $parte){
             if($parte->personal->division != null && $parte->personal->division->abreiacion != null){
-                if(!$parte->estaPresente()){
-                  
+                if(!$parte->estaPresente()){                  
                     $noPresentes ++;
                 }else{
                  
@@ -161,7 +160,7 @@ class PersonalController extends Controller
 
         $personal = Parte::where('fecha', $fecha)->count();
 
-        if($fecha == Carbon::now()){
+        if($fecha == Carbon::now()->format('Y-m-d')){
             $personal = PersonalCorporativo::where('GERENCIA', 'CONS')->count();    
         }
         $costos = PersonalCorporativo::where('GERENCIA', 'CONS')->where('TIPO_NOMINA', '<>','AR')->select(DB::raw("SUM(S.BET01 *1.60) as sum_salarios") )
@@ -170,6 +169,8 @@ class PersonalController extends Controller
        
         return response()->json([
             'costos' => $costos->sum_salarios,
+            'fecha' => Carbon::parse($fecha),
+            'carbon' => Carbon::now(),
             'presentes' => $presentes,
             'noPresentes' => $noPresentes,
             'personal' => $personal,

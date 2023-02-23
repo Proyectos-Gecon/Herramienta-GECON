@@ -41,6 +41,10 @@ const props = defineProps({
     actions: {
       default:true,
       type: Boolean
+    },
+    buscardorGlobal: {
+      default: false,
+      type: Boolean
     }
   });
 
@@ -98,7 +102,14 @@ const props = defineProps({
           :rowsPerPageOptions="[10, 25, 50, 100]"
         >
             <template #header>
-              <div class="flex justify-end">
+              <div class="flex justify-between">
+                <span class="p-input-icon-left" v-if="props.buscardorGlobal">
+                  <i class="pi pi-search" />
+                  <InputText
+                    v-model="filters.global.value"
+                    placeholder="Buscado Global"
+                  />
+                </span>
                 <div class="flex space-x-2">
                     <Button
                       class="p-button-raised p-button-info p-button-text"

@@ -118,7 +118,7 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
             p-4
           "
         >
-        <HeaderPage title="proyecto" :create="can(['create proyectos'])" url="proyectos.create">
+        <HeaderPage title="Proyecto">
           <template #head>
             <ul
               class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
@@ -138,6 +138,18 @@ const { exporting } = exportExcel(props.proyectos, "Proyectos");
           </template>
           
           <template #buttons>
+            <Link
+                  type="button"
+                  :href="route('proyectos.create')"
+                  class="btn"
+                  v-if="can(['create proyectos'])"
+                >
+                  <Button
+                    label="Nuevo"
+                    class="p-button-outlined mr-2"
+                    icon="pi pi-plus"
+                  ></Button>
+                </Link>
             <div>
                 <Button icon="pi pi-upload" class=" p-button-info  p-button-outlined" @click="displayModalUpdate = true" label="Importar"/>
               </div>

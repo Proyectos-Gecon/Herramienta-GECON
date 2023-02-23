@@ -27,7 +27,7 @@ class ImportAvanceSemanal implements ToCollection, WithHeadingRow
         {
             if(isset($row['avance_planeado'])){
                 $avance = AvanceProyectoSemanal::firstOrNew([
-                     'proyecto_id' => $this->proyecto,
+                    'proyecto_id' => $this->proyecto,
                     'semana' => $row['semana'],
                 ]);
                 $avance->avance_planeado = $row['avance_planeado'];
@@ -47,7 +47,6 @@ class ImportAvanceSemanal implements ToCollection, WithHeadingRow
                 $avance->TCPI= $row['tcpi'] ?? 0;
                 $avance->variacion_avance = $row['variacion_avance'] ?? 0;
                 $avance->variacion_costo = $row['variacion_costo'] ?? 0;
-               
             }
         
     }

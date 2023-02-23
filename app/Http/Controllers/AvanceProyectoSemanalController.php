@@ -40,9 +40,9 @@ class AvanceProyectoSemanalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-       
-        Excel::import(new ImportAvanceSemanal($request->proyecto), $request->file);       
+    {  
+        Excel::import(new ImportAvanceSemanal($request->proyecto), $request->file);    
+        return back();   
     }
 
     /**

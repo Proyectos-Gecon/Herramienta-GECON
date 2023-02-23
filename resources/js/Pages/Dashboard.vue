@@ -8,6 +8,7 @@ import { permisos } from '@/composable/Permisions.js'
 import SplitButton from 'primevue/splitbutton';
 import Barras from '@/charts/Barras.vue'
 import CardMedium from '@/Components/customs/CardMedium.vue';
+import ResumenPersonal from '@/Components/customs/ResumenPersonal.vue';
 const can = (array) => {
     
     var {val} = permisos(array)
@@ -94,13 +95,13 @@ const series = [
     <AppLayout title="Dashboard">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
+                        <div class="surface-section w-full px-4 py-5 md:px-6 lg:px-8">
                             <ul
                             class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
                             >
                             <li>
                                 <span class="text-500 no-underline line-height-3"
-                                >Bienvenido - {{ props.fecha }}</span>
+                                >{{ props.fecha }}</span>
                             </li>
                             </ul>
                             <div class="flex align-items-start justify-between">
@@ -124,50 +125,9 @@ const series = [
                    </span>
                
                    <div class=" grid grid-cols-1 md:grid-cols-3 gap-6 px-2" v-if="can(['read activos'])">
-                    <div class="flex space-x-2 py-1 md:px-6 lg:px-8 col-span-1 md:col-span-3">
-                        <div class="flex align-items-center">
-                                <i class="fa-solid fa-user-check mr-2"></i>
-                                <span>{{ props.totalPresentes }} Personas Presentes  </span>
-                            </div>
-    
-                            <div class="flex align-items-center">
-                                <i class="fa-solid fa-user-xmark mr-2"></i>
-                                <span>{{ props.totalNoPresentes }} Personas NO Presentes  </span>
-                            </div>
-                            <div class="flex align-items-center">
-                                <i class="fa-solid fa-users-slash mr-2"></i>
-                               
-                                <span>{{ props.noRegistrados }} Personas NO Registradas  </span>
-                            </div>
-                    </div>
-                    
-                    <div class="col-span-3 grid grid-cols-3 mb-8 gap-4">
-                        <div class="bg-bray-200 rounded-xl shadow-xl text-sky-600 text-xl shadow-slate-400 text-center pt-4 max-w-xs">
-                                <h5>Personal Total</h5>
-                                <h5>{{ props.costoMes[0].count}}</h5>
-                                
-                                <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
-                                <div class="bg-sky-600 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: 100%"></div>
-                                </div>
-                        </div>
-                        <div class="bg-bray-200 rounded-xl shadow-xl text-teal-600 text-xl shadow-slate-400 text-center pt-4 max-w-xs">
-                                <h5>Costo dia total</h5>
-                                <h5>{{ formatter.format(props.costoMes[0].sum_salarios*1.6/30000000) }} Millones</h5>
-                                
-                                <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
-                                <div class="bg-teal-600 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: 100%"></div>
-                                </div>
-                        </div>
-                        <div class="bg-bray-200 rounded-xl shadow-xl text-teal-600 text-xl shadow-slate-400 text-center pt-4 max-w-xs">
-                                <h5>Costo mes total</h5>
-                                <h5>{{ formatter.format(props.costoMes[0].sum_salarios*1.6 /1000000) }} Millones</h5>
-                                
-                                <div class="w-full rounded-b-full bg-gray-400 h-2 mt-2">
-                                <div class="bg-teal-600 rounded-b-full h-2 text-sm align-self-center font-medium opacity-60 text-blue-100 text-center p-0.5 leading-none " style="width: 100%"></div>
-                                </div>
-                        </div>
-                    </div>
-                   
+
+                    <ResumenPersonal :fecha="props.fecha" class="col-span-3"></ResumenPersonal>
+
                     <Barras :stacked="true" :horizontal="false" :series="series" :categories="props.labesDivision"></Barras>
                                          
                     <div class="text-center font-bold text-xl space-y-4">

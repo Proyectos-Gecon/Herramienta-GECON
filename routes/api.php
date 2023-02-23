@@ -29,7 +29,6 @@ Route::post('clases/upload', [ClaseController::class, 'upload'])->name('clases.u
 Route::post('contratos/upload', [ContratoController::class, 'upload'])->name('contratos.upload');
 Route::post('proyectos/upload', [ProyectoController::class, 'upload'])->name('proyectos.upload');
 Route::post('personal/upload', [PersonalController::class, 'upload'])->name('personal.upload');
-
 Route::get('descargarParte', function (){
     Excel::download(new PersonalExport, 'personal.xlsx');
 });

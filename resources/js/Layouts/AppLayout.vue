@@ -269,7 +269,7 @@ import { permisos } from '@/composable/Permisions.js'
         
         <Banner />
 		<Toast />
-        <div class="min-h-screen bg-gradient-to-r from-blue-100 to-blue-200 ">
+        <div class="min-h-max bg-gradient-to-r from-blue-100 to-blue-200 ">
 			<div class="bg-white fixed w-full top-0 z-50">
 				<Menubar :model="items" >
 				<template #start>

@@ -1,6 +1,6 @@
 <template>
     <div>
-         <div class="flex space-x-2 p-2 col-span-1 md:col-span-2 text-base md:text-xl">
+         <div class="flex space-x-2 p-2 col-span-1 md:col-span-2 text-base">
             <div class="flex align-items-center">
               <i class="fa-solid fa-user-check mr-1"></i>
               <span>{{ presentes }} Personas Presentes </span>

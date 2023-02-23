@@ -86,7 +86,6 @@
                 if (urlPrev !== 'empty') {
                     Inertia.visit(urlPrev)
                 }
-            
             }
         })
     }
@@ -186,22 +185,18 @@
          
         </div>
         <Dialog header="Carga de Avances Semanales" position="topright" v-model:visible="displayModal" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
-            <div class="mx-2">
-                    <form class="space-y-3" action="#"  @submit.prevent="cargarAvance">
-                        <div class="grid grid-cols-1 space-y-2">
-                            <div class="items-center justify-center w-full">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Subir Archivo</label>
-                                <input  @input="archivo.file = $event.target.files[0]" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Archivos de Excel</p>
-                            </div>
-                        </div>
-                        <div>
-                            <button type="submit" class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
-                            Subir
-                        </button>
-                        </div>
+                    <form class="space-y-3" action="#"  @submit.prevent="cargarAvance" enctype="multipart/form-data">
+                        <FileUpload name="file" :url="route('contratos.upload')" @upload="onAdvancedUpload($event)" :multiple="false" accept=".xml,.xlsx,.csv" :maxFileSize="1000000">
+                            <template #content>
+                                <ul v-if="uploadedFiles && uploadedFiles[0]">
+                                    <li v-for="file of uploadedFiles[0]" :key="file">{{ file.name }} - {{ file.size }} bytes</li>
+                                </ul>
+                            </template>
+                            <template #empty>
+                                <p>Drag and drop files to here to upload.</p>
+                            </template>
+                        </FileUpload>
                 </form>
-            </div>
         </Dialog>
         <Dialog header="Avance de la Semana" v-model:visible="displayModalAvance" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
             <div class="mx-2">

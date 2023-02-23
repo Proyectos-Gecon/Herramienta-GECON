@@ -71,7 +71,7 @@ class DashboardController extends Controller
             'usersContratosPorTerminar' => $usersContratosPorTerminar, 
             'totalPresentes' => $totalPresentes, 
             'totalNoPresentes' => $totalNoPresentes , 
-            'fecha' => $date->format('l,  d/m/Y'),
+            'fecha' => $date->format('Y-m-d'),
             'proyectos' => $proyectos,
             'divisiones' => $divisiones,
             'noRegistrados' => $this->noRegistrados($date),
