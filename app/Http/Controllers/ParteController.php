@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
 use App\Models\Division;
+=======
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
 use App\Models\Parte;
 use App\Models\Estado;
 use App\Models\Personal;
@@ -29,6 +32,7 @@ class ParteController extends Controller
             $date = Carbon::parse($request->fecha);
         }
        
+<<<<<<< HEAD
         if(auth()->user()->hasAnyRole('ADMIN', 'USER DEPPC', 'JEFE DE DEPARTAMENTO')){
             $parte = Parte::where('fecha', $date)
             ->where('estado', 'LIKE','%'.$request->estado.'%')
@@ -37,6 +41,15 @@ class ParteController extends Controller
             ->leftJoin('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l','l.ID', DB::raw('partes.user_id'))
             ->leftJoin('divisions as d' , 'd.id', 'p.division_id')
             ->select('l.NUM_SAP','l.APELLIDOS_NOMBRES','l.IDENTIFICACION', 'p.tipo_contrato', 'p.area_trabajo','l.CARGO', 'estado', 'proyecto', 'truno', 'fecha','d.name as division', 'p.costo_hora', 'p.costo_dia', 'p.costo_mes')->orderBy('l.APELLIDOS_NOMBRES')->get();
+=======
+        if(auth()->user()->hasAnyRole('ADMIN', 'USER DEPPC')){
+           
+            $parte = Parte::where('fecha', $date)->where('estado', 'LIKE','%'.$request->estado.'%')
+            ->leftJoin('personals as p', 'p.user_id', 'partes.user_id')
+            ->leftJoin('CORPORATIVA_INTERFACE.dbo.LISTADO_PERSONAL_SAP_ACTIVOS_View2 as l','l.ID', DB::raw('partes.user_id'))
+            ->leftJoin('divisions as d' , 'd.id', 'p.division_id')
+            ->select('l.APELLIDOS_NOMBRES','l.IDENTIFICACION', 'p.tipo_contrato', 'p.area_trabajo','l.CARGO', 'estado', 'proyecto', 'truno', 'fecha','d.name as division', 'p.costo_hora', 'p.costo_dia', 'p.costo_mes')->get();
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
          
             $personalSinParte = PersonalCorporativo::where('GERENCIA', 'CONS')->count() - Parte::where('fecha', $date)->count();
         }else{
@@ -45,7 +58,11 @@ class ParteController extends Controller
             $personalSinParte = Personal::where('supervisor_id', auth()->user()->id)->count() - count($parte);
        }
        //$parte = PersonalCorporativo::where('GERENCIA', 'CONS')->whereNotIn('id', Parte::pluck('user_id')->toArray())->get();
+<<<<<<< HEAD
        return inertia('personal/index', ['parte' => $parte, 'personalSinParte' => $personalSinParte, 'fecha' => $date->format('d/m/Y'), 'divisiones' => Division::get()]);
+=======
+       return inertia('personal/index', ['parte' => $parte, 'personalSinParte' => $personalSinParte, 'fecha' => $date->format('d/m/Y'),]);
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
     }
 
     /**
@@ -58,10 +75,18 @@ class ParteController extends Controller
         $users = Personal::with('user')->with('parte')->where(
             'supervisor_id', auth()->user()->id
         )->get();
+<<<<<<< HEAD
         $parte = Parte::with('user')->where('fecha', Carbon::now())->where(
             'planillador_id', auth()->user()->id)->count();
 
         $proyectos = Proyecto::construccion()->pluck('name')->toArray();
+=======
+            
+        $parte = Parte::with('user')->where('fecha', Carbon::now())->where(
+            'planillador_id', auth()->user()->id)->count();
+
+        $proyectos = Proyecto::construccion()->pluck('name');
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
         $estados = new Estado();
         
         return inertia('personal/Parte', ['users' => $users, 'proyectos' => $proyectos, 'estados' => $estados->getEstados(), 'parte' => $parte]);
@@ -90,7 +115,11 @@ class ParteController extends Controller
                 'user_id' => $user['id'],
                 'fecha' => Carbon::now(),
             ]);
+<<<<<<< HEAD
             $parte->proyecto = $user['estado'] == 'VACAC' ? '-' : $user['proyecto'];
+=======
+            $parte->proyecto = $user['proyecto'];
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
             $parte->planillador_id = auth()->user()->id;
             $parte->truno = !$user['turno'] ? 'Diurno':'Nocturno';
             $parte->estado = $user['estado'];

@@ -9,7 +9,6 @@ use App\Http\Controllers\security\RolesController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\security\PermisosController;
 use App\Http\Controllers\security\UserController;
-
 use App\Models\Personal;
 use App\Models\PersonalCorporativo;
 use Illuminate\Foundation\Application;

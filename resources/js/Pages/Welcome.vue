@@ -1,6 +1,9 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+<<<<<<< HEAD
 import MenuHeader from "@/Components/customs/MenuHeader.vue";
+=======
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
 import Dialog from "primevue/dialog";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import { ref } from "vue";
@@ -8,6 +11,7 @@ import InputText from "primevue/inputtext";
 import Password from 'primevue/password';
 import { usePage } from '@inertiajs/inertia-vue3'
 import Button from 'primevue/button';
+<<<<<<< HEAD
 import Toast from 'primevue/toast';
 import TextInput from '@/Components/customs/TextInput.vue';
 import { Inertia } from "@inertiajs/inertia";
@@ -19,12 +23,23 @@ var asignaciones = ref([])
 const form = useForm({
     identificacion: '',
 });
+=======
+import { Inertia } from "@inertiajs/inertia";
+
+const form = useForm({
+    username: '',
+    password: '',
+    remember: false,
+});
+
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
 const props = defineProps({
   canLogin: Boolean,
   canRegister: Boolean,
   laravelVersion: String,
   phpVersion: String,
   userLogin: Number,
+<<<<<<< HEAD
   asignaciones: Object
 });
 
@@ -57,6 +72,167 @@ const buscar = () => {
   <div class="bg-white dark:bg-gray-900">
     <MenuHeader :userLogin="props.userLogin"></MenuHeader>
     <div class="relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
+=======
+});
+var displayPosition = ref(null);
+var position = ref(false);
+
+const openPosition = (position) => {
+  if(props.userLogin != null){
+    Inertia.get(route('dashboard'))
+  }
+  position = position;
+  displayPosition = ref(true);
+};
+
+const submit = () => {
+    form.transform(data => ({
+        ...data,
+        remember: form.remember ? 'on' : '',
+    })).post(route('login'), {
+        onFinish: () => form.reset('password'),
+    });
+};
+</script>
+
+<template>
+  <Head title="Welcome" />
+
+  <div class="bg-white dark:bg-gray-900">
+    <header>
+      <nav
+        class="
+          fixed
+          z-20
+          w-full
+          bg-white/90
+          dark:bg-gray-900/80
+          backdrop-blur
+          navbar
+          shadow-2xl shadow-gray-600/5
+          border-b border-gray-100
+          dark:border-gray-800
+          peer-checked:navbar-active
+          dark:shadow-none
+        "
+      >
+        <div class="xl:container m-auto px-6 md:px-12 lg:px-6">
+          <div
+            class="
+              flex flex-wrap
+              items-center
+              justify-between
+              gap-6
+              md:py-3 md:gap-0
+              lg:py-5
+            "
+          >
+            <div class="w-full items-center flex justify-between mt-8 md:mt-0">
+              <a class="relative z-10" href="#" aria-label="logo">
+                <ApplicationLogo></ApplicationLogo>
+              </a>
+            </div>
+            <div
+              class="-mt-10
+                w-full
+                justify-end
+                items-center
+                bg-white
+                dark:bg-gray-800
+                space-y-0
+                p-0
+                m-0
+                flex
+                md:flex-nowrap
+                bg-transparent
+                lg:shadow-none
+                dark:shadow-none dark:border-gray-700
+                lg:border-0
+              "
+            >
+              <div class="text-gray-600 dark:text-gray-300 lg:pr-4 ">
+                <ul class="tracking-wide font-medium text-sm  space-y-0 hidden md:flex">
+                  <li>
+                    <a
+                      href="#"
+                      class="
+                        block
+                        px-4
+                        transition
+                        hover:text-primary
+                        dark:hover:text-primaryLight
+                      "
+                    >
+                      <span>Inicio</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <div
+                class="
+                  w-full
+                  space-y-2
+                  border-primary/10
+                  dark:border-gray-700
+                  flex flex-col
+                  -ml-1
+                  sm:flex-row
+                  lg:space-y-0
+                  md:w-max
+                  lg:border-l
+                  px-2
+                "
+              >
+                <a
+                  @click="
+                   if(props.userLogin != null){
+                      Inertia.get(route('dashboard'))
+                    }
+                    position = 'topright';
+                    displayPosition = ref(true);
+                  "
+                  href="#"
+                  class="
+                    relative
+                    flex
+                    h-9
+                    -mt-10
+                    md:mt-0
+                    ml-auto
+                    items-center
+                    justify-center
+                    px-6
+                    before:absolute
+                    before:inset-0
+                    before:rounded-full
+                    before:bg-sky-600
+                    dark:before:bg-sky-400
+                    before:transition before:duration-300
+                    hover:before:scale-105
+                    active:duration-75 active:before:scale-95
+                  "
+                >
+                  <span
+                    class="
+                      relative
+                      text-sm
+                      font-semibold
+                      text-white
+                      dark:text-gray-900
+                    "
+                    >Entrar</span
+                  >
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="bg-white relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
       <div class="relative xl:container m-auto px-6 md:px-12 lg:px-4 mb-2">
         <h1
           class="
@@ -106,8 +282,13 @@ const buscar = () => {
             </p>
             <span class="block font-semibold text-gray-500 dark:text-gray-400">Ponemos todo nuestro empeño en tus necesidades.</span>
           </div>
+<<<<<<< HEAD
           <div class="mt-4 md:-mt-64 lg:absolute -right-20 lg:w-6/12">
             <div class="relative w-full mx-auto">
+=======
+          <div class="mt-4 md:-mt-64 lg:absolute -right-20 lg:w-7/12">
+            <div class="relative w-full">
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
               <div
                 aria-hidden="true"
                 class="
@@ -118,7 +299,11 @@ const buscar = () => {
                   m-auto
                   w-full
                   h-full
+<<<<<<< HEAD
                   md:w-96 md:h-5
+=======
+                  md:w-96 md:h-96
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                   rounded-full
                   rotate-45
                   bg-gradient-to-r
@@ -128,18 +313,28 @@ const buscar = () => {
                 "
               ></div>
               <img
+<<<<<<< HEAD
                 src="images/principal.gif"
                 class="relative w-10/12 rounded-2xl z-10"
                 alt="wath illustration"
                 loading="lazy"
                 width="200"
                 height="200"
+=======
+                src="https://tailus.io/sources/blocks/tech-startup/preview/images/globalization-cuate.svg"
+                class="relative w-full"
+                alt="wath illustration"
+                loading="lazy"
+                width="320"
+                height="230"
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
               />
             </div>
           </div>
         </div>
       </div>
 
+<<<<<<< HEAD
       <div class="bg-blue-100 shadow-md shadow-blue-100 rounded-2xl dark:bg-gray-900 z-20 px-6 md:px-12 lg:px-4 -mt-20 md:mt-36">
               <div class="container p-2 mx-auto">
                   <div class="lg:flex lg:items-center">
@@ -147,6 +342,15 @@ const buscar = () => {
                           <img class="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-full" src="images/funcionalidades.gif" alt="">
                       </div>
                       <div class="w-full space-y-12 lg:w-1/2 mt-20">
+=======
+      <div class="bg-white dark:bg-gray-900 m-auto px-6 md:px-12 lg:px-4 mt-0 md:mt-56">
+              <div class="container px-6 py-10 mx-auto">
+                  <div class="lg:flex lg:items-center">
+                    <div class="hidden lg:flex lg:items-center lg:w-1/2 lg:justify-center mt-4">
+                          <img class="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-full" src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=755&q=80" alt="">
+                      </div>
+                      <div class="w-full space-y-12 lg:w-1/2 mt-44">
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                           <div>
                               <h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">Explora todas <br> Nuestras Funciones</h1>
                           
@@ -197,7 +401,11 @@ const buscar = () => {
                               <div class="mt-4 md:mx-4 md:mt-0">
                                   <h1 class="text-2xl font-semibold text-gray-700 capitalize dark:text-white">Proyectos de Construcción</h1>
                                   <p class="mt-3 text-gray-500 dark:text-gray-300">
+<<<<<<< HEAD
                                       Gestión de proyectos de construcción, reportes, control de avance, indicadores control de avance y muchas funcionalidades mas.
+=======
+                                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ab nulla quod dignissimos vel non corrupti doloribus voluptatum eveniet
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                                   </p>
                               </div>
                           </div>
@@ -210,6 +418,7 @@ const buscar = () => {
                   
               </div>
       </div>
+<<<<<<< HEAD
       <div class="bg-white shadow-md shadow-blue-100 rounded-2xl dark:bg-gray-900 z-20 px-6 md:px-12 lg:px-4 -mt-10">
               <div class="container p-2 mx-auto">
                   <div class="lg:flex lg:items-center">
@@ -286,6 +495,79 @@ const buscar = () => {
  
 
     </div>
+=======
+    </div>
+   
+    <Dialog
+    class="login-dialog"
+    header="Login"
+      v-model:visible="displayPosition"
+      :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+      :style="{ width: '50vw' }"
+      :position="position"
+      :modal="true"
+    >
+      <section>
+        <div class="relative flex flex-col min-w-0 break-words w-full py-2">
+          <form @submit.prevent="submit">
+            <div class="relative w-full mb-3">
+                <div class="field col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">
+                            <i class="pi pi-user"></i>
+                        </span>
+                        <span class="p-float-label p-input-filled">
+                            <InputText id="inputgroup" type="text" v-model="form.username" />
+                            <label for="inputgroup">Nombre de Usuario</label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative w-full mb-3">
+                <div class="field col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">
+                            <i class="pi pi-lock"></i>
+                        </span>
+                        <span class="p-float-label p-input-filled">
+                            <InputText id="inputgroup" type="password" v-model="form.password" />
+                            <label for="inputgroup">Contraseña</label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div>
+              <label class="inline-flex items-center cursor-pointer"
+                ><input
+                  id="customCheckLogin"
+                  v-model="form.remember"
+                  type="checkbox"
+                  class="
+                    form-checkbox
+                    border-0
+                    rounded
+                    text-blue-700
+                    ml-1
+                    w-5
+                    h-5
+                    transition-all
+                    duration-150
+                  "
+                /><span class="ml-2 text-sm font-semibold text-blueGray-600"
+                  >Remember me</span
+                ></label
+              >
+            </div>
+            <div class="text-center mt-2 p-fluid">
+                <Button type="submit" class="vimeo p-0" aria-label="Vimeo">
+                <span class="px-3">Entrar</span>
+                </Button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </Dialog>
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
   </div>
 </template>
 <style lang="scss" scoped>

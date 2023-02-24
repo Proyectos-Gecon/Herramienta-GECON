@@ -9,15 +9,24 @@
     import Dropdown from 'primevue/dropdown';
     import InputNumber from 'primevue/inputnumber';
     import Calendar from 'primevue/calendar';
+<<<<<<< HEAD
     import Header from "@/Components/customs/Header.vue";
+=======
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
     import { Inertia } from '@inertiajs/inertia';
     import { usePreValidate } from "@/composable/UsePrevalidate";
     import NumberInput from '@/Components/customs/NumberInput.vue';
     import Dialog from 'primevue/dialog';
     import FileUpload from 'primevue/fileupload';
+<<<<<<< HEAD
     
 
     var form = useForm('claseForm' ,{
+=======
+    import BackButton from "@/Components/customs/BackButton.vue";
+
+    var form = useForm({
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
         name:  props.clase != null ? props.clase.name :null,
         type:  props.clase != null ? props.clase.type :null,
         empresa_diseñadora:  props.clase != null ? props.clase.empresa_diseñadora :null,
@@ -42,7 +51,11 @@
         construido:  props.clase != null ? props.clase.construido :null,
         imagen: props.clase != null ? props.clase.imagen : null,
     });
+<<<<<<< HEAD
     console.log(props.clase)
+=======
+
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
     var displayModal =  ref(false);
     
     // const { validate } = usePreValidate(form, {
@@ -78,8 +91,11 @@
         url: route("clases.store"),
     });
 
+<<<<<<< HEAD
     const onAdvancedUpload = () => {
     }
+=======
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
     /* End functions */ 
 </script>
 
@@ -88,12 +104,27 @@
         <div class="py-6">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8 ">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
+<<<<<<< HEAD
                 <Header :title="props.clase != null ? 'Editar Clase':'Crear Clase'">
                     <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar"/>
                 </Header>
                     <form @focusout="validate" @submit.prevent="submit" class="pb-4">
                         <div class="grid md:grid-cols-3 grid-cols-1 my-2 gap-6 px-6">
                             <TextInput label="Nombre" v-model="form.name" :error="form.errors.name"  sugerencia="Escriba el nombre de la clase"></TextInput>
+=======
+                    <div class="flex justify-between mx-auto p-4 space-x-2">
+                        <div>
+                        <BackButton></BackButton>
+                        <span class="text-2xl text-blue-400 mt-1 font-bold ">Crear Clase</span>
+                        </div>
+                        <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar"/>
+                      
+                    </div> 
+                    <form @focusout="validate" @submit.prevent="submit" class="pb-4">
+                        <div class="grid md:grid-cols-3 grid-cols-1 my-2 gap-6 px-6">
+                            <TextInput label="Nombre" v-model="form.name" :error="form.errors.name"  sugerencia="Escriba el nombre de la clase"></TextInput>
+
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                             <TextInput label="Tipo de buque" v-model="form.type" :error="form.errors.type"  sugerencia="Escriba el tipo de buque"></TextInput>
 
                             <TextInput label="Empresa Diseñadora" v-model="form.empresa_diseñadora" sugerencia="Escriba el nombre de la empresa diseñadora"></TextInput>    
@@ -121,7 +152,11 @@
                                 <Dropdown v-model="form.tipo_propulsion" :options="['AZUMITAL', 'CONVENCIONAL', 'MOTOR FUERA DE BORDA', 'PUMP JET', 'RUDDER PROPELLER', 'WATER JET']" placeholder="Seleccione un tipo de propulsion" />
                             </div>   
 
+<<<<<<< HEAD
                             <NumberInput label="Velocidad Maxima" v-model="form.velocidad" sugerencia="Escriba el Valor de la Velocidad Maxima" suffix=" Nudos"></NumberInput> 
+=======
+                            <NumberInput label="Velocidad Maxima" v-model="form.velocidad" sugerencia="Escriba el Valor de la Velocidad Maxima" suffix=" Km/h"></NumberInput> 
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
 
                             <NumberInput label="Autonomía" v-model="form.autonomias" sugerencia="Escriba el Valor de la autonomía" suffix=" días"></NumberInput> 
 

@@ -20,10 +20,7 @@ class ContratosImport implements ToModel, WithHeadingRow, WithUpserts
     public function model(array $row)
     {
 
-        foreach ($variable as $key => $value) {
-            # code...
-        }
-     
+            
         return new Contrato([
             
             'contrato_id' => $row['idcontrato'],

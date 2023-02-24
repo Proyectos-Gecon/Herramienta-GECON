@@ -24,6 +24,7 @@ const { exporting } = exportExcel(props.elements, "Proyectos");
 
 const props = defineProps({
     modelName: String,
+<<<<<<< HEAD
     
     height: {
       default: '500px',
@@ -55,12 +56,25 @@ const props = defineProps({
       default: false,
       type: Boolean
     }
+=======
+    labels : Array,
+    elements: Array,
+    globalFilters: Array,
+    filters: Array,
+    model: String,
+    keyState: String
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
   });
 
 
 
   const filtros = ref(props.filters)
 
+<<<<<<< HEAD
+=======
+  
+
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
   const deleted = (event, id) => {
     confirm.require({
     target: event.currentTarget,
@@ -89,6 +103,7 @@ const props = defineProps({
 <template>
     <div>
         <DataTable :value="elements" 
+<<<<<<< HEAD
           class="p-datatable-sm"
           :scrollHeight="props.height"
           currentPageReportTemplate="{first} al {last} de {totalRecords}"
@@ -119,6 +134,29 @@ const props = defineProps({
                     placeholder="Buscado Global"
                   />
                 </span>
+=======
+        class="p-datatable-sm"
+        currentPageReportTemplate="{first} al {last} de {totalRecords}"
+        :paginatorTemplate="{
+                '640px': 'PrevPageLink CurrentPageReport NextPageLink',
+                '960px': 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink ',
+                '1300px': 'CurrentPageReport  FirstPageLink PrevPageLink PageLinks NextPageLink ',
+                default: 'CurrentPageReport  FirstPageLink PrevPageLink PageLinks NextPageLink  RowsPerPageDropdown'
+            }"
+        filterDisplay="menu"
+        dataKey="id"
+        stateStorage="local" 
+        :stateKey=props.keyState
+        v-model:filters="filtros"
+        :globalFilterFields="globalFilters"
+        showGridlines
+        :paginator="true"
+        :rows="10"
+        :rowsPerPageOptions="[10, 25, 50, 100]"
+        >
+        <template #header>
+              <div class="flex justify-end">
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                 <div class="flex space-x-2">
                     <Button
                       class="p-button-raised p-button-info p-button-text"
@@ -134,9 +172,15 @@ const props = defineProps({
                     <InputText type="text" v-model="filterModel.value" class="p-column-filter" :placeholder="'Buscar por '+ col.header" v-if="col.typeFilter == 'text'"/>
                 </template>
             </Column>
+<<<<<<< HEAD
             <Column field="id" header="Acciones" v-if="props.actions">
                     <template #body="{data}" >
                         <div class="space-x-2" v-if="data.id !== undefined">
+=======
+            <Column field="id" header="Acciones">
+                    <template #body="{data}" >
+                        <div class="space-x-2">
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                           <Link :href="route(props.model +'s.edit', data.id)"> 
                           <Button
                             icon="pi pi-pencil"
@@ -148,6 +192,10 @@ const props = defineProps({
                             ></Button>
                         </div>
                     </template>
+<<<<<<< HEAD
+=======
+
+>>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
             </Column>
         </DataTable>
     </div>

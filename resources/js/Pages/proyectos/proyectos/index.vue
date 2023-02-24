@@ -101,7 +101,6 @@ const toggleClase = (event, data) => {
 };
 
 const { exporting } = exportExcel(props.proyectos, "Proyectos");
-
 </script>
 
 <template>
