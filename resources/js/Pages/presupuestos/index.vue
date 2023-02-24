@@ -7,12 +7,14 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import Dialog from 'primevue/dialog';
 import FileUpload from 'primevue/fileupload';
 import Button from 'primevue/button';
+import HeaderPage from "@/Components/customs/HeaderPage.vue";
 
 const props = defineProps({
     proyectos: Array
 })
 
 const displayModal = ref(false)
+const loading = ref(false)
 const form = useForm({
     proyecto: null,
 })
@@ -20,12 +22,34 @@ const form = useForm({
 <template>
     <AppLayout title="Divisiones">
         <div class="py-4">
-            <div class="w-full mx-2">
+            <div class="w-full">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4 overflow-x-auto">
-                    <div class="flex justify-between mx-4">
-                        <Dropdown v-model="form.proyecto" :filter="true" optionLabel="name" optionValue="id" :options="props.proyectos" placeholder="Seleccione un proyecto" />
-                        <Button icon="pi pi-upload" class="p-button-success  p-button-sm" v-if="form.proyecto != null" @click="displayModal = true" label="Importar Avance"/>
-                    </div>
+                    <HeaderPage title="Presupuestos">
+                        <template #head>
+                            <ul
+                            class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
+                            >
+                            <li>
+                                <a class="text-500 no-underline line-height-3 cursor-pointer"
+                                >Control de Costos</a
+                                >
+                            </li>
+                            <li class="px-2">
+                                <i class="pi pi-angle-right text-500 line-height-3"></i>
+                            </li>
+                            <li>
+                                <span class="text-900 line-height-3">Presupuestos</span>
+                            </li>
+                            </ul>
+                        </template>
+                        
+                        <template #buttons>
+                            <Dropdown v-model="form.proyecto" :filter="true" optionLabel="name" optionValue="id" :options="props.proyectos" placeholder="Seleccione un proyecto" />
+                        <Button icon="pi pi-upload" class="p-button-success  p-button-sm" v-if="form.proyecto != null" @click="displayModal = true" label="Importar Avance Costo"/>
+                        </template>
+
+                    </HeaderPage>
+                   
                     <table class="w-full divide-y mt-4 divide-gray-200">
                     <thead class="bg-gray-200">
                         <tr>
