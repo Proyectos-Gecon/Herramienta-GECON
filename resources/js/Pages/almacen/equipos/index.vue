@@ -37,11 +37,7 @@ var filters = ref({
                     :rowHover="true"
                     filterDisplay="menu"
                     v-model:filters="filters"
-<<<<<<< HEAD
                     :globalFilterFields="['name', 'padre.name', 'codigo_interno', 'serial', 'estado']"
-=======
-                    :globalFilterFields="['name', 'padre.name', 'codigo_interno']"
->>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                     showGridlines
                     :paginator="true"
                     :rows="10"
@@ -62,11 +58,7 @@ var filters = ref({
                         <span class="mt-2 text-2xl">Equipos</span>
                         <div class="space-x-4">
                             <Link type="button" :href="route('equipos.create')" class="btn mx-4">
-<<<<<<< HEAD
                             <Button class="p-button-raised p-button-info p-button-text" icon="pi pi pi-plus"  />
-=======
-                            <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-user-plus"  />
->>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                         </Link> 
                         </div>
                     </div>

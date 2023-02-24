@@ -1,9 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-<<<<<<< HEAD
 import { permisos } from "@/composable/Permisions.js";
-=======
->>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
 import AppLayout from '@/Layouts/AppLayout.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -16,16 +13,12 @@ import ConfirmPopup from "primevue/confirmpopup";
 import { useConfirm } from "primevue/useconfirm";
 import { exportExcel } from "@/composable/ExportData";
 import Chip from 'primevue/chip';
-<<<<<<< HEAD
 import HeaderPage from "@/Components/customs/HeaderPage.vue";
 
 const can = (array) => {
   var { val } = permisos(array);
   return val;
 };
-=======
-
->>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
 //Variables
 const props = defineProps({
   contratos: Array(),
@@ -81,7 +74,6 @@ const { exporting } = exportExcel(props.contratos, "Contratos");
 
 <template>
  <AppLayout title="Divisiones">
-<<<<<<< HEAD
             <div class="max-w-full mx-2 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full p-4">
                   
@@ -121,21 +113,12 @@ const { exporting } = exportExcel(props.contratos, "Contratos");
                 </HeaderPage>
                 <DataTable ref="dt" :value="props.contratos" responsiveLayout="scroll" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
                 :globalFilterFields="['contrato_id','objeto', 'material_casco']"   :paginator="true" :rows="25" :rowsPerPageOptions="[25,50,100]">
-=======
-
-    <div class="py-4">
-            <div class="max-w-full mx-2 sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
-                <DataTable ref="dt" :value="props.contratos" responsiveLayout="scroll" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['contrato_id','objeto', 'material_casco']"  showGridlines  :paginator="true" :rows="25" :rowsPerPageOptions="[25,50,100]">
->>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                     <template #header>
                     <div class="flex justify-between">
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
                             <InputText v-model="filters.global.value" placeholder="Keyword Search" />
                         </span>
-<<<<<<< HEAD
                        
                      
                          
@@ -143,17 +126,6 @@ const { exporting } = exportExcel(props.contratos, "Contratos");
                             <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-file-excel" @click="exporting" /> 
                           </div>
                      
-=======
-                        <span class="mt-2 text-md md:text-2xl capitalize">Lista de contratos</span>
-                        <div class="flex space-x-2">
-                          <Link type="button" :href="route('contratos.create')" class="btn" v-if="$page.props.user.permisos.includes('create contratos')">
-                              <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-plus"  /> 
-                          </Link>
-                          <div>
-                            <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-file-excel" @click="exporting" /> 
-                          </div>
-                        </div>
->>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
                     </div>
                 </template>
                     <Column field="contrato_id" header="# Contrato"  sortable></Column>
@@ -200,11 +172,6 @@ const { exporting } = exportExcel(props.contratos, "Contratos");
                     
                 </div>
             </div>
-<<<<<<< HEAD
-=======
-        </div>
-        
->>>>>>> f82e0c238973723076e229fc0475b03f794db4ac
  </AppLayout>
 
 </template>
