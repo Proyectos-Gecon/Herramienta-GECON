@@ -44,7 +44,7 @@ class PersonalController extends Controller
 
     public function personalActivos(){
         $personal =  PersonalCorporativo::where('GERENCIA', 'LIKE', 'CONS')
-        ->select('NUM_SAP', 'APELLIDOS_NOMBRES',  'IDENTIFICACION', 'S.BET01 as salario', 'CARGO' , 'B.PTEXT as tipo_contrato', 'F.CTEDT as fin_contrato', 'F.EINDT as inicio_contrato', DB::raw("(S.BET01*1.6) as costo_mes"),DB::raw("(S.BET01*1.6/180) as costo_hora"),'ID')
+        ->select('ID', 'APELLIDOS_NOMBRES',  'IDENTIFICACION', 'S.BET01 as salario', 'CARGO' , 'B.PTEXT as tipo_contrato', 'F.CTEDT as fin_contrato', 'F.EINDT as inicio_contrato', DB::raw("(S.BET01*1.6) as costo_mes"),DB::raw("(S.BET01*1.6/180) as costo_hora"))
         ->leftJoin('BI_T503T_TIPOCONTRATO_View AS B', 'B.PERSK', 'LISTADO_PERSONAL_SAP_ACTIVOS_View2.TIPO_NOMINA')
         ->leftJoin('FECHA_CONTRATO_PA0016_TYPE_View AS F', 'F.PERNR', 'NUM_SAP')
         ->leftJoin('SALARIO_VIew AS S', 'S.PERNR', 'NUM_SAP')

@@ -39,7 +39,7 @@ class AvanceProyectoSemanalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $proyecto)
     {  
         Excel::import(new ImportAvanceSemanal($request->proyecto), $request->file);    
         return back();   

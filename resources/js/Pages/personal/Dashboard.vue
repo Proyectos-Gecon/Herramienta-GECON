@@ -107,7 +107,7 @@ const countPersonal = props.divsiones.reduce(
 <template>
   <AppLayout title="Dashboard">
     <div class="max-w-full mx-auto sm:px-6 lg:px-8">
-      <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg py-4">
+      <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
 
         <HeaderPage title="Dashboard Personal" :create="false" url="proyectos.create">
           <template #head>
@@ -158,7 +158,7 @@ const countPersonal = props.divsiones.reduce(
             "
           >
             <div
-              class="p-1 hover:scale-105 duration-500"
+              class="p-1 hover:scale-105 duration-500 cursor-pointer"
               v-on:click="alert(proyecto.casco)"
               v-for="proyecto in props.proyectos"
               :key="proyecto.proyecto"
@@ -433,7 +433,6 @@ const countPersonal = props.divsiones.reduce(
           </div>
         </div>
         </Fieldset>
-      
       </div>
     </div>
   </AppLayout>

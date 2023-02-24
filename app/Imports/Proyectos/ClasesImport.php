@@ -22,7 +22,7 @@ class ClasesImport implements ToModel, WithHeadingRow, WithUpserts
         return new Clase([
             'name' => $row['clase'],
             'type' => $row['tipo_de_buque'] ?? null,
-            'empresa_diseñadora' => $row['empresa_diseñadora'] ?? null,
+            'empresa_diseñadora' => $row['empresa'] ?? null,
             'material_casco' => $row['material_del_casco'] ?? null,
             'eslora' => $row['eslora_m'] ?? null,
             'manga' => $row['manga_m'] ?? null,

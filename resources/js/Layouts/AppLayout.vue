@@ -265,7 +265,7 @@ import { permisos } from '@/composable/Permisions.js'
 </script>
 
 <template>
-    <div>
+    <div class="bg-gradient-to-r from-blue-100 to-blue-200">
         
         <Banner />
 		<Toast />

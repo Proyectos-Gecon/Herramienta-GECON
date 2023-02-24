@@ -84,7 +84,7 @@ const submit = () => {
                       </div>
                     </div>
                     </template>
-                    <Column field="NUM_SAP" header="# SAP"  ></Column>
+                    <Column field="ID" header="# SAP"  ></Column>
                     <Column field="IDENTIFICACION" header="Identificación"  :sortable="true"></Column>
                     <Column field="APELLIDOS_NOMBRES" header="Nombre"  :sortable="true"></Column>
                     <Column field="CARGO" header="Cargo"  :sortable="true"></Column>

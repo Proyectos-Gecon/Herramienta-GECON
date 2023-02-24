@@ -24,20 +24,29 @@ const { exporting } = exportExcel(props.elements, "Proyectos");
 
 const props = defineProps({
     modelName: String,
+    
     height: {
       default: '500px',
       type: String
     },
+
     loading: {
       default: false,
       type: Boolean
     },
+
     labels : Array,
+
     elements: Array,
+
     globalFilters: Array,
+
     filters: Array,
+
     model: String,
+
     keyState: String,
+
     actions: {
       default:true,
       type: Boolean
@@ -95,7 +104,7 @@ const props = defineProps({
           stateStorage="session" 
           :stateKey="props.keyState"
           v-model:filters="filtros"
-          :globalFilterFields="globalFilters"
+          :globalFilterFields="props.globalFilters"
           :scrollable="true"  scrollDirection="horizontal"
           :paginator="true"
           :rows="25"
@@ -106,7 +115,7 @@ const props = defineProps({
                 <span class="p-input-icon-left" v-if="props.buscardorGlobal">
                   <i class="pi pi-search" />
                   <InputText
-                    v-model="filters.global.value"
+                    v-model="filtros.global.value"
                     placeholder="Buscado Global"
                   />
                 </span>

@@ -66,6 +66,8 @@
         costo_servicio: 0,
     })
 
+    const urlUpload = ref(null);
+    const titleModal = ref(null)
     const cargarAvance = () => {
         archivo.post(route('avanceSemanal.store'))
     }
@@ -106,8 +108,31 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-auto">
                   
                     <Header :title="props.proyecto == null ? 'Crear  Proyecto':(props.doubling ? 'Duplicar  Proyecto':'Editar  Proyecto') ">
-                        <Button icon="pi pi-plus" class=" p-button-success  p-button-sm" @click="displayModalAvance = true" label="Avance de la Semana"/>
-                        <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar Avance"/>
+                        <div class="flex space-x-2">
+                            <Button icon="pi pi-upload"   class=" p-button-help  p-button-sm" 
+                            @click="displayModal = true;
+                            urlUpload = 'estructura.upload';
+                            titleModal = 'Importar Estructura SAP'
+                            " label="Importar Estructura"/>
+
+                            <Button icon="pi pi-upload"   class=" p-button-help  p-button-sm" 
+                            @click="displayModal = true;
+                            urlUpload = 'estructura.upload';
+                            titleModal = 'Importar Cronograma'
+                            " label="Importar Cronograma"/>
+
+                            <Button icon="pi pi-upload"   class=" p-button-help  p-button-sm" 
+                            @click="displayModal = true;
+                            urlUpload = 'estructura.upload';
+                            titleModal = 'Importar Presupuesto'
+                            " label="Importar Presupuesto"/>
+                           
+                        </div>
+                        
+                        <div class="flex space-x-2">
+                            <Button icon="pi pi-plus" class=" p-button-success  p-button-sm" @click="displayModalAvance = true" label="Avance de la Semana"/>
+                            <Button icon="pi pi-upload" class=" p-button-success  p-button-sm" @click="displayModal = true" label="Importar Avance"/>
+                        </div>
                     </Header>
                     <form @focusout="validate" @submit.prevent="submit" class="pb-4">
                         <div class="grid md:grid-cols-3 grid-cols-1 my-2 gap-6 px-6">
@@ -184,9 +209,9 @@
             </div>
          
         </div>
-        <Dialog header="Carga de Avances Semanales" position="topright" v-model:visible="displayModal" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+        <Dialog :header="titleModal" position="topright" v-model:visible="displayModal" :withCredentials="true" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
                     <form class="space-y-3" action="#"  @submit.prevent="cargarAvance" enctype="multipart/form-data">
-                        <FileUpload name="file" :url="route('contratos.upload')" @upload="onAdvancedUpload($event)" :multiple="false" accept=".xml,.xlsx,.csv" :maxFileSize="1000000">
+                        <FileUpload name="file" :url="route(urlUpload, props.proyecto.id)" @upload="onAdvancedUpload($event)" :multiple="false" accept=".xml,.xlsx,.csv" :maxFileSize="1000000">
                             <template #content>
                                 <ul v-if="uploadedFiles && uploadedFiles[0]">
                                     <li v-for="file of uploadedFiles[0]" :key="file">{{ file.name }} - {{ file.size }} bytes</li>

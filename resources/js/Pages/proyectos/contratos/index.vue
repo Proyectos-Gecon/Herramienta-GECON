@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { permisos } from "@/composable/Permisions.js";
 import AppLayout from '@/Layouts/AppLayout.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -12,7 +13,12 @@ import ConfirmPopup from "primevue/confirmpopup";
 import { useConfirm } from "primevue/useconfirm";
 import { exportExcel } from "@/composable/ExportData";
 import Chip from 'primevue/chip';
+import HeaderPage from "@/Components/customs/HeaderPage.vue";
 
+const can = (array) => {
+  var { val } = permisos(array);
+  return val;
+};
 //Variables
 const props = defineProps({
   contratos: Array(),
@@ -68,27 +74,58 @@ const { exporting } = exportExcel(props.contratos, "Contratos");
 
 <template>
  <AppLayout title="Divisiones">
-
-    <div class="py-4">
             <div class="max-w-full mx-2 sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full py-4">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg max-w-full p-4">
+                  
+                <HeaderPage title="Contratos">
+                  <template #head>
+                      <ul
+                      class="list-none p-0 m-0 flex align-items-center font-medium mb-3"
+                      >
+                      <li>
+                          <a class="text-500 no-underline line-height-3 cursor-pointer"
+                          >Proyectos</a
+                          >
+                      </li>
+                      <li class="px-2">
+                          <i class="pi pi-angle-right text-500 line-height-3"></i>
+                      </li>
+                      <li>
+                          <span class="text-900 line-height-3">Lista de Contratos</span>
+                      </li>
+                      </ul>
+                  </template>
+                  
+                  <template #buttons>
+                            <Link
+                            type="button"
+                            :href="route('contratos.create')"
+                            class="btn"
+                            v-if="can(['create contratos'])"
+                            >
+                            <Button
+                                label="Nuevo"
+                                class="p-button-outlined mr-2"
+                                icon="pi pi-plus"
+                            ></Button>
+                            </Link>
+                        </template>
+                </HeaderPage>
                 <DataTable ref="dt" :value="props.contratos" responsiveLayout="scroll" class="p-datatable-sm" filterDisplay="menu" dataKey="id" v-model:filters="filters" 
-                :globalFilterFields="['contrato_id','objeto', 'material_casco']"  showGridlines  :paginator="true" :rows="25" :rowsPerPageOptions="[25,50,100]">
+                :globalFilterFields="['contrato_id','objeto', 'material_casco']"   :paginator="true" :rows="25" :rowsPerPageOptions="[25,50,100]">
                     <template #header>
                     <div class="flex justify-between">
                         <span class="p-input-icon-left">
                             <i class="pi pi-search" />
                             <InputText v-model="filters.global.value" placeholder="Keyword Search" />
                         </span>
-                        <span class="mt-2 text-md md:text-2xl capitalize">Lista de contratos</span>
-                        <div class="flex space-x-2">
-                          <Link type="button" :href="route('contratos.create')" class="btn" v-if="$page.props.user.permisos.includes('create contratos')">
-                              <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-plus"  /> 
-                          </Link>
+                       
+                     
+                         
                           <div>
                             <Button class="p-button-raised p-button-info p-button-text" icon="pi pi-file-excel" @click="exporting" /> 
                           </div>
-                        </div>
+                     
                     </div>
                 </template>
                     <Column field="contrato_id" header="# Contrato"  sortable></Column>
@@ -135,8 +172,6 @@ const { exporting } = exportExcel(props.contratos, "Contratos");
                     
                 </div>
             </div>
-        </div>
-        
  </AppLayout>
 
 </template>

@@ -17,7 +17,7 @@
     import FileUpload from 'primevue/fileupload';
     
 
-    var form = useForm({
+    var form = useForm('claseForm' ,{
         name:  props.clase != null ? props.clase.name :null,
         type:  props.clase != null ? props.clase.type :null,
         empresa_diseñadora:  props.clase != null ? props.clase.empresa_diseñadora :null,
@@ -78,6 +78,8 @@
         url: route("clases.store"),
     });
 
+    const onAdvancedUpload = () => {
+    }
     /* End functions */ 
 </script>
 
@@ -119,7 +121,7 @@
                                 <Dropdown v-model="form.tipo_propulsion" :options="['AZUMITAL', 'CONVENCIONAL', 'MOTOR FUERA DE BORDA', 'PUMP JET', 'RUDDER PROPELLER', 'WATER JET']" placeholder="Seleccione un tipo de propulsion" />
                             </div>   
 
-                            <NumberInput label="Velocidad Maxima" v-model="form.velocidad" sugerencia="Escriba el Valor de la Velocidad Maxima" suffix=" Km/h"></NumberInput> 
+                            <NumberInput label="Velocidad Maxima" v-model="form.velocidad" sugerencia="Escriba el Valor de la Velocidad Maxima" suffix=" Nudos"></NumberInput> 
 
                             <NumberInput label="Autonomía" v-model="form.autonomias" sugerencia="Escriba el Valor de la autonomía" suffix=" días"></NumberInput> 
 

@@ -310,11 +310,7 @@ const props = defineProps({
                    
                 </div>
             </div>
-            
             </section>
-           
-            
-            
         </main>
     </AppLayout>
   </template>

@@ -24,7 +24,7 @@
         @inertiaHead
 
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased bg-gradient-to-r from-blue-100 to-blue-200">
 
         @inertia
 

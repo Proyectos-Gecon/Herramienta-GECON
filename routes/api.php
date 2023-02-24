@@ -1,6 +1,7 @@
 <?php
 
 use App\Exports\PersonalExport;
+use App\Http\Controllers\AvanceProyectoSemanalController;
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\PersonalController;
@@ -29,6 +30,10 @@ Route::post('clases/upload', [ClaseController::class, 'upload'])->name('clases.u
 Route::post('contratos/upload', [ContratoController::class, 'upload'])->name('contratos.upload');
 Route::post('proyectos/upload', [ProyectoController::class, 'upload'])->name('proyectos.upload');
 Route::post('personal/upload', [PersonalController::class, 'upload'])->name('personal.upload');
+
+Route::post('avance/upload/{proyecto}', [AvanceProyectoSemanalController::class, 'store'])->name('avance.upload');
+Route::post('estructura/upload/{proyecto}', [AvanceProyectoSemanalController::class, 'store'])->name('estructura.upload');
+
 Route::get('descargarParte', function (){
     Excel::download(new PersonalExport, 'personal.xlsx');
 });
